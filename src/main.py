@@ -127,9 +127,9 @@ def main() -> None:
     # Helper: VSOA publish wrapper for ACK + uplink notifications
     def _vsoa_publish(url: str, data: dict) -> None:
         try:
-            _vsoa_server.publish(vsoa.URL(url), vsoa.Payload(param=data))
+            _vsoa_server.publish(url, vsoa.Payload(param=data))
         except Exception:
-            logger.debug("[VSOA] publish %s failed (non-fatal)", url)
+            logger.warning("[VSOA] publish %s failed (non-fatal)", url, exc_info=True)
 
     # ---- 5a. Register uplink query endpoints on shared server ----
     from uplink.vsoa_server import UplinkVsoaServer

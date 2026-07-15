@@ -297,3 +297,233 @@ OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口
 [2026-07-14 21:53:26] [INFO] [REGISTRY] registered device='zigbee_env_01' type=multi source=zigbee
 [2026-07-14 21:53:26] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zigbee_env_01 type=multi
 [2026-07-14 21:53:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=temperature
+[2026-07-15 10:22:02] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-15 10:22:02] [INFO] config: config.yaml
+[2026-07-15 10:22:02] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-15 10:22:02] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-15 10:22:04] [INFO] MQTT on_connect: OK
+[2026-07-15 10:22:04] [INFO] MQTT connected: broker.emqx.io:1883 (client_id=bridge-v1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-15 10:22:04] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-15 10:22:04] [INFO] [OK] MQTT connected: broker.emqx.io:1883 (7 uplink topics)
+[2026-07-15 10:22:04] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-15 10:22:04] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-15 10:22:04] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-15 10:22:04] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-15 10:22:04] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-15 10:22:04] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-15 10:22:06] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:22:06] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-15 10:22:11] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:22:11] [WARNING] PubSub connect attempt 2/10, retrying...
+[2026-07-15 10:22:16] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:22:16] [WARNING] PubSub connect attempt 3/10, retrying...
+[2026-07-15 10:22:21] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:22:21] [WARNING] PubSub connect attempt 4/10, retrying...
+[2026-07-15 10:22:26] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:22:26] [WARNING] PubSub connect attempt 5/10, retrying...
+[2026-07-15 10:22:31] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-15 10:22:31] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-15 10:22:31] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-15 10:22:31] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-15 10:23:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-15 10:23:26] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-15 10:23:26] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-15 10:23:26] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 10:23:26] [INFO] [REGISTRY] registered device='zb-sensor-01' type=multi source=zigbee
+[2026-07-15 10:23:26] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 10:23:44] [INFO] [RPC] cmd_id=rpc-lora-1784082224 trace=br-3e746c64-1784082224504 device=lora/lora-node-01 action=set -> MQTT OK (attempts=1)
+[2026-07-15 10:23:44] [INFO] [RPC] cmd_id=rpc-zb-1784082224 trace=br-893a8e03-1784082224506 device=zigbee/zb-sensor-01 action=config -> MQTT OK (attempts=1)
+[2026-07-15 10:23:44] [INFO] [PubSub] cmd_id=pub-ok-1784082224 trace=br-47a3e5e1-1784082224508 device=lora/lora-node-01 action=set -> MQTT OK
+[2026-07-15 10:23:46] [WARNING] [PubSub] cmd_id=pub-bad-1784082226 trace=br-e1344230-1784082226508 validation failed (code=2003)
+[2026-07-15 10:23:48] [WARNING] [RPC] cmd_id=rpc-noreg-1784082228 trace=br-401a4c79-1784082228509 device not in registry: device-not-in-registry
+[2026-07-15 10:23:48] [WARNING] [RPC] cmd_id=rpc-badtype-1784082228 trace=br-99171da3-1784082228509 validation failed (code=2003)
+[2026-07-15 10:23:48] [INFO] [RPC] cmd_id=rpc-dup-1784082228 trace=br-98d0903e-1784082228509 device=lora/lora-node-01 action=get -> MQTT OK (attempts=1)
+[2026-07-15 10:23:48] [WARNING] [RPC] cmd_id=rpc-dup-1784082228 trace=br-207146b7-1784082228512 duplicate command
+[2026-07-15 10:23:48] [WARNING] [RPC] cmd_id=rpc-missing-1784082228 trace=br-b28bc00c-1784082228512 validation failed (code=2002)
+[2026-07-15 10:23:48] [INFO] [RPC] cmd_id=rpc-trace-1784082228 trace=br-532d0e68-1784082228512 device=lora/lora-node-01 action=get -> MQTT OK (attempts=1)
+[2026-07-15 10:23:48] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-15 10:23:53] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:23:53] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-15 10:23:53] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-15 10:24:01] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:24:01] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-15 10:24:01] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-15 10:24:15] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:24:15] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-15 10:24:15] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-15 10:24:41] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:24:41] [WARNING] [PubSub] Reconnect attempt 4/10 failed
+[2026-07-15 10:24:41] [INFO] [PubSub] Reconnect attempt 5/10 in 48.0s...
+[2026-07-15 10:25:31] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:25:31] [WARNING] [PubSub] Reconnect attempt 5/10 failed
+[2026-07-15 10:25:31] [INFO] [PubSub] Reconnect attempt 6/10 in 96.0s...
+[2026-07-15 10:27:09] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:27:09] [WARNING] [PubSub] Reconnect attempt 6/10 failed
+[2026-07-15 10:27:09] [INFO] [PubSub] Reconnect attempt 7/10 in 192.0s...
+[2026-07-15 10:30:08] [INFO] Shutting down...
+[2026-07-15 10:30:08] [INFO] [PubSub] disconnected
+[2026-07-15 10:30:09] [INFO] Shutting down...
+[2026-07-15 10:30:09] [INFO] [PubSub] disconnected
+[2026-07-15 10:30:09] [INFO] MQTT on_disconnect: normal
+[2026-07-15 10:30:09] [INFO] MQTT disconnected
+[2026-07-15 10:30:09] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:30:09] [INFO] Bridge stopped
+[2026-07-15 10:30:09] [INFO] Shutting down...
+[2026-07-15 10:30:09] [INFO] [PubSub] disconnected
+[2026-07-15 10:30:09] [INFO] MQTT disconnected
+[2026-07-15 10:30:09] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:30:09] [INFO] Bridge stopped
+[2026-07-15 10:30:23] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-15 10:30:23] [INFO] config: config.yaml
+[2026-07-15 10:30:23] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-15 10:30:23] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-15 10:30:24] [INFO] MQTT on_connect: OK
+[2026-07-15 10:30:24] [INFO] MQTT connected: broker.emqx.io:1883 (client_id=bridge-v1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-15 10:30:24] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-15 10:30:24] [INFO] [OK] MQTT connected: broker.emqx.io:1883 (7 uplink topics)
+[2026-07-15 10:30:24] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-15 10:30:24] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-15 10:30:24] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-15 10:30:24] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-15 10:30:24] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-15 10:30:24] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-15 10:30:26] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:26] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-15 10:30:31] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:31] [WARNING] PubSub connect attempt 2/10, retrying...
+[2026-07-15 10:30:36] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:36] [WARNING] PubSub connect attempt 3/10, retrying...
+[2026-07-15 10:30:41] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:41] [WARNING] PubSub connect attempt 4/10, retrying...
+[2026-07-15 10:30:46] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:46] [WARNING] PubSub connect attempt 5/10, retrying...
+[2026-07-15 10:30:51] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:51] [WARNING] PubSub connect attempt 6/10, retrying...
+[2026-07-15 10:30:56] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:30:56] [WARNING] PubSub connect attempt 7/10, retrying...
+[2026-07-15 10:31:01] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:31:01] [WARNING] PubSub connect attempt 8/10, retrying...
+[2026-07-15 10:31:04] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-15 10:31:04] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-15 10:31:04] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-15 10:31:04] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-15 10:31:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-15 10:31:09] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-15 10:31:09] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-15 10:31:09] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 10:31:09] [INFO] [REGISTRY] registered device='zb-sensor-01' type=multi source=zigbee
+[2026-07-15 10:31:09] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 10:31:17] [INFO] [RPC] cmd_id=rpc-lora-1784082677 trace=br-2ecea472-1784082677083 device=lora/lora-node-01 action=set -> MQTT OK (attempts=1)
+[2026-07-15 10:31:17] [INFO] [RPC] cmd_id=rpc-zb-1784082677 trace=br-9f13b6ab-1784082677084 device=zigbee/zb-sensor-01 action=config -> MQTT OK (attempts=1)
+[2026-07-15 10:31:17] [WARNING] [RPC] cmd_id=rpc-noreg-1784082677 trace=br-e64a59d9-1784082677085 device not in registry: device-not-in-registry
+[2026-07-15 10:31:17] [WARNING] [RPC] cmd_id=rpc-bad-1784082677 trace=br-127e020d-1784082677085 validation failed (code=2003)
+[2026-07-15 10:31:17] [WARNING] [RPC] cmd_id=rpc-missing-1784082677 trace=br-5e480822-1784082677086 validation failed (code=2002)
+[2026-07-15 10:31:17] [INFO] [RPC] cmd_id=rpc-dup-1784082677 trace=br-9d4af6a0-1784082677086 device=lora/lora-node-01 action=get -> MQTT OK (attempts=1)
+[2026-07-15 10:31:17] [WARNING] [RPC] cmd_id=rpc-dup-1784082677 trace=br-b71e532d-1784082677087 duplicate command
+[2026-07-15 10:31:17] [INFO] [RPC] cmd_id=rpc-trace-1784082677 trace=br-b3673676-1784082677089 device=lora/lora-node-01 action=get -> MQTT OK (attempts=1)
+[2026-07-15 10:31:17] [INFO] [PubSub] cmd_id=pub-ok-1784082677 trace=br-a78fe1a1-1784082677091 device=lora/lora-node-01 action=set -> MQTT OK
+[2026-07-15 10:31:20] [WARNING] [PubSub] cmd_id=pub-bad-1784082680 trace=br-656f63fb-1784082680091 validation failed (code=2003)
+[2026-07-15 10:31:23] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-15 10:31:28] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:31:28] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-15 10:31:28] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-15 10:31:36] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:31:36] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-15 10:31:36] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-15 10:31:50] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:31:50] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-15 10:31:50] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-15 10:32:16] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:32:16] [WARNING] [PubSub] Reconnect attempt 4/10 failed
+[2026-07-15 10:32:16] [INFO] [PubSub] Reconnect attempt 5/10 in 48.0s...
+[2026-07-15 10:33:06] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:33:06] [WARNING] [PubSub] Reconnect attempt 5/10 failed
+[2026-07-15 10:33:06] [INFO] [PubSub] Reconnect attempt 6/10 in 96.0s...
+[2026-07-15 10:34:44] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:34:44] [WARNING] [PubSub] Reconnect attempt 6/10 failed
+[2026-07-15 10:34:44] [INFO] [PubSub] Reconnect attempt 7/10 in 192.0s...
+[2026-07-15 10:37:58] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:37:58] [WARNING] [PubSub] Reconnect attempt 7/10 failed
+[2026-07-15 10:37:58] [INFO] [PubSub] Reconnect attempt 8/10 in 384.0s...
+[2026-07-15 10:38:04] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 10:38:13] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-15 10:38:20] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-15 10:38:27] [INFO] MQTT reconnecting in 3.0s (attempt 4)...
+[2026-07-15 10:38:39] [INFO] MQTT reconnecting in 3.0s (attempt 5)...
+[2026-07-15 10:39:00] [INFO] MQTT on_connect: OK
+[2026-07-15 10:39:16] [INFO] Shutting down...
+[2026-07-15 10:39:16] [INFO] [PubSub] disconnected
+[2026-07-15 10:39:17] [INFO] MQTT on_disconnect: normal
+[2026-07-15 10:39:17] [INFO] MQTT disconnected
+[2026-07-15 10:39:17] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:39:17] [INFO] Bridge stopped
+[2026-07-15 10:39:17] [INFO] Shutting down...
+[2026-07-15 10:39:17] [INFO] [PubSub] disconnected
+[2026-07-15 10:39:17] [INFO] MQTT disconnected
+[2026-07-15 10:39:17] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:39:17] [INFO] Bridge stopped
+[2026-07-15 10:39:34] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-15 10:39:34] [INFO] config: config.yaml
+[2026-07-15 10:39:34] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-15 10:39:34] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-15 10:39:35] [INFO] MQTT on_connect: OK
+[2026-07-15 10:39:35] [INFO] MQTT connected: broker.emqx.io:1883 (client_id=bridge-v1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-15 10:39:35] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-15 10:39:35] [INFO] [OK] MQTT connected: broker.emqx.io:1883 (7 uplink topics)
+[2026-07-15 10:39:35] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-15 10:39:35] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-15 10:39:35] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-15 10:39:35] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-15 10:39:35] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-15 10:39:35] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-15 10:39:37] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:39:37] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-15 10:39:41] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-15 10:39:41] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-15 10:39:41] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-15 10:39:41] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-15 10:39:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-15 10:39:47] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-15 10:39:47] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-15 10:39:48] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 10:39:48] [INFO] [REGISTRY] registered device='zb-sensor-01' type=multi source=zigbee
+[2026-07-15 10:39:48] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 10:39:53] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-15 10:39:56] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-15 10:39:56] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-15 10:39:56] [INFO] [PubSub] Reconnected (attempt 1)
+[2026-07-15 10:40:00] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-15 10:40:05] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:40:05] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-15 10:40:05] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-15 10:40:13] [INFO] Shutting down...
+[2026-07-15 10:40:13] [INFO] [PubSub] disconnected
+[2026-07-15 10:40:14] [INFO] Shutting down...
+[2026-07-15 10:40:14] [INFO] [PubSub] disconnected
+[2026-07-15 10:40:14] [INFO] MQTT on_disconnect: normal
+[2026-07-15 10:40:14] [INFO] MQTT disconnected
+[2026-07-15 10:40:14] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:40:14] [INFO] Bridge stopped
+[2026-07-15 10:40:14] [INFO] Shutting down...
+[2026-07-15 10:40:14] [INFO] [PubSub] disconnected
+[2026-07-15 10:40:14] [INFO] MQTT disconnected
+[2026-07-15 10:40:14] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 10:40:14] [INFO] Bridge stopped

@@ -184,12 +184,9 @@ class UplinkVsoaServer:
         if not self._server or not self._running:
             return
         try:
-            self._server.publish(
-                vsoa.URL(url),
-                vsoa.Payload(param=data),
-            )
+            self._server.publish(url, vsoa.Payload(param=data))
         except Exception:
-            logger.debug("[VSOA] publish %s failed (non-fatal)", url)
+            logger.warning("[VSOA] publish %s failed (non-fatal)", url, exc_info=True)
 
     # ------------------------------------------------------------------
     # handlers
