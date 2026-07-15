@@ -1,0 +1,92 @@
+# ============================================================
+# MQTT ↔ VSOA 桥接组件 — 配置文件
+# ============================================================
+
+# ---------- 桥接组件信息 ----------
+bridge:
+  name: "MQTT-VSOA Bridge"
+  version: "1.0.0"
+
+# ---------- VSOA 连接 ----------
+vsoa:
+  # --- VSOA Server（bridge 内嵌，端口 3001）---
+  server:
+    bind_host: "127.0.0.1"
+    port: 3001
+
+  # --- Pub/Sub Client（连接业务层 VSOA Server，订阅 /ctrl/cmd）---
+  pubsub_client:
+    server_url: "vsoa://127.0.0.1:3000"
+    subscribe_urls:
+      - "/ctrl/cmd"
+    ack_publish_url: "/ctrl/ack"
+
+  # --- VSOA 断连重试 ---
+  reconnect:
+    enabled: true
+    interval_ms: 3000
+    max_retries: 10
+    backoff_multiplier: 2.0
+
+# ---------- MQTT 连接 ----------
+mqtt:
+  broker: "broker.emqx.io"
+  port: 1883
+  username: ""
+  password: ""
+  keepalive: 60
+  client_id: "bridge-v1"
+  qos: 1
+  retained: false
+  reconnect:
+    enabled: true
+    interval_ms: 3000
+    max_retries: 0                        # 0 = 无限重试
+
+  # --- 上行订阅 topic ---
+  uplink_topics:
+    - "bridge/uplink/lora/+/data"
+    - "bridge/uplink/zigbee/+/data"
+    - "bridge/uplink/generic/+/data"
+    - "bridge/uplink/generic/+/status"
+    - "bridge/uplink/generic/+/error"
+    - "lora/+/up"
+    - "zigbee/+/report"
+
+  # --- 下行发布 topic ---
+  downlink_topic_prefix: "bridge/downlink"
+  downlink_topic_prefixes: {}
+    # lora:   "lora/cmd"
+    # zigbee: "zigbee/cmd"
+
+# ---------- 上行处理 ----------
+uplink:
+  tcp_inject_port: 9090
+  max_devices: 64
+  max_json_len: 8192
+  max_topic_len: 192
+  max_device_id_len: 64
+  adapters: ["lora", "zigbee", "generic"]
+
+# ---------- 下行命令处理 ----------
+downlink:
+  command:
+    default_timeout_ms: 10000
+    max_timeout_ms: 60000
+    pending_queue_size: 100
+
+    dedup:
+      enabled: true
+      ttl_seconds: 300
+      max_size: 10000
+
+    retry:
+      max_retries: 3
+      backoff_base_ms: 500
+
+# ---------- 日志 ----------
+logging:
+  level: "INFO"
+  format: "[%(asctime)s] [%(levelname)s] %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
+  file: "logs/bridge.log"

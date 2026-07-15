@@ -1,0 +1,299 @@
+[2026-07-14 17:26:01] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:26:01] [INFO] config: config.yaml
+[2026-07-14 17:26:01] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:26:01] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:26:01] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:26:01] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:26:01] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:26:01] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:26:01] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:26:01] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:26:01] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:26:03] [ERROR] [PubSub] connect failed: err=1
+[2026-07-14 17:26:03] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-14 17:28:20] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:28:20] [INFO] config: config.yaml
+[2026-07-14 17:28:20] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:28:20] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:28:20] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:28:20] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:28:20] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:28:20] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:28:20] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:28:20] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:28:20] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:28:20] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 17:29:15] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:29:15] [INFO] config: config.yaml
+[2026-07-14 17:29:15] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:29:15] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:29:15] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:29:15] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:29:15] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:29:15] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:29:15] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:29:15] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:29:15] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:29:15] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 17:30:08] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:30:08] [INFO] config: config.yaml
+[2026-07-14 17:30:08] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:30:08] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:30:08] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:30:08] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:30:08] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:30:08] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:30:08] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:30:08] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:30:08] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:30:08] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 17:30:43] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:30:43] [INFO] config: config.yaml
+[2026-07-14 17:30:43] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:30:43] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:30:43] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:30:43] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:30:43] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:30:43] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:30:43] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:30:43] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:30:43] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:30:43] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 17:31:00] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:31:00] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 17:31:00] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:31:00] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:31:00] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:31:00] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:31:00] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:31:00] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:31:00] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:31:00] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:31:00] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 17:31:00] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 17:32:52] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:32:52] [INFO] config: config.yaml
+[2026-07-14 17:32:52] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:32:52] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:32:52] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:32:52] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:32:52] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:32:52] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:32:52] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:32:52] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:32:52] [ERROR] [VSOA] Unified server exception:
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 184, in _run_vsoa
+    _vsoa_server.run(config.vsoa.server.bind_host, config.vsoa.server.port)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 702, in run
+    self.__start(host, port, sslopt)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 553, in __start
+    self._quick.bind(addr)
+OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+
+[2026-07-14 17:32:52] [INFO] [VSOA] Unified server stopped
+[2026-07-14 17:32:56] [WARNING] [RPC] cmd_id=test trace=br-e6a01635-1784021576160 device not in registry: test
+[2026-07-14 17:33:09] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:33:09] [INFO] config: config.yaml
+[2026-07-14 17:33:09] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:33:09] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:33:09] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:33:09] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:33:09] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:33:09] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:33:09] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:33:09] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:33:09] [ERROR] [VSOA] Unified server exception:
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 184, in _run_vsoa
+    _vsoa_server.run(config.vsoa.server.bind_host, config.vsoa.server.port)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 702, in run
+    self.__start(host, port, sslopt)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 553, in __start
+    self._quick.bind(addr)
+OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+
+[2026-07-14 17:33:09] [INFO] [VSOA] Unified server stopped
+[2026-07-14 17:33:13] [WARNING] [RPC] cmd_id=t trace=br-7b0b5552-1784021593687 device not in registry: n1
+[2026-07-14 17:35:10] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 17:35:10] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 17:35:10] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 17:35:10] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 17:35:10] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 17:35:10] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 17:35:10] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 17:35:10] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 17:35:10] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 17:35:10] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 17:35:10] [ERROR] [VSOA] Unified server exception:
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 184, in _run_vsoa
+    _vsoa_server.run(config.vsoa.server.bind_host, config.vsoa.server.port)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 702, in run
+    self.__start(host, port, sslopt)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 553, in __start
+    self._quick.bind(addr)
+OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+
+[2026-07-14 17:35:10] [INFO] [VSOA] Unified server stopped
+[2026-07-14 21:30:58] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:30:58] [INFO] config: config.yaml
+[2026-07-14 21:30:58] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:30:58] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:30:58] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:30:58] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:30:58] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:30:58] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:30:58] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:30:58] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:30:58] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:30:58] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:31:53] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:31:53] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:31:53] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:31:53] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:31:53] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:31:53] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:31:53] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:31:53] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:31:53] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:31:53] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:31:53] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:31:53] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:32:41] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:32:41] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:32:41] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:32:41] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:32:41] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:32:41] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:32:41] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:32:41] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:32:41] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:32:41] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:32:41] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:32:41] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:32:42] [INFO] [REGISTRY] registered device='lora_env_01' type=multi source=lora
+[2026-07-14 21:32:42] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=multi
+[2026-07-14 21:32:58] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:32:58] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:32:58] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:32:58] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:32:58] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:32:58] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:32:58] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:32:58] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:32:58] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:32:58] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:32:58] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:32:58] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:35:13] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:35:13] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:35:13] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:35:13] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:35:13] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:35:13] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:35:13] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:35:13] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:35:13] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:35:13] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:35:13] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:35:13] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:36:46] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:36:46] [INFO] config: config.yaml
+[2026-07-14 21:36:46] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:36:46] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:36:46] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:36:46] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:36:46] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:36:46] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:36:46] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:36:46] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:36:46] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:36:46] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:38:03] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:38:03] [INFO] config: config.yaml
+[2026-07-14 21:38:03] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:38:03] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:38:03] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:38:03] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:38:03] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:38:03] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:38:03] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:38:03] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:38:03] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:38:03] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:48:49] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:48:49] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:48:49] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:48:49] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:48:49] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:48:49] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:48:49] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:48:49] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:48:49] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:48:49] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:48:49] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:48:49] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:49:21] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:49:21] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:49:21] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:49:21] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:49:21] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:49:21] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:49:21] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:49:21] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:49:21] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:49:21] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:49:21] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:49:21] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:50:05] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:50:05] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:50:05] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:50:05] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:50:05] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:50:05] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:50:05] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:50:05] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:50:05] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:50:05] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:50:05] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:50:05] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:50:06] [INFO] [REGISTRY] registered device='lora_env_01' type=multi source=lora
+[2026-07-14 21:50:06] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=multi
+[2026-07-14 21:50:07] [INFO] [REGISTRY] registered device='zigbee_env_01' type=multi source=zigbee
+[2026-07-14 21:50:07] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zigbee_env_01 type=multi
+[2026-07-14 21:50:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=temperature
+[2026-07-14 21:50:39] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:50:39] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:50:39] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:50:39] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:50:39] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:50:39] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:50:39] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:50:39] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:50:39] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:50:39] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:50:39] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:50:39] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:50:41] [INFO] [REGISTRY] registered device='lora_env_01' type=multi source=lora
+[2026-07-14 21:50:41] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=multi
+[2026-07-14 21:50:41] [INFO] [REGISTRY] registered device='zigbee_env_01' type=multi source=zigbee
+[2026-07-14 21:50:41] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zigbee_env_01 type=multi
+[2026-07-14 21:50:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=temperature
+[2026-07-14 21:53:23] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-14 21:53:23] [INFO] config: D:\南京翼辉暑期实习\bridge-merged\config.yaml
+[2026-07-14 21:53:23] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-14 21:53:23] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-14 21:53:23] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-14 21:53:23] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-14 21:53:23] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-14 21:53:23] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-14 21:53:23] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-14 21:53:23] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-14 21:53:23] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-14 21:53:23] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-14 21:53:25] [INFO] [REGISTRY] registered device='lora_env_01' type=multi source=lora
+[2026-07-14 21:53:25] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=multi
+[2026-07-14 21:53:26] [INFO] [REGISTRY] registered device='zigbee_env_01' type=multi source=zigbee
+[2026-07-14 21:53:26] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zigbee_env_01 type=multi
+[2026-07-14 21:53:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=temperature
