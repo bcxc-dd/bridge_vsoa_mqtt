@@ -36,6 +36,8 @@ class MQTTHandler:
 
     # 上行 topic 前缀模式（用于 on_message 路由）
     UPLINK_TOPIC_PATTERNS = (
+        "application/",
+        "s3/",
         "bridge/uplink/",
         "lora/",
         "zigbee/",
@@ -210,7 +212,7 @@ class MQTTHandler:
                        flags: int, reason_code: int, properties: Any = None) -> None:
         self._connected = False
         if reason_code != 0:
-            logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+            logger.warning("MQTT unexpected disconnect (reason_code=%s)", reason_code)
         else:
             logger.info("MQTT on_disconnect: normal")
 

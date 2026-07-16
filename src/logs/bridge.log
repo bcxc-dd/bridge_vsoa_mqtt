@@ -1,0 +1,49 @@
+[2026-07-15 11:03:27] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-15 11:03:27] [INFO] config: config.yaml
+[2026-07-15 11:03:27] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-15 11:03:27] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-15 11:03:28] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:28] [INFO] MQTT connected: broker.emqx.io:1883 (client_id=bridge-v1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-15 11:03:28] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-15 11:03:28] [INFO] [OK] MQTT connected: broker.emqx.io:1883 (7 uplink topics)
+[2026-07-15 11:03:28] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-15 11:03:28] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-15 11:03:28] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-15 11:03:28] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-15 11:03:28] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-15 11:03:28] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-15 11:03:30] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:30] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-15 11:03:35] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:35] [WARNING] PubSub connect attempt 2/10, retrying...
+[2026-07-15 11:03:36] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:03:40] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:40] [WARNING] PubSub connect attempt 3/10, retrying...
+[2026-07-15 11:03:41] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:45] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:45] [WARNING] PubSub connect attempt 4/10, retrying...
+[2026-07-15 11:03:49] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:03:50] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:50] [WARNING] PubSub connect attempt 5/10, retrying...
+[2026-07-15 11:03:54] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:55] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:03:55] [WARNING] PubSub connect attempt 6/10, retrying...
+[2026-07-15 11:04:00] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:04:00] [WARNING] PubSub connect attempt 7/10, retrying...
+[2026-07-15 11:04:01] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:04:05] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:04:05] [WARNING] PubSub connect attempt 8/10, retrying...
+[2026-07-15 11:04:07] [INFO] MQTT on_connect: OK
+[2026-07-15 11:04:10] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:04:10] [WARNING] PubSub connect attempt 9/10, retrying...
+[2026-07-15 11:04:14] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:04:15] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:04:15] [WARNING] PubSub connect attempt 10/10, retrying...
+[2026-07-15 11:04:18] [INFO] MQTT on_connect: OK
+[2026-07-15 11:04:18] [ERROR] PubSub connect failed after 10 attempts

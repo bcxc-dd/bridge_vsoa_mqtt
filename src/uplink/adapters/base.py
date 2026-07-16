@@ -192,12 +192,17 @@ def extract_device_id_from_topic(topic: str) -> str:
     """Extract the device_id segment from an uplink topic.
 
     For ``bridge/uplink/{source}/{device_id}/{action}`` the device_id is at
-    index 3.  For simpler topics (e.g. ``lora/+/up``) we return the
-    second-to-last segment.
+    index 3.  For ChirpStack ``application/{app}/device/{devEUI}/event/up``
+    the device id follows the ``device`` segment.  For simpler topics
+    (e.g. ``lora/+/up``) we return the second-to-last segment.
     """
     parts = topic.rstrip("/").split("/")
     if len(parts) >= 5 and parts[0] == "bridge" and parts[1] == "uplink":
         return parts[3]
+    if parts[:1] == ["application"]:
+        for idx, part in enumerate(parts):
+            if part == "device" and idx + 1 < len(parts):
+                return parts[idx + 1]
     if len(parts) >= 3:
         return parts[-2]
     return ""

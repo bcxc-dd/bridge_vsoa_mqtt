@@ -127,7 +127,7 @@ def main():
     client.on_connect = lambda c, u, f, rc, p: print(
         f"{C['green']}[OK]{C['reset']} 已连接 Broker (rc={rc})"
     )
-    client.on_disconnect = lambda c, u, rc, p: print(
+    client.on_disconnect = lambda c, u, f, rc, p: print(
         f"{C['yellow']}[断连]{C['reset']} rc={rc}"
     )
     client.on_publish = lambda c, u, mid, rc, p: None  # 静默

@@ -70,6 +70,19 @@ class TestLoraParse:
         r = LoraAdapter().parse(lora_topic, payload)
         assert r.device_id == "24e124136d000001"
 
+    def test_chirpstack_payload(self):
+        r = LoraAdapter().parse(
+            "application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up",
+            {
+                "deviceInfo": {"devEui": "0000000000000925"},
+                "rxInfo": [{"rssi": -24, "snr": 14.0}],
+                "data": "AEGcSB0jAD7kbQABCQIrAQ==",
+            },
+        )
+        assert r.device_id == "0000000000000925"
+        assert r.signal == -24
+        assert r.snr == 14.0
+
     def test_topic_fallback_for_device_id(self):
         r = LoraAdapter().parse(
             "bridge/uplink/lora/from_topic/data",
@@ -282,6 +295,10 @@ class TestTopicHelpers:
 
     def test_extract_device_id_short_format(self):
         assert extract_device_id_from_topic("lora/dev123/up") == "dev123"
+
+    def test_extract_device_id_chirpstack_format(self):
+        assert extract_device_id_from_topic(
+            "application/app-01/device/0000000000000925/event/up") == "0000000000000925"
 
     def test_extract_device_id_no_segments(self):
         assert extract_device_id_from_topic("data") == ""

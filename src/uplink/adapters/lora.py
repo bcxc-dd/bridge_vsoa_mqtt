@@ -51,6 +51,7 @@ class LoraAdapter(Adapter):
         # -- device id (priority: device_id > deviceName > devEUI > dev_eui > topic) --
         report.device_id = (
             _first_str(payload, ["device_id", "deviceName", "devEUI", "dev_eui"])
+            or _extract_device_info_dev_eui(payload)
             or extract_device_id_from_topic(topic)
         )
 
@@ -87,6 +88,13 @@ def _extract_rxinfo(payload: dict[str, Any], report: UplinkReport) -> None:
     if not report.has_signal:
         report.signal = _first_numeric(first, ["rssi"])
     if not report.has_snr:
-        snr_val = _first_numeric(first, ["loRaSNR"])
+        snr_val = _first_numeric(first, ["loRaSNR", "snr"])
         if snr_val is not None:
             report.snr = float(snr_val) if isinstance(snr_val, (int, float)) else snr_val
+
+
+def _extract_device_info_dev_eui(payload: dict[str, Any]) -> str | None:
+    device_info = payload.get("deviceInfo")
+    if not isinstance(device_info, dict):
+        return None
+    return _first_str(device_info, ["devEui", "devEUI", "dev_eui"])

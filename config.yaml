@@ -14,7 +14,16 @@ vsoa:
     bind_host: "127.0.0.1"
     port: 3001
 
+  # --- mqtt_receiver.py 自动托管的业务层 VSOA Server ---
+  # 监听 0.0.0.0 后，局域网电脑可通过 vsoa://本机IP:3000 连接。
+  business_server:
+    auto_start: true
+    bind_host: "0.0.0.0"
+    port: 3000
+    advertised_url: "vsoa://192.168.3.216:3000"
+
   # --- Pub/Sub Client（连接业务层 VSOA Server，订阅 /ctrl/cmd）---
+  # 本机客户端继续使用回环地址，不受对外监听地址影响。
   pubsub_client:
     server_url: "vsoa://127.0.0.1:3000"
     subscribe_urls:
@@ -30,7 +39,8 @@ vsoa:
 
 # ---------- MQTT 连接 ----------
 mqtt:
-  broker: "broker.emqx.io"
+  #DEFAULT_HOST = "192.168.3.219"
+  broker: "192.168.137.118"
   port: 1883
   username: ""
   password: ""
@@ -45,13 +55,8 @@ mqtt:
 
   # --- 上行订阅 topic ---
   uplink_topics:
-    - "bridge/uplink/lora/+/data"
-    - "bridge/uplink/zigbee/+/data"
-    - "bridge/uplink/generic/+/data"
-    - "bridge/uplink/generic/+/status"
-    - "bridge/uplink/generic/+/error"
-    - "lora/+/up"
-    - "zigbee/+/report"
+    - "application/+/device/+/event/up"
+    - "s3/eora-s3-400tb-001/data"
 
   # --- 下行发布 topic ---
   downlink_topic_prefix: "bridge/downlink"
