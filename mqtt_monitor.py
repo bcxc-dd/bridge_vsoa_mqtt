@@ -1119,26 +1119,28 @@ class MqttMonitorApp:
                 cmd_id = data.get("command_id", "")
                 msg = ""
                 success = False
+                rpc_client = vsoa.Client()
                 try:
-                    rpc_client = vsoa.Client()
-                    try:
-                        st = rpc_client.connect(self.rpc_server_url, timeout=3.0)
-                        if st != vsoa.Client.CONNECT_OK:
-                            msg = f"连接失败: {st}"
+                    st = rpc_client.connect(self.rpc_server_url, timeout=3.0)
+                    if st != vsoa.Client.CONNECT_OK:
+                        msg = f"连接失败: {st}"
+                    else:
+                        # VSOA client.run() must be running for fetch() to receive reply
+                        run_thread = threading.Thread(target=rpc_client.run, daemon=True)
+                        run_thread.start()
+                        h, p, s = rpc_client.fetch(
+                            "/bridge/send_command", payload=vsoa.Payload(param=data), timeout=5.0,
+                        )
+                        if s == vsoa.Client.CONNECT_OK:
+                            result = dict(p.param) if p and p.param else {}
+                            msg = json.dumps(result, ensure_ascii=False, indent=2)
+                            success = True
                         else:
-                            h, p, s = rpc_client.fetch(
-                                "/bridge/send_command", payload=vsoa.Payload(param=data), timeout=5.0,
-                            )
-                            if s == vsoa.Client.CONNECT_OK:
-                                result = dict(p.param) if p and p.param else {}
-                                msg = json.dumps(result, ensure_ascii=False, indent=2)
-                                success = True
-                            else:
-                                msg = f"RPC 状态: {s}"
-                    finally:
-                        rpc_client.close()
+                            msg = f"RPC 状态: {s}"
                 except Exception as exc:
                     msg = str(exc)
+                finally:
+                    rpc_client.close()
 
                 # Schedule UI update on main thread — critical for Tkinter safety
                 final_msg = msg
