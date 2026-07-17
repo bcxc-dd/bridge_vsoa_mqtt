@@ -242,6 +242,7 @@ class VsoaEventListener:
                 client.onmessage = on_message
                 client.subscribe("/device/update")
                 client.subscribe("/bridge/event")
+                client.subscribe("/ctrl/ack")
                 self._connected = True
                 self.status_callback(f"VSOA 监听已连接 {self.server_url}")
 
