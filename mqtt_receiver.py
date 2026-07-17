@@ -39,11 +39,12 @@ DEFAULT_HOST = "192.168.3.219"
 DEFAULT_PORT = 1883
 DEFAULT_TOPICS = (
     "bridge/uplink/lora/+/data",
+    "bridge/downlink/#",
     "s3/eora-s3-400tb-001/data",
 )
 PUBLIC_BROKER_HOST = "broker.emqx.io"
 PUBLIC_BROKER_PORT = 1883
-VSOA_DEVICE_ID = "XAX523"
+VSOA_DEVICE_ID = "FHB666"
 PUBLIC_BROKER_TOPICS = (
     "bridge/uplink/+/rs485_meter_01/#",
     "bridge/uplink/lora/+/data",
@@ -156,7 +157,6 @@ class LocalVsoaServer:
             """Allow an external Client.call() to publish a control command."""
             try:
                 param = dict(payload.param) if isinstance(payload.param, dict) else {}
-                param["device_id"] = VSOA_DEVICE_ID
                 cli.reply(req.seqno, vsoa.Payload(param={"ok": True}))
                 server.publish("/ctrl/cmd", vsoa.Payload(param=param))
             except Exception as exc:
@@ -194,7 +194,6 @@ class LocalVsoaServer:
     ) -> bool:
         """Publish one valid control command for /ctrl/cmd subscribers."""
         command = dict(data)
-        command["device_id"] = VSOA_DEVICE_ID
         payload = vsoa.Payload(param=command)
         destination = target_url or self.server_url
         client = vsoa.Client()
@@ -864,6 +863,7 @@ class MqttMonitorApp:
         self.mqtt_client_id = mqtt_client_id
         self.mqtt_qos = bridge_config.mqtt.qos
         self.vsoa_advertised_url = vsoa_advertised_url
+        self.rpc_server_url = f"vsoa://127.0.0.1:{bridge_config.vsoa.server.port}"
         self.max_command_timeout_ms = bridge_config.downlink.command.max_timeout_ms
         self.events: queue.Queue[tuple[str, Any]] = queue.Queue()
         self.client = None
@@ -988,6 +988,12 @@ class MqttMonitorApp:
             command=self._open_control_command_dialog,
             width=16,
         ).pack(side=tk.LEFT)
+        ttk.Button(
+            actions,
+            text="RPC 发送",
+            command=self._open_rpc_command_dialog,
+            width=12,
+        ).pack(side=tk.LEFT, padx=(8, 0))
         ttk.Button(
             actions,
             text="公共 Broker 监视器",
@@ -1181,15 +1187,17 @@ class MqttMonitorApp:
 
     def _open_control_command_dialog(self) -> None:
         device_type = "lora"
+        default_device_id = ""
         devices = self.registry.list_all()
         if devices:
             if devices[0].source in ("lora", "zigbee"):
                 device_type = devices[0].source
+            default_device_id = devices[0].device_id
 
         command = {
             "command_id": f"gui-{int(time.time() * 1000)}",
             "device_type": device_type,
-            "device_id": VSOA_DEVICE_ID,
+            "device_id": default_device_id,
             "action": "set",
             "params": {},
         }
@@ -1221,8 +1229,6 @@ class MqttMonitorApp:
             if not isinstance(data, dict):
                 messagebox.showerror("消息格式错误", "控制消息必须是 JSON 对象。", parent=dialog)
                 return
-
-            data["device_id"] = VSOA_DEVICE_ID
 
             from src.downlink.command import validate
 
@@ -1258,6 +1264,154 @@ class MqttMonitorApp:
         ttk.Button(buttons, text="发布", command=publish).pack(
             side=tk.RIGHT, padx=(0, 8)
         )
+
+    def _open_rpc_command_dialog(self) -> None:
+        """RPC 同步发送：client.fetch("/bridge/send_command")，直接拿回执。"""
+        device_type = "lora"
+        default_device_id = ""
+        devices = self.registry.list_all()
+        if devices:
+            if devices[0].source in ("lora", "zigbee"):
+                device_type = devices[0].source
+            default_device_id = devices[0].device_id
+
+        command = {
+            "command_id": f"rpc-gui-{int(time.time() * 1000)}",
+            "device_type": device_type,
+            "device_id": default_device_id,
+            "action": "set",
+            "params": {},
+        }
+
+        dialog = tk.Toplevel(self.root)
+        dialog.title("RPC 发送 /bridge/send_command")
+        dialog.geometry("620x460")
+        dialog.minsize(480, 340)
+        dialog.transient(self.root)
+        dialog.grab_set()
+
+        body = ttk.Frame(dialog, padding=12)
+        body.pack(fill=tk.BOTH, expand=True)
+
+        # RPC target info
+        info = ttk.Frame(body)
+        info.pack(fill=tk.X, pady=(0, 8))
+        ttk.Label(info, text=f"RPC 目标: {self.rpc_server_url}  ",
+                  font=("Consolas", 9)).pack(side=tk.LEFT)
+        ttk.Label(info, text="超时: 5s", font=("Consolas", 9)).pack(side=tk.LEFT, padx=(12, 0))
+
+        ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
+        editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
+        editor.pack(fill=tk.BOTH, expand=True)
+        editor.insert("1.0", json.dumps(command, ensure_ascii=False, indent=2))
+
+        # result area (hidden until response)
+        result_frame = ttk.Frame(body)
+        result_var = tk.StringVar(value="")
+
+        def call_rpc() -> None:
+            try:
+                data = json.loads(editor.get("1.0", tk.END))
+            except json.JSONDecodeError as exc:
+                messagebox.showerror("JSON 格式错误", str(exc), parent=dialog)
+                return
+            if not isinstance(data, dict):
+                messagebox.showerror("消息格式错误", "控制消息必须是 JSON 对象。", parent=dialog)
+                return
+
+            from src.downlink.command import validate
+
+            valid, error_code = validate(
+                data,
+                self.max_command_timeout_ms,
+                check_timeout=False,
+            )
+            if not valid:
+                messagebox.showerror(
+                    "控制消息校验失败",
+                    f"错误码：{error_code}",
+                    parent=dialog,
+                )
+                return
+
+            # Disable editor & button during RPC call
+            editor.configure(state=tk.DISABLED)
+            for child in buttons.winfo_children():
+                child.configure(state=tk.DISABLED)
+            result_var.set("正在调用 RPC...")
+
+            def do_rpc() -> None:
+                try:
+                    rpc_client = vsoa.Client()
+                    try:
+                        status = rpc_client.connect(self.rpc_server_url, timeout=3.0)
+                        if status != vsoa.Client.CONNECT_OK:
+                            self.events.put(("rpc_result", (False, f"连接失败: {status}", data.get("command_id", ""))))
+                            return
+                        h, p, s = rpc_client.fetch(
+                            "/bridge/send_command",
+                            payload=vsoa.Payload(param=data),
+                            timeout=5.0,
+                        )
+                        if s == vsoa.Client.CONNECT_OK:
+                            result = dict(p.param) if p and p.param else {}
+                            msg = json.dumps(result, ensure_ascii=False, indent=2)
+                            self.events.put(("rpc_result", (True, msg, data.get("command_id", ""))))
+                        else:
+                            self.events.put(("rpc_result", (False, f"RPC 返回状态: {s}", data.get("command_id", ""))))
+                    finally:
+                        rpc_client.close()
+                except Exception as exc:
+                    self.events.put(("rpc_result", (False, str(exc), data.get("command_id", ""))))
+
+            threading.Thread(target=do_rpc, daemon=True).start()
+
+        buttons = ttk.Frame(body)
+        buttons.pack(fill=tk.X, pady=(10, 0))
+        ttk.Button(buttons, text="取消", command=dialog.destroy).pack(side=tk.RIGHT)
+        ttk.Button(buttons, text="发送 (fetch)", command=call_rpc).pack(
+            side=tk.RIGHT, padx=(0, 8)
+        )
+
+        # result label
+        result_frame.pack(fill=tk.X, pady=(10, 0))
+        ttk.Label(result_frame, text="回执:").pack(fill=tk.X, anchor=tk.W)
+        result_text = tk.Text(result_frame, height=8, wrap=tk.NONE,
+                              font=("Consolas", 10), state=tk.DISABLED)
+        scroll_y = ttk.Scrollbar(result_frame, orient=tk.VERTICAL, command=result_text.yview)
+        result_text.configure(yscrollcommand=scroll_y.set)
+        result_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # drain RPC results into this dialog
+        def drain_rpc() -> None:
+            try:
+                while True:
+                    event, value = self.events.get_nowait()
+                    if event == "rpc_result":
+                        success, msg, cmd_id = value
+                        result_text.configure(state=tk.NORMAL)
+                        result_text.delete("1.0", tk.END)
+                        result_text.insert("1.0", msg)
+                        result_text.configure(state=tk.DISABLED)
+                        editor.configure(state=tk.NORMAL)
+                        for child in buttons.winfo_children():
+                            child.configure(state=tk.NORMAL)
+                        result_var.set("RPC 完成" if success else "RPC 失败")
+                        if success:
+                            self.command_client_status_var.set(f"RPC 成功: {cmd_id}")
+                        else:
+                            self.command_client_status_var.set(f"RPC 失败: {msg[:80]}")
+                    else:
+                        # put back non-rpc events
+                        self.events.put((event, value))
+            except queue.Empty:
+                pass
+            if dialog.winfo_exists():
+                dialog.after(100, drain_rpc)
+
+        result_var.set("等待发送...")
+        dialog.after(100, drain_rpc)
 
     def _publish_mqtt_command(self, topic: str, payload: str) -> bool:
         """Publish a VSOA downlink command through the monitor's MQTT client."""
