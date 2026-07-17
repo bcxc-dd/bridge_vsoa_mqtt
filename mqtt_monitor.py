@@ -790,8 +790,8 @@ class MqttMonitorApp:
 
         dialog = tk.Toplevel(self.root)
         dialog.title("Pub/Sub 下行 → /ctrl/cmd → bridge → MQTT")
-        dialog.geometry("620x380")
-        dialog.minsize(480, 300)
+        dialog.geometry("620x420")
+        dialog.minsize(480, 340)
         dialog.transient(self.root)
         dialog.grab_set()
 
@@ -850,8 +850,8 @@ class MqttMonitorApp:
 
         dialog = tk.Toplevel(self.root)
         dialog.title("RPC /bridge/send_command（同步回执）")
-        dialog.geometry("620x460")
-        dialog.minsize(480, 340)
+        dialog.geometry("620x500")
+        dialog.minsize(480, 380)
         dialog.transient(self.root)
         dialog.grab_set()
 
