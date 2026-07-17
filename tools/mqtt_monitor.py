@@ -4,7 +4,7 @@ MQTT 全量监视脚本 — 终端 1
 同时订阅上行和下行 MQTT topic，帮助你观察所有在 Broker 上流动的消息。
 
 用法:
-    python tools/mqtt_monitor.py [--broker broker.emqx.io] [--port 1883]
+    python tools/mqtt_monitor.py [--broker 192.168.137.118] [--port 1883]
 
 topic 覆盖:
     - bridge/downlink/#         下行控制消息 (bridge → 设备)
@@ -42,6 +42,8 @@ DOWNLINK_PREFIXES = ("bridge/downlink/",)
 UPLINK_BRIDGE_PREFIX = "bridge/uplink/"
 LORA_UPLINK = "lora/"
 ZIGBEE_UPLINK = "zigbee/"
+CHIRPSTACK_UPLINK = "application/"
+S3_WIFI_UPLINK = "s3/"
 
 
 def classify(topic: str) -> tuple[str, str]:
@@ -50,6 +52,10 @@ def classify(topic: str) -> tuple[str, str]:
         return ("DOWNLINK", C["cyan"])
     if topic.startswith(UPLINK_BRIDGE_PREFIX):
         return ("UPLINK", C["green"])
+    if topic.startswith(CHIRPSTACK_UPLINK):
+        return ("UPLINK(LoRaWAN)", C["green"])
+    if topic.startswith(S3_WIFI_UPLINK):
+        return ("UPLINK(WiFi)", C["green"])
     if topic.startswith(LORA_UPLINK):
         return ("UPLINK(LoRa)", C["green"])
     if topic.startswith(ZIGBEE_UPLINK):
@@ -71,6 +77,8 @@ def try_json(s: str) -> str:
 # ---------------------------------------------------------------------------
 def on_connect(client, userdata, flags, reason_code, properties=None):
     topics = [
+        "application/+/device/+/event/up",
+        "s3/eora-s3-400tb-001/data",
         "bridge/downlink/#",
         "bridge/uplink/#",
         "lora/+/up",
@@ -96,14 +104,14 @@ def on_message(client, userdata, msg):
     print()
 
 
-def on_disconnect(client, userdata, reason_code, properties=None):
+def on_disconnect(client, userdata, disconnect_flags, reason_code, properties=None):
     print(f"{C['red']}[断连]{C['reset']} rc={reason_code}，paho 将自动重连...")
 
 
 # ---------------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(description="MQTT 全量监视")
-    parser.add_argument("--broker", default="broker.emqx.io", help="MQTT Broker 地址")
+    parser.add_argument("--broker", default="192.168.137.118", help="MQTT Broker 地址")
     parser.add_argument("--port", type=int, default=1883, help="MQTT 端口")
     parser.add_argument("--client-id", default="bridge-monitor", help="Client ID")
     args = parser.parse_args()

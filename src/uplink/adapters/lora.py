@@ -57,8 +57,9 @@ class LoraAdapter(Adapter):
         #   优先级: deviceInfo.devEui > deviceInfo.deviceName > 顶层 device_id >
         #           顶层 devEUI/dev_eui > 顶层 deviceName > topic
         report.device_id = (
-            _first_str(device_info, ["devEui", "deviceName"])
-            or _first_str(payload, ["device_id", "devEUI", "dev_eui", "deviceName"])
+        report.device_id = (
+            _first_str(payload, ["device_id", "deviceName", "devEUI", "dev_eui"])
+            or _extract_device_info_dev_eui(payload)
             or extract_device_id_from_topic(topic)
         )
 
@@ -114,9 +115,11 @@ def _extract_rxinfo(payload: dict[str, Any], report: UplinkReport) -> None:
     if not report.has_signal:
         report.signal = _first_numeric(first, ["rssi"])
     if not report.has_snr:
-        snr_val = _first_numeric(first, ["loRaSNR"])
+        snr_val = _first_numeric(first, ["loRaSNR", "snr"])
         if snr_val is not None:
             report.snr = float(snr_val) if isinstance(snr_val, (int, float)) else snr_val
+
+
 
 
 def _extract_dev_eui_from_topic(topic: str) -> str:
@@ -141,3 +144,10 @@ def _extract_app_id_from_topic(topic: str) -> str:
     if len(parts) >= 4 and parts[0] == "application" and parts[2] == "device":
         return parts[1]
     return ""
+
+
+def _extract_device_info_dev_eui(payload: dict[str, Any]) -> str | None:
+    device_info = payload.get("deviceInfo")
+    if not isinstance(device_info, dict):
+        return None
+    return _first_str(device_info, ["devEui", "devEUI", "dev_eui"])

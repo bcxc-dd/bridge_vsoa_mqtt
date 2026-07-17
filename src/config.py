@@ -28,6 +28,14 @@ class VsoaServerConfig:
 
 
 @dataclass
+class VsoaBusinessServerConfig:
+    auto_start: bool = True
+    bind_host: str = "0.0.0.0"
+    port: int = 3000
+    advertised_url: str = "vsoa://192.168.3.216:3000"
+
+
+@dataclass
 class VsoaPubSubClientConfig:
     server_url: str = "vsoa://127.0.0.1:3000"
     subscribe_urls: list[str] = field(default_factory=lambda: ["/ctrl/cmd"])
@@ -45,6 +53,9 @@ class VsoaReconnectConfig:
 @dataclass
 class VsoaConfig:
     server: VsoaServerConfig = field(default_factory=VsoaServerConfig)
+    business_server: VsoaBusinessServerConfig = field(
+        default_factory=VsoaBusinessServerConfig
+    )
     pubsub_client: VsoaPubSubClientConfig = field(default_factory=VsoaPubSubClientConfig)
     reconnect: VsoaReconnectConfig = field(default_factory=VsoaReconnectConfig)
 
@@ -142,6 +153,8 @@ class BridgeConfig:
 # ---------------------------------------------------------------------------
 
 DEFAULT_UPLINK_TOPICS = [
+    "application/+/device/+/event/up",
+    "s3/eora-s3-400tb-001/data",
     "bridge/uplink/lora/+/data",
     "bridge/uplink/zigbee/+/data",
     "bridge/uplink/generic/+/data",
