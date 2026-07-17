@@ -192,6 +192,84 @@ class LocalVsoaServer:
 
 
 # ---------------------------------------------------------------------------
+# VsoaEventListener — subscribe to bridge's uplink VSOA publications
+# ---------------------------------------------------------------------------
+
+class VsoaEventListener:
+    """Subscribe to bridge's VSOA publications to verify uplink bridge.
+
+    Bridge publishes after each uplink MQTT→VSOA conversion:
+      - /device/update  — device registered or updated
+      - /bridge/event    — data_received event
+    """
+
+    def __init__(
+        self,
+        server_url: str,
+        event_callback: Callable[[str, dict[str, Any]], None],
+        status_callback: Callable[[str], None],
+    ) -> None:
+        self.server_url = server_url
+        self.event_callback = event_callback
+        self.status_callback = status_callback
+        self.stop_event = threading.Event()
+        self.thread: threading.Thread | None = None
+        self._connected = False
+
+    def start(self) -> None:
+        if self.thread is not None:
+            return
+        self.thread = threading.Thread(target=self._run, name="vsoa-listener", daemon=True)
+        self.thread.start()
+
+    def _run(self) -> None:
+        while not self.stop_event.is_set():
+            client = vsoa.Client()
+            try:
+                if client.connect(self.server_url, timeout=3.0) != vsoa.Client.CONNECT_OK:
+                    self.status_callback("VSOA 监听: 连接失败，3s 后重试")
+                    self.stop_event.wait(3.0)
+                    continue
+
+                # callback for received VSOA messages
+                def on_message(cli, url, payload, quick):
+                    try:
+                        data = dict(payload.param) if payload and hasattr(payload, "param") and payload.param else {}
+                        self.event_callback(url, data)
+                    except Exception:
+                        pass
+
+                client.onmessage = on_message
+                client.subscribe("/device/update")
+                client.subscribe("/bridge/event")
+                self._connected = True
+                self.status_callback(f"VSOA 监听已连接 {self.server_url}")
+
+                # VSOA event loop blocks here until disconnected
+                client.run()
+            except Exception as exc:
+                self.status_callback(f"VSOA 监听异常: {exc}")
+            finally:
+                self._connected = False
+                try:
+                    client.close()
+                except Exception:
+                    pass
+                if not self.stop_event.is_set():
+                    self.status_callback("VSOA 监听断开，3s 后重连...")
+                    self.stop_event.wait(3.0)
+
+    @property
+    def connected(self) -> bool:
+        return self._connected
+
+    def stop(self) -> None:
+        self.stop_event.set()
+        if self.thread is not None:
+            self.thread.join(timeout=3.0)
+
+
+# ---------------------------------------------------------------------------
 # display helpers
 # ---------------------------------------------------------------------------
 
@@ -528,13 +606,16 @@ class MqttMonitorApp:
         self.connected = False
         self.closing = False
         self.message_count = 0
+        self.vsoa_count = 0
         self.payloads: dict[str, str] = {}
+        self.vsoa_payloads: dict[str, str] = {}
 
         # tk vars
         self.host_var = tk.StringVar(value=host)
         self.port_var = tk.StringVar(value=str(port))
         self.status_var = tk.StringVar(value="未连接")
         self.count_var = tk.StringVar(value="消息 0")
+        self.vsoa_count_var = tk.StringVar(value="VSOA 事件 0")
         self.bridge_status_var = tk.StringVar(value="bridge: 3001 RPC | 3000 Pub/Sub")
 
         # local business VSOA server (thin shell, no command handling)
@@ -544,12 +625,20 @@ class MqttMonitorApp:
             status_callback=lambda s: self.events.put(("server_status", s)),
         )
 
+        # VSOA event listener — subscribes to bridge's uplink publications
+        self.vsoa_listener = VsoaEventListener(
+            server_url=self.rpc_server_url,
+            event_callback=lambda url, data: self.events.put(("vsoa_event", (url, data))),
+            status_callback=lambda s: self.events.put(("vsoa_status", s)),
+        )
+
         self._configure_window()
         self._build_ui()
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.root.after(self.POLL_INTERVAL_MS, self._drain_events)
         self.local_vsoa_server.start_if_needed()
         self.connect()
+        self.vsoa_listener.start()
 
     # ------------------------------------------------------------------
     # UI construction
@@ -581,6 +670,8 @@ class MqttMonitorApp:
         self.connect_button = ttk.Button(bar, text="连接", command=self.toggle_connection, width=9)
         self.connect_button.pack(side=tk.LEFT)
         ttk.Button(bar, text="清空", command=self.clear_messages, width=9).pack(side=tk.LEFT, padx=(8, 0))
+        ttk.Label(bar, textvariable=self.vsoa_count_var).pack(side=tk.RIGHT)
+        ttk.Label(bar, text=" | ").pack(side=tk.RIGHT)
         ttk.Label(bar, textvariable=self.count_var).pack(side=tk.RIGHT)
         self.status_label = ttk.Label(bar, textvariable=self.status_var)
         self.status_label.pack(side=tk.RIGHT, padx=(0, 18))
@@ -598,11 +689,17 @@ class MqttMonitorApp:
         # --- bridge status ---
         ttk.Label(outer, textvariable=self.bridge_status_var).pack(fill=tk.X, anchor=tk.W, pady=(0, 8))
 
-        # --- message table ---
-        table_frame = ttk.Frame(outer)
-        table_frame.pack(fill=tk.BOTH, expand=True)
+        # --- notebook: MQTT messages + VSOA events ---
+        self.notebook = ttk.Notebook(outer)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
+
+        # -- Tab 1: MQTT messages --
+        mqtt_tab = ttk.Frame(self.notebook)
+        self.notebook.add(mqtt_tab, text="MQTT 消息")
+        mqtt_table = ttk.Frame(mqtt_tab)
+        mqtt_table.pack(fill=tk.BOTH, expand=True)
         columns = ("time", "host", "gateway", "topic", "qos", "payload")
-        self.tree = ttk.Treeview(table_frame, columns=columns, show="headings")
+        self.tree = ttk.Treeview(mqtt_table, columns=columns, show="headings")
         headings = {
             "time": "接收时间", "host": "Broker", "gateway": "网关",
             "topic": "Topic", "qos": "QoS", "payload": "消息数据",
@@ -613,25 +710,38 @@ class MqttMonitorApp:
             self.tree.column(col, width=widths[col], minwidth=45,
                              anchor=tk.CENTER if col == "qos" else tk.W,
                              stretch=col in ("topic", "payload"))
-        scrollbar = ttk.Scrollbar(table_frame, orient=tk.VERTICAL, command=self.tree.yview)
-        self.tree.configure(yscrollcommand=scrollbar.set)
+        scrollbar1 = ttk.Scrollbar(mqtt_table, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar1.set)
         self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.tree.bind("<<TreeviewSelect>>", self._show_selected)
+        scrollbar1.pack(side=tk.RIGHT, fill=tk.Y)
+        self.tree.bind("<<TreeviewSelect>>", self._show_mqtt_detail)
+        # MQTT detail
+        ttk.Label(mqtt_tab, text="MQTT 消息详情").pack(fill=tk.X, pady=(4, 2))
+        self.mqtt_detail = tk.Text(mqtt_tab, height=8, wrap=tk.NONE, font=("Consolas", 10), state=tk.DISABLED)
+        mqtt_tab.after(0, lambda: mqtt_tab.rowconfigure(0, weight=1))
 
-        # --- detail area ---
-        ttk.Label(outer, text="消息详情").pack(fill=tk.X, pady=(10, 4))
-        detail_frame = ttk.Frame(outer)
-        detail_frame.pack(fill=tk.BOTH)
-        self.detail = tk.Text(detail_frame, height=10, wrap=tk.NONE, font=("Consolas", 10), state=tk.DISABLED)
-        scroll_y = ttk.Scrollbar(detail_frame, orient=tk.VERTICAL, command=self.detail.yview)
-        scroll_x = ttk.Scrollbar(detail_frame, orient=tk.HORIZONTAL, command=self.detail.xview)
-        self.detail.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
-        self.detail.grid(row=0, column=0, sticky="nsew")
-        scroll_y.grid(row=0, column=1, sticky="ns")
-        scroll_x.grid(row=1, column=0, sticky="ew")
-        detail_frame.columnconfigure(0, weight=1)
-        detail_frame.rowconfigure(0, weight=1)
+        # -- Tab 2: VSOA bridge events --
+        vsoa_tab = ttk.Frame(self.notebook)
+        self.notebook.add(vsoa_tab, text="VSOA 桥接事件")
+        vsoa_table = ttk.Frame(vsoa_tab)
+        vsoa_table.pack(fill=tk.BOTH, expand=True)
+        vsoa_columns = ("time", "url", "summary")
+        self.vsoa_tree = ttk.Treeview(vsoa_table, columns=vsoa_columns, show="headings")
+        self.vsoa_tree.heading("time", text="时间")
+        self.vsoa_tree.heading("url", text="VSOA URL")
+        self.vsoa_tree.heading("summary", text="摘要")
+        self.vsoa_tree.column("time", width=170, minwidth=100, stretch=False)
+        self.vsoa_tree.column("url", width=170, minwidth=100, stretch=False)
+        self.vsoa_tree.column("summary", width=600, minwidth=200, stretch=True)
+        scrollbar2 = ttk.Scrollbar(vsoa_table, orient=tk.VERTICAL, command=self.vsoa_tree.yview)
+        self.vsoa_tree.configure(yscrollcommand=scrollbar2.set)
+        self.vsoa_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar2.pack(side=tk.RIGHT, fill=tk.Y)
+        self.vsoa_tree.bind("<<TreeviewSelect>>", self._show_vsoa_detail)
+        # VSOA detail
+        ttk.Label(vsoa_tab, text="VSOA 事件详情").pack(fill=tk.X, pady=(4, 2))
+        self.vsoa_detail = tk.Text(vsoa_tab, height=8, wrap=tk.NONE, font=("Consolas", 10), state=tk.DISABLED)
+        vsoa_tab.after(0, lambda: vsoa_tab.rowconfigure(0, weight=1))
 
     # ------------------------------------------------------------------
     # MQTT
@@ -720,6 +830,10 @@ class MqttMonitorApp:
                     self.status_var.set(value)
                 elif event == "server_status":
                     self.bridge_status_var.set(f"VSOA Server: {value}")
+                elif event == "vsoa_event":
+                    self._add_vsoa_event(*value)
+                elif event == "vsoa_status":
+                    self.bridge_status_var.set(f"VSOA: {value}")
                 elif event == "pubsub_result":
                     success, cmd_id = value
                     if success:
@@ -752,11 +866,34 @@ class MqttMonitorApp:
             for child in expired:
                 self.payloads.pop(child, None)
 
-    def _show_selected(self, event=None) -> None:
+    def _show_mqtt_detail(self, event=None) -> None:
         selection = self.tree.selection()
         if not selection:
             return
-        self._set_detail_text(self.detail, self.payloads.get(selection[0], ""))
+        self._set_detail_text(self.mqtt_detail, self.payloads.get(selection[0], ""))
+
+    def _show_vsoa_detail(self, event=None) -> None:
+        selection = self.vsoa_tree.selection()
+        if not selection:
+            return
+        self._set_detail_text(self.vsoa_detail, self.vsoa_payloads.get(selection[0], ""))
+
+    def _add_vsoa_event(self, url: str, data: dict[str, Any]) -> None:
+        received_at = datetime.now().astimezone().isoformat(sep=" ", timespec="milliseconds")
+        summary = json.dumps(data, ensure_ascii=False)
+        if len(summary) > 200:
+            summary = summary[:197] + "..."
+        item = self.vsoa_tree.insert("", 0, values=(received_at, url, summary))
+        self.vsoa_payloads[item] = json.dumps(data, ensure_ascii=False, indent=2)
+        self.vsoa_count += 1
+        self.vsoa_count_var.set(f"VSOA 事件 {self.vsoa_count}")
+        # keep last 500
+        children = self.vsoa_tree.get_children()
+        if len(children) > 500:
+            expired = children[500:]
+            self.vsoa_tree.delete(*expired)
+            for child in expired:
+                self.vsoa_payloads.pop(child, None)
 
     @staticmethod
     def _set_detail_text(widget: tk.Text, value: str) -> None:
@@ -772,7 +909,15 @@ class MqttMonitorApp:
         self.payloads.clear()
         self.message_count = 0
         self.count_var.set("消息 0")
-        self._set_detail_text(self.detail, "")
+        self._set_detail_text(self.mqtt_detail, "")
+        # also clear VSOA events
+        vsoa_children = self.vsoa_tree.get_children()
+        if vsoa_children:
+            self.vsoa_tree.delete(*vsoa_children)
+        self.vsoa_payloads.clear()
+        self.vsoa_count = 0
+        self.vsoa_count_var.set("VSOA 事件 0")
+        self._set_detail_text(self.vsoa_detail, "")
 
     # ------------------------------------------------------------------
     # Pub/Sub downlink — send datagram to business VSOA server
@@ -790,7 +935,7 @@ class MqttMonitorApp:
 
         dialog = tk.Toplevel(self.root)
         dialog.title("Pub/Sub 下行 → /ctrl/cmd → bridge → MQTT")
-        dialog.geometry("620x420")
+        dialog.geometry("620x620")
         dialog.minsize(480, 340)
         dialog.transient(self.root)
         dialog.grab_set()
@@ -850,7 +995,7 @@ class MqttMonitorApp:
 
         dialog = tk.Toplevel(self.root)
         dialog.title("RPC /bridge/send_command（同步回执）")
-        dialog.geometry("620x500")
+        dialog.geometry("620x700")
         dialog.minsize(480, 380)
         dialog.transient(self.root)
         dialog.grab_set()
@@ -977,6 +1122,7 @@ class MqttMonitorApp:
         self.closing = True
         if self.public_broker_monitor is not None:
             self.public_broker_monitor.close()
+        self.vsoa_listener.stop()
         self.disconnect()
         self.root.destroy()
 
