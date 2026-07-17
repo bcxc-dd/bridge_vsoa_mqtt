@@ -608,6 +608,7 @@ class MqttMonitorApp:
         self.closing = False
         self.message_count = 0
         self.vsoa_count = 0
+        self.known_device_ids: list[str] = []  # collected from /device/update
         self.payloads: dict[str, str] = {}
         self.vsoa_payloads: dict[str, str] = {}
 
@@ -914,6 +915,12 @@ class MqttMonitorApp:
         self.vsoa_payloads[item] = json.dumps(data, ensure_ascii=False, indent=2)
         self.vsoa_count += 1
         self.vsoa_count_var.set(f"VSOA 事件 {self.vsoa_count}")
+        # collect device_ids from /device/update
+        if url == "/device/update":
+            dev_id = data.get("device_id", "")
+            if dev_id and dev_id not in self.known_device_ids:
+                self.known_device_ids.append(dev_id)
+                self.known_device_ids.sort()
         # keep last 500
         children = self.vsoa_tree.get_children()
         if len(children) > 500:
@@ -952,10 +959,12 @@ class MqttMonitorApp:
 
     def _open_pubsub_dialog(self) -> None:
         """Send /ctrl/cmd via VSOA Pub/Sub.  Bridge subscribes & handles MQTT."""
+        default_device_id = self.known_device_ids[0] if self.known_device_ids else ""
+
         command = {
             "command_id": f"gui-{int(time.time() * 1000)}",
             "device_type": "lora",
-            "device_id": "",
+            "device_id": default_device_id,
             "action": "set",
             "params": {},
         }
@@ -971,6 +980,26 @@ class MqttMonitorApp:
         body.pack(fill=tk.BOTH, expand=True)
         ttk.Label(body, text=f"目标: {self.server_url}  →  bridge 订阅 /ctrl/cmd  →  MQTT").pack(
             fill=tk.X, pady=(0, 6))
+
+        # device picker
+        if self.known_device_ids:
+            picker = ttk.Frame(body)
+            picker.pack(fill=tk.X, pady=(0, 6))
+            ttk.Label(picker, text="已知设备:").pack(side=tk.LEFT)
+            device_var = tk.StringVar(value=default_device_id)
+            device_cb = ttk.Combobox(picker, textvariable=device_var, values=self.known_device_ids, width=30)
+            device_cb.pack(side=tk.LEFT, padx=(6, 0))
+            ttk.Button(picker, text="填入", command=lambda: update_device_id(device_var.get())).pack(
+                side=tk.LEFT, padx=(6, 0))
+            def update_device_id(dev_id: str) -> None:
+                try:
+                    data = json.loads(editor.get("1.0", tk.END))
+                    data["device_id"] = dev_id
+                    editor.delete("1.0", tk.END)
+                    editor.insert("1.0", json.dumps(data, ensure_ascii=False, indent=2))
+                except Exception:
+                    pass
+
         ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
         editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
         editor.pack(fill=tk.BOTH, expand=True)
@@ -1012,10 +1041,12 @@ class MqttMonitorApp:
 
     def _open_rpc_dialog(self) -> None:
         """Call bridge RPC /bridge/send_command — synchronous ACK."""
+        default_device_id = self.known_device_ids[0] if self.known_device_ids else ""
+
         command = {
             "command_id": f"rpc-gui-{int(time.time() * 1000)}",
             "device_type": "lora",
-            "device_id": "",
+            "device_id": default_device_id,
             "action": "set",
             "params": {},
         }
@@ -1034,6 +1065,27 @@ class MqttMonitorApp:
         info.pack(fill=tk.X, pady=(0, 8))
         ttk.Label(info, text=f"RPC 目标: {self.rpc_server_url}  ", font=("Consolas", 9)).pack(side=tk.LEFT)
         ttk.Label(info, text="超时: 5s  阻塞等待 bridge 回执", font=("Consolas", 9)).pack(side=tk.LEFT, padx=(12, 0))
+
+        # device picker
+        if self.known_device_ids:
+            picker = ttk.Frame(body)
+            picker.pack(fill=tk.X, pady=(0, 6))
+            ttk.Label(picker, text="已知设备:").pack(side=tk.LEFT)
+            device_var = tk.StringVar(value=default_device_id)
+            device_cb = ttk.Combobox(picker, textvariable=device_var, values=self.known_device_ids, width=30)
+            device_cb.pack(side=tk.LEFT, padx=(6, 0))
+            ttk.Button(picker, text="填入", command=lambda: update_device_id(device_var.get())).pack(
+                side=tk.LEFT, padx=(6, 0))
+            def update_device_id(dev_id: str) -> None:
+                try:
+                    data = json.loads(editor.get("1.0", tk.END))
+                    data["device_id"] = dev_id
+                    editor.delete("1.0", tk.END)
+                    editor.insert("1.0", json.dumps(data, ensure_ascii=False, indent=2))
+                except Exception:
+                    pass
+
+        ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
 
         ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
         editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
