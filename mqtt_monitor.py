@@ -44,6 +44,7 @@ DEFAULT_PORT = 1883
 DEFAULT_TOPICS = (
     "bridge/uplink/lora/+/data",
     "bridge/downlink/#",
+    "application/+/device/+/command/down",
     "s3/eora-s3-400tb-001/data",
 )
 PUBLIC_BROKER_HOST = "broker.emqx.io"
@@ -1086,8 +1087,6 @@ class MqttMonitorApp:
                     pass
 
         ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
-
-        ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
         editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
         editor.pack(fill=tk.BOTH, expand=True)
         editor.insert("1.0", json.dumps(command, ensure_ascii=False, indent=2))
@@ -1117,26 +1116,50 @@ class MqttMonitorApp:
             result_var.set("正在调用 RPC...")
 
             def do_rpc() -> None:
+                cmd_id = data.get("command_id", "")
+                msg = ""
+                success = False
                 try:
                     rpc_client = vsoa.Client()
                     try:
                         st = rpc_client.connect(self.rpc_server_url, timeout=3.0)
                         if st != vsoa.Client.CONNECT_OK:
-                            self.events.put(("rpc_result", (False, f"连接失败: {st}", data.get("command_id", ""))))
-                            return
-                        h, p, s = rpc_client.fetch(
-                            "/bridge/send_command", payload=vsoa.Payload(param=data), timeout=5.0,
-                        )
-                        if s == vsoa.Client.CONNECT_OK:
-                            result = dict(p.param) if p and p.param else {}
-                            msg = json.dumps(result, ensure_ascii=False, indent=2)
-                            self.events.put(("rpc_result", (True, msg, data.get("command_id", ""))))
+                            msg = f"连接失败: {st}"
                         else:
-                            self.events.put(("rpc_result", (False, f"RPC 状态: {s}", data.get("command_id", ""))))
+                            h, p, s = rpc_client.fetch(
+                                "/bridge/send_command", payload=vsoa.Payload(param=data), timeout=5.0,
+                            )
+                            if s == vsoa.Client.CONNECT_OK:
+                                result = dict(p.param) if p and p.param else {}
+                                msg = json.dumps(result, ensure_ascii=False, indent=2)
+                                success = True
+                            else:
+                                msg = f"RPC 状态: {s}"
                     finally:
                         rpc_client.close()
                 except Exception as exc:
-                    self.events.put(("rpc_result", (False, str(exc), data.get("command_id", ""))))
+                    msg = str(exc)
+
+                # Schedule UI update on main thread — critical for Tkinter safety
+                final_msg = msg
+                final_success = success
+                final_cmd_id = cmd_id
+                self.root.after(0, lambda: _show_rpc_result(final_success, final_msg, final_cmd_id))
+
+            def _show_rpc_result(success: bool, msg: str, cmd_id: str) -> None:
+                if not dialog.winfo_exists():
+                    return
+                result_text.configure(state=tk.NORMAL)
+                result_text.delete("1.0", tk.END)
+                result_text.insert("1.0", msg)
+                result_text.configure(state=tk.DISABLED)
+                editor.configure(state=tk.NORMAL)
+                for child in buttons.winfo_children():
+                    child.configure(state=tk.NORMAL)
+                result_var.set("RPC 完成" if success else "RPC 失败")
+                self.bridge_status_var.set(
+                    f"RPC 成功: {cmd_id}" if success else f"RPC 失败: {msg[:80]}"
+                )
 
             threading.Thread(target=do_rpc, daemon=True).start()
 
@@ -1153,32 +1176,7 @@ class MqttMonitorApp:
         result_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
 
-        def drain_rpc() -> None:
-            try:
-                while True:
-                    event, value = self.events.get_nowait()
-                    if event == "rpc_result":
-                        success, msg, cmd_id = value
-                        result_text.configure(state=tk.NORMAL)
-                        result_text.delete("1.0", tk.END)
-                        result_text.insert("1.0", msg)
-                        result_text.configure(state=tk.DISABLED)
-                        editor.configure(state=tk.NORMAL)
-                        for child in buttons.winfo_children():
-                            child.configure(state=tk.NORMAL)
-                        result_var.set("RPC 完成" if success else "RPC 失败")
-                        self.bridge_status_var.set(
-                            f"RPC 成功: {cmd_id}" if success else f"RPC 失败: {msg[:80]}"
-                        )
-                    else:
-                        self.events.put((event, value))
-            except queue.Empty:
-                pass
-            if dialog.winfo_exists():
-                dialog.after(100, drain_rpc)
-
         result_var.set("等待发送...")
-        dialog.after(100, drain_rpc)
 
     # ------------------------------------------------------------------
     # public broker
