@@ -12,6 +12,7 @@ RPC 和 Pub/Sub 两通道的共用核心。所有函数均为纯函数：
 
 from __future__ import annotations
 
+import base64
 import json
 from typing import Any
 
@@ -92,7 +93,9 @@ def validate(cmd: Any, max_timeout_ms: int = _DEFAULT_MAX_TIMEOUT_MS,
 # ---------------------------------------------------------------------------
 def build_mqtt_message(cmd: dict, topic_prefix: str,
                        topic_prefixes: dict | None = None,
-                       trace_id: str = "") -> tuple[str, str]:
+                       trace_id: str = "",
+                       chirpstack: dict | None = None,
+                       device_info: Any = None) -> tuple[str, str]:
     """将合法命令转换为 MQTT (topic, payload) 元组。
 
     调用方必须确保 cmd 已通过 validate() 校验。
@@ -103,9 +106,12 @@ def build_mqtt_message(cmd: dict, topic_prefix: str,
         topic_prefixes: per-device-type 前缀覆盖 dict（可选）。
                         key=device_type，value=前缀。无覆盖时回退 topic_prefix。
         trace_id: 链路追踪 ID（v3.0 新增）。空字符串表示不注入。
+        chirpstack: ChirpStack 下行配置 dict（方案 B）。
+                    格式: {"enabled": true, "confirmed": true, "fPort": 1, "application_id": ""}
+        device_info: DeviceInfo 对象（方案 B，含 dev_eui / app_id）。
 
     Returns:
-        (topic, payload) 元组，payload 为 JSON 字符串。
+        (topic, payload) 元组，payload 为 JSON 字符串（ChirpStack 模式为含 Base64 data 的 JSON）。
 
     >>> build_mqtt_message(
     ...     {"command_id":"c1","device_type":"lora","device_id":"n1",
@@ -118,11 +124,25 @@ def build_mqtt_message(cmd: dict, topic_prefix: str,
     ...      "action":"set","params":{"led":"on"},"timestamp":"2026-07-06T00:00:00Z"},
     ...     "bridge/downlink", {"lora": "lora/cmd"})
     ('lora/cmd/n1/set', '...')
+
+    # ChirpStack 模式（方案 B）
+    >>> build_mqtt_message(
+    ...     {"command_id":"c3","device_type":"lora","device_id":"n1",
+    ...      "action":"set","params":{"led":"on"}},
+    ...     "bridge/downlink",
+    ...     chirpstack={"enabled": True, "confirmed": True, "fPort": 1, "application_id": ""},
+    ...     device_info=type('D', (), {"dev_eui": "70B3D5E500000001", "app_id": "my-app"})())
+    ('application/my-app/device/70B3D5E500000001/command/down', '{"devEui":"70B3D5E500000001","confirmed":true,"fPort":1,"data":"eyJsZWQiOiAib24ifQ==","command_id":"c3","trace_id":""}')
     """
     device_type = cmd["device_type"]
     device_id = cmd["device_id"]
     action = cmd["action"]
 
+    # --- 方案 B: ChirpStack 下行模式 ---
+    if _use_chirpstack_mode(chirpstack, device_info):
+        return _build_chirpstack_message(cmd, device_info, chirpstack, trace_id)
+
+    # --- 默认模式 ---
     # 构造 MQTT topic
     if topic_prefixes and device_type in topic_prefixes:
         # per-device-type 覆盖：前缀已隐含 device_type，不重复
@@ -189,3 +209,61 @@ def build_ack(cmd: dict, error_code: int, ack_level: str = "bridge",
     ack["trace_id"] = trace_id
 
     return ack
+
+
+# ---------------------------------------------------------------------------
+# ChirpStack 下行模式（方案 B）
+# ---------------------------------------------------------------------------
+
+def _use_chirpstack_mode(chirpstack: dict | None, device_info: Any) -> bool:
+    """判断是否应使用 ChirpStack 下行格式。
+
+    条件:
+      1. chirpstack 配置 enabled=True
+      2. device_info 存在且包含 dev_eui
+    """
+    if not chirpstack or not chirpstack.get("enabled"):
+        return False
+    if device_info is None:
+        return False
+    dev_eui = getattr(device_info, "dev_eui", None)
+    return bool(dev_eui)
+
+
+def _build_chirpstack_message(
+    cmd: dict, device_info: Any, chirpstack: dict, trace_id: str,
+) -> tuple[str, str]:
+    """构造 ChirpStack 下行 MQTT 消息（方案 B）。
+
+    Topic:   application/{app_id}/device/{dev_eui}/command/down
+    Payload: {"devEui": "...", "confirmed": true, "fPort": 1,
+               "data": "<base64 of params JSON>", "command_id": "...", "trace_id": "..."}
+    """
+    dev_eui = getattr(device_info, "dev_eui", "")
+    app_id = (
+        getattr(device_info, "app_id", "")
+        or chirpstack.get("application_id", "")
+    )
+
+    # Topic: ChirpStack 下行格式
+    topic = f"application/{app_id}/device/{dev_eui}/command/down"
+
+    # Payload: params JSON → Base64
+    params_json = json.dumps(cmd.get("params", {}), ensure_ascii=False)
+    data_b64 = base64.b64encode(params_json.encode("utf-8")).decode("ascii")
+
+    payload_obj: dict[str, Any] = {
+        "devEui": dev_eui,
+        "confirmed": chirpstack.get("confirmed", True),
+        "fPort": chirpstack.get("fPort", 1),
+        "data": data_b64,
+        "command_id": cmd.get("command_id", ""),
+        "device_id": cmd.get("device_id", ""),
+    }
+
+    # 注入 traceId
+    if trace_id:
+        payload_obj["trace_id"] = trace_id
+
+    payload = json.dumps(payload_obj, ensure_ascii=False)
+    return (topic, payload)

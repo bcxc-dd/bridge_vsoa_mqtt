@@ -70,6 +70,10 @@ class UplinkReport:
 
     timestamp: int = 0            # Unix epoch ms
 
+    # ChirpStack / LoRaWAN 扩展字段（方案 B）
+    dev_eui: str = ""             # LoRaWAN DevEUI（从上行 topic 或 payload 提取）
+    app_id: str = ""              # ChirpStack application ID（从上行 topic 提取）
+
     temperature: Optional[float] = None
     humidity: Optional[float] = None
     pressure: Optional[float] = None

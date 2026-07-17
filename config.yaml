@@ -11,7 +11,7 @@ bridge:
 vsoa:
   # --- VSOA Server（bridge 内嵌，端口 3001）---
   server:
-    bind_host: "127.0.0.1"
+    bind_host: "0.0.0.0"
     port: 3001
 
   # --- Pub/Sub Client（连接业务层 VSOA Server，订阅 /ctrl/cmd）---
@@ -30,7 +30,7 @@ vsoa:
 
 # ---------- MQTT 连接 ----------
 mqtt:
-  broker: "broker.emqx.io"
+  broker: "192.168.3.219"
   port: 1883
   username: ""
   password: ""
@@ -52,6 +52,7 @@ mqtt:
     - "bridge/uplink/generic/+/error"
     - "lora/+/up"
     - "zigbee/+/report"
+    - "application/+/device/+/event/up"
 
   # --- 下行发布 topic ---
   downlink_topic_prefix: "bridge/downlink"
@@ -83,6 +84,13 @@ downlink:
     retry:
       max_retries: 3
       backoff_base_ms: 500
+
+# ---------- ChirpStack 下行适配（方案 B） ----------
+chirpstack:
+  enabled: true                              # 启用 ChirpStack 下行格式
+  confirmed: true                            # LoRaWAN confirmed downlink
+  fPort: 1                                   # LoRaWAN fPort
+  application_id: ""                         # 留空 = 从上行 topic 自动获取
 
 # ---------- 日志 ----------
 logging:

@@ -71,6 +71,7 @@ class DeviceInfo:
     # --- 下行预留 ---
     mqtt_topic_template: str | None = None  # 设备级 topic 模板（预留）
     dev_eui: str | None = None              # LoRaWAN DevEUI（预留）
+    app_id: str | None = None               # ChirpStack application ID（从上行 topic 自动获取）
 
     # --- 便捷属性 ---
     @property
@@ -290,6 +291,12 @@ class DeviceRegistry:
             dev.signal = report.signal
         if report.has_snr:
             dev.snr = report.snr
+
+        # ChirpStack 扩展字段（方案 B）
+        if getattr(report, "dev_eui", ""):
+            dev.dev_eui = report.dev_eui
+        if getattr(report, "app_id", ""):
+            dev.app_id = report.app_id
 
     def _load_seed(self, source_path: str) -> None:
         """从 YAML 种子文件预装设备（向后兼容下行 YAML 加载）。"""

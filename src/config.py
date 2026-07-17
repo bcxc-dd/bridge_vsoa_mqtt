@@ -110,6 +110,14 @@ class DownlinkConfig:
 
 
 @dataclass
+class ChirpstackConfig:
+    enabled: bool = False
+    confirmed: bool = True
+    fPort: int = 1
+    application_id: str = ""
+
+
+@dataclass
 class LoggingConfig:
     level: str = "INFO"
     format: str = "[%(asctime)s] [%(levelname)s] %(message)s"
@@ -125,6 +133,7 @@ class BridgeConfig:
     mqtt: MqttConfig = field(default_factory=MqttConfig)
     uplink: UplinkConfig = field(default_factory=UplinkConfig)
     downlink: DownlinkConfig = field(default_factory=DownlinkConfig)
+    chirpstack: ChirpstackConfig = field(default_factory=ChirpstackConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
 
 

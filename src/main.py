@@ -131,6 +131,17 @@ def main() -> None:
         except Exception:
             logger.warning("[VSOA] publish %s failed (non-fatal)", url, exc_info=True)
 
+    # ---- 4b. ChirpStack 下行适配（方案 B） ----
+    chirpstack_cfg = {
+        "enabled": config.chirpstack.enabled,
+        "confirmed": config.chirpstack.confirmed,
+        "fPort": config.chirpstack.fPort,
+        "application_id": config.chirpstack.application_id,
+    } if config.chirpstack.enabled else None
+    if chirpstack_cfg:
+        logger.info("[OK] ChirpStack downlink: enabled (fPort=%d confirmed=%s)",
+                    chirpstack_cfg["fPort"], chirpstack_cfg["confirmed"])
+
     # ---- 5a. Register uplink query endpoints on shared server ----
     from uplink.vsoa_server import UplinkVsoaServer
     from uplink.adapters import ADAPTERS
@@ -154,6 +165,7 @@ def main() -> None:
         dedup=dedup,
         retry_max_retries=config.downlink.command.retry.max_retries,
         retry_backoff_base_ms=config.downlink.command.retry.backoff_base_ms,
+        chirpstack_config=chirpstack_cfg,
         server=_vsoa_server,
     )
 
@@ -259,6 +271,7 @@ def main() -> None:
             reconnect_interval_ms=config.vsoa.reconnect.interval_ms,
             reconnect_max_retries=config.vsoa.reconnect.max_retries,
             reconnect_backoff_multiplier=config.vsoa.reconnect.backoff_multiplier,
+            chirpstack_config=chirpstack_cfg,
         )
 
         max_retries = config.vsoa.reconnect.max_retries

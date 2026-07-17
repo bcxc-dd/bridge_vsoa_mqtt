@@ -78,6 +78,8 @@ class RpcServer:
         dedup: DedupCache | None = None,
         retry_max_retries: int = 3,
         retry_backoff_base_ms: int = 500,
+        # --- 方案 B: ChirpStack 下行适配 ---
+        chirpstack_config: dict | None = None,
         # --- 外部 server（合并版） ---
         server: vsoa.Server | None = None,
     ) -> None:
@@ -93,6 +95,7 @@ class RpcServer:
         self._dedup = dedup
         self._retry_max_retries = retry_max_retries
         self._retry_backoff_base_ms = retry_backoff_base_ms
+        self._chirpstack = chirpstack_config
         self._external_server = server
         self._server: vsoa.Server | None = None
         self._thread: threading.Thread | None = None
@@ -142,6 +145,7 @@ class RpcServer:
                 return
 
             # ② 设备注册表检查（v3.0 新增）
+            device = None
             if _self._registry is not None:
                 device = _self._registry.lookup(cmd.get("device_id", ""))
                 if device is None:
@@ -162,11 +166,13 @@ class RpcServer:
                     ))
                     return
 
-            # ④ 构造 MQTT 消息
+            # ④ 构造 MQTT 消息（方案 B: ChirpStack 模式）
             try:
                 topic, payload_str = build_mqtt_message(
                     cmd, _self._topic_prefix, _self._topic_prefixes,
                     trace_id=trace_id,
+                    chirpstack=_self._chirpstack,
+                    device_info=device,
                 )
             except Exception:
                 logger.error("[RPC] cmd_id=%s trace=%s build_mqtt_message 异常:\n%s",

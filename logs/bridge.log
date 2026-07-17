@@ -590,3 +590,780 @@ OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口
 [2026-07-15 10:44:14] [ERROR] [PubSub] connect failed: err=1
 [2026-07-15 10:44:14] [WARNING] [PubSub] Reconnect attempt 6/10 failed
 [2026-07-15 10:44:14] [INFO] [PubSub] Reconnect attempt 7/10 in 192.0s...
+[2026-07-15 10:47:28] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:47:28] [WARNING] [PubSub] Reconnect attempt 7/10 failed
+[2026-07-15 10:47:28] [INFO] [PubSub] Reconnect attempt 8/10 in 384.0s...
+[2026-07-15 10:53:54] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 10:53:54] [WARNING] [PubSub] Reconnect attempt 8/10 failed
+[2026-07-15 10:53:54] [INFO] [PubSub] Reconnect attempt 9/10 in 768.0s...
+[2026-07-15 11:01:37] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:01:47] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-15 11:01:53] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-15 11:02:01] [INFO] MQTT reconnecting in 3.0s (attempt 4)...
+[2026-07-15 11:02:13] [INFO] MQTT reconnecting in 3.0s (attempt 5)...
+[2026-07-15 11:02:33] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:32] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:03:38] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:45] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:03:51] [INFO] MQTT on_connect: OK
+[2026-07-15 11:03:57] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:04:03] [INFO] MQTT on_connect: OK
+[2026-07-15 11:04:10] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:04:16] [INFO] MQTT on_connect: OK
+[2026-07-15 11:04:22] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:04:27] [INFO] MQTT on_connect: OK
+[2026-07-15 11:06:44] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:06:44] [WARNING] [PubSub] Reconnect attempt 9/10 failed
+[2026-07-15 11:06:44] [INFO] [PubSub] Reconnect attempt 10/10 in 1536.0s...
+[2026-07-15 11:17:55] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:18:00] [INFO] MQTT on_connect: OK
+[2026-07-15 11:18:07] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:18:11] [INFO] MQTT on_connect: OK
+[2026-07-15 11:18:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-15 11:18:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-15 11:18:16] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 11:18:16] [INFO] [UPLINK] updated source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 11:18:19] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:18:24] [INFO] MQTT on_connect: OK
+[2026-07-15 11:18:31] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:18:35] [INFO] MQTT on_connect: OK
+[2026-07-15 11:18:42] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:18:50] [INFO] MQTT on_connect: OK
+[2026-07-15 11:18:56] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:19:01] [INFO] MQTT on_connect: OK
+[2026-07-15 11:19:10] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:19:20] [INFO] MQTT on_connect: OK
+[2026-07-15 11:19:27] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:19:32] [INFO] MQTT on_connect: OK
+[2026-07-15 11:20:35] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:20:44] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-15 11:20:51] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-15 11:20:59] [INFO] MQTT reconnecting in 3.0s (attempt 4)...
+[2026-07-15 11:21:11] [INFO] MQTT reconnecting in 3.0s (attempt 5)...
+[2026-07-15 11:21:31] [INFO] MQTT on_connect: OK
+[2026-07-15 11:21:38] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:21:43] [INFO] MQTT on_connect: OK
+[2026-07-15 11:21:50] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:21:55] [INFO] MQTT on_connect: OK
+[2026-07-15 11:22:02] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:22:08] [INFO] MQTT on_connect: OK
+[2026-07-15 11:22:15] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:22:22] [INFO] MQTT on_connect: OK
+[2026-07-15 11:22:28] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:22:33] [INFO] MQTT on_connect: OK
+[2026-07-15 11:22:40] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:22:46] [INFO] MQTT on_connect: OK
+[2026-07-15 11:24:00] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:24:06] [INFO] MQTT on_connect: OK
+[2026-07-15 11:24:07] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 11:24:07] [INFO] [UPLINK] updated source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 11:24:13] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:24:18] [INFO] MQTT on_connect: OK
+[2026-07-15 11:24:26] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:24:31] [INFO] MQTT on_connect: OK
+[2026-07-15 11:24:50] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:24:59] [INFO] MQTT on_connect: OK
+[2026-07-15 11:25:06] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:25:11] [INFO] MQTT on_connect: OK
+[2026-07-15 11:25:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-15 11:25:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-15 11:25:13] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-15 11:25:13] [INFO] [UPLINK] updated source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-15 11:25:17] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:25:23] [INFO] MQTT on_connect: OK
+[2026-07-15 11:25:30] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:25:35] [INFO] MQTT on_connect: OK
+[2026-07-15 11:25:41] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:25:47] [INFO] MQTT on_connect: OK
+[2026-07-15 11:26:59] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:27:04] [INFO] MQTT on_connect: OK
+[2026-07-15 11:27:11] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:27:16] [INFO] MQTT on_connect: OK
+[2026-07-15 11:27:23] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:27:29] [INFO] MQTT on_connect: OK
+[2026-07-15 11:27:37] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:27:42] [INFO] MQTT on_connect: OK
+[2026-07-15 11:27:48] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-15 11:27:53] [INFO] MQTT on_connect: OK
+[2026-07-15 11:32:22] [ERROR] [PubSub] connect failed: err=1
+[2026-07-15 11:32:22] [WARNING] [PubSub] Reconnect attempt 10/10 failed
+[2026-07-15 11:32:22] [ERROR] [PubSub] Reconnect failed after max retries, exiting
+[2026-07-15 11:32:22] [INFO] [PubSub] event loop exited
+[2026-07-15 11:32:22] [INFO] Shutting down...
+[2026-07-15 11:32:22] [INFO] [PubSub] disconnected
+[2026-07-15 11:32:23] [INFO] MQTT on_disconnect: normal
+[2026-07-15 11:32:23] [INFO] MQTT disconnected
+[2026-07-15 11:32:23] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-15 11:32:23] [INFO] Bridge stopped
+[2026-07-16 13:52:49] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 13:52:49] [INFO] config: config.yaml
+[2026-07-16 13:52:49] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 13:52:49] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 13:52:49] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-16 13:52:49] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 13:52:49] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 13:52:49] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 13:52:49] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 13:52:49] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 13:52:49] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 13:52:49] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-16 13:56:47] [INFO] [REGISTRY] registered device='lora-test-01' type=multi source=bridge
+[2026-07-16 13:56:47] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=lora-test-01 type=multi
+[2026-07-16 14:00:10] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:00:10] [INFO] config: config.yaml
+[2026-07-16 14:00:10] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:00:10] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:00:10] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-16 14:00:10] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:00:10] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:00:10] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:00:10] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:00:10] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:00:10] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 14:00:10] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-16 14:01:10] [WARNING] [RPC] cmd_id=cmd-20260716-001 trace=br-60c0df4b-1784181670279 device not in registry: lora-test-01
+[2026-07-16 14:01:31] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=bridge
+[2026-07-16 14:01:31] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=lora-node-01 type=multi
+[2026-07-16 14:02:20] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:02:20] [INFO] config: config.yaml
+[2026-07-16 14:02:20] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:02:20] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:02:20] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-16 14:02:20] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:02:20] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:02:20] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:02:20] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:02:20] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:02:20] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 14:02:20] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-16 14:02:59] [INFO] [REGISTRY] registered device='ws-test-01' type=multi source=bridge
+[2026-07-16 14:02:59] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=ws-test-01 type=multi
+[2026-07-16 14:18:28] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:18:28] [INFO] config: config.yaml
+[2026-07-16 14:18:28] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:18:28] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:18:28] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-16 14:18:28] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:18:28] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:18:28] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:18:28] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:18:28] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:18:28] [ERROR] [VSOA] Unified server exception:
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 184, in _run_vsoa
+    _vsoa_server.run(config.vsoa.server.bind_host, config.vsoa.server.port)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 702, in run
+    self.__start(host, port, sslopt)
+  File "D:\Anaconda\Lib\site-packages\vsoa\server.py", line 553, in __start
+    self._quick.bind(addr)
+OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
+
+[2026-07-16 14:18:28] [INFO] [VSOA] Unified server stopped
+[2026-07-16 14:18:36] [INFO] [REGISTRY] registered device='e2e-test' type=multi source=bridge
+[2026-07-16 14:18:36] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=e2e-test type=multi
+[2026-07-16 14:18:38] [ERROR] [RPC] cmd_id=cmd-20260716-001 trace=br-a1ff61db-1784182718291 MQTT not connected
+[2026-07-16 14:19:39] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:19:39] [INFO] config: config.yaml
+[2026-07-16 14:19:39] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:19:39] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:19:39] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-16 14:19:39] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:19:39] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:19:39] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:19:39] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:19:39] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:19:39] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 14:19:39] [INFO] [INFO] PubSub disabled (offline mode)
+[2026-07-16 14:22:45] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:22:45] [INFO] config: config.yaml
+[2026-07-16 14:22:45] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:22:45] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:22:47] [INFO] MQTT on_connect: OK
+[2026-07-16 14:22:47] [INFO] MQTT connected: broker.emqx.io:1883 (client_id=bridge-v1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 14:22:47] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 14:22:47] [INFO] [OK] MQTT connected: broker.emqx.io:1883 (7 uplink topics)
+[2026-07-16 14:22:47] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:22:47] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:22:47] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:22:47] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:22:47] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:22:47] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 14:22:47] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 14:22:47] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 14:22:47] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 14:22:47] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 14:24:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-mqtt-01/data
+[2026-07-16 14:24:35] [INFO] [REGISTRY] registered device='lora-mqtt-01' type=multi source=lora
+[2026-07-16 14:24:35] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-mqtt-01 type=multi
+[2026-07-16 14:24:35] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-mqtt-01/data
+[2026-07-16 14:24:35] [INFO] [REGISTRY] registered device='zb-mqtt-01' type=multi source=zigbee
+[2026-07-16 14:24:35] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zb-mqtt-01 type=multi
+[2026-07-16 14:29:18] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-16 14:29:27] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-16 14:29:34] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-16 14:29:41] [INFO] MQTT reconnecting in 3.0s (attempt 4)...
+[2026-07-16 14:29:54] [INFO] MQTT reconnecting in 3.0s (attempt 5)...
+[2026-07-16 14:30:14] [INFO] MQTT on_connect: OK
+[2026-07-16 14:32:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-16 14:32:20] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-16 14:32:20] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-16 14:32:20] [INFO] [MQTT] RX topic=bridge/uplink/zigbee/zb-sensor-01/data
+[2026-07-16 14:32:20] [INFO] [REGISTRY] registered device='zb-sensor-01' type=multi source=zigbee
+[2026-07-16 14:32:20] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zb-sensor-01 type=multi
+[2026-07-16 14:32:49] [INFO] [RPC] cmd_id=cmd-20260716-001 trace=br-92472641-1784183569450 device=lora/lora-mqtt-01 action=set -> MQTT OK (attempts=1)
+[2026-07-16 14:59:05] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 14:59:05] [INFO] config: config.yaml
+[2026-07-16 14:59:05] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 14:59:05] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 14:59:05] [INFO] MQTT on_connect: OK
+[2026-07-16 14:59:05] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 14:59:05] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 14:59:05] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (7 uplink topics)
+[2026-07-16 14:59:05] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 14:59:05] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 14:59:05] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 14:59:05] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 14:59:05] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 14:59:05] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 14:59:05] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 14:59:05] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 14:59:05] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 14:59:05] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 14:59:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 14:59:21] [INFO] [REGISTRY] registered device='lora_env_01' type=status source=lora
+[2026-07-16 14:59:21] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 14:59:21] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 14:59:21] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 14:59:21] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:00:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:00:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:00:22] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:00:22] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:01:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:01:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:01:24] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:01:24] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:02:09] [WARNING] [RPC] cmd_id=cmd-1784185329 trace=br-bce341e4-1784185329495 device not in registry: lora-node-01
+[2026-07-16 15:02:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:02:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:02:26] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:02:26] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:03:02] [WARNING] [RPC] cmd_id=cmd-1784185381 trace=br-38dcbea7-1784185382299 device not in registry: lora-node-01
+[2026-07-16 15:03:10] [WARNING] [RPC] cmd_id=cmd-1784185390 trace=br-e7eae862-1784185390321 device not in registry: lora-node-01
+[2026-07-16 15:03:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:03:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:03:26] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:03:26] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:04:23] [WARNING] [RPC] cmd_id=cmd-1784185462 trace=br-2150ce71-1784185463284 device not in registry: lora-node-01
+[2026-07-16 15:04:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:04:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:04:27] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:04:27] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:05:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:05:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:05:29] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:05:29] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:05:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-16 15:05:58] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-16 15:05:58] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-16 15:06:01] [INFO] [RPC] cmd_id=cmd-1784185560 trace=br-9ea93030-1784185561086 device=lora/lora-node-01 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:06:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:06:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:06:30] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:06:30] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:07:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:07:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:07:31] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:07:31] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:08:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:08:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:08:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:08:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:09:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:09:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:09:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:09:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:10:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:10:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:10:35] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:10:35] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:11:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:11:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:11:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:11:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:12:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:12:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:12:37] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:12:37] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:13:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:13:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:13:38] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:13:38] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:14:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:14:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:14:40] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:14:40] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:15:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:15:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:15:41] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:15:41] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:16:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:16:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:16:42] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:16:42] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:17:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:17:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:17:43] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:17:43] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:18:41] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 15:18:41] [INFO] config: config.yaml
+[2026-07-16 15:18:41] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 15:18:41] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 15:18:41] [INFO] MQTT on_connect: OK
+[2026-07-16 15:18:41] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 15:18:41] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 15:18:41] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 15:18:41] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 15:18:41] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 15:18:41] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 15:18:41] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 15:18:41] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 15:18:41] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 15:18:41] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 15:18:41] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 15:18:41] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 15:18:41] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 15:18:41] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 15:18:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:18:44] [INFO] [REGISTRY] registered device='lora_env_01' type=status source=lora
+[2026-07-16 15:18:44] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:18:44] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:18:44] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 15:18:44] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:19:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:19:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:19:46] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:19:46] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:20:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:20:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=status
+[2026-07-16 15:20:47] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:20:47] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:23:21] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 15:23:21] [INFO] config: config.yaml
+[2026-07-16 15:23:21] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 15:23:21] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 15:23:21] [INFO] MQTT on_connect: OK
+[2026-07-16 15:23:21] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 15:23:21] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 15:23:21] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 15:23:21] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 15:23:21] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 15:23:21] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 15:23:21] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 15:23:21] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 15:23:21] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 15:23:21] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 15:23:21] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 15:23:21] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 15:23:21] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 15:23:21] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 15:23:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:23:50] [INFO] [REGISTRY] registered device='Ebyte Test Device 470' type=status source=lora
+[2026-07-16 15:23:50] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:23:51] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:23:51] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 15:23:51] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:25:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:25:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:25:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:25:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:25:53] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:25:53] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:26:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:26:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:26:54] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:26:54] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:27:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-16 15:27:22] [INFO] [REGISTRY] registered device='lora-node-01' type=multi source=lora
+[2026-07-16 15:27:22] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-16 15:27:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:27:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:27:55] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:27:55] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:28:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora-node-01/data
+[2026-07-16 15:28:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora-node-01 type=multi
+[2026-07-16 15:28:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:28:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:28:57] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:28:57] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:29:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:29:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:29:58] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:29:58] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:30:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:30:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:30:59] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:30:59] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:32:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:32:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:32:00] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:32:00] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:33:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:33:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:33:02] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:33:02] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:34:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:34:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-16 15:34:03] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:34:03] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:34:38] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 15:34:38] [INFO] config: config.yaml
+[2026-07-16 15:34:38] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 15:34:38] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 15:34:38] [INFO] MQTT on_connect: OK
+[2026-07-16 15:34:38] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 15:34:38] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 15:34:38] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 15:34:38] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 15:34:38] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 15:34:38] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 15:34:38] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 15:34:38] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 15:34:38] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 15:34:38] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 15:34:38] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 15:34:38] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 15:34:38] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 15:34:38] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 15:34:47] [WARNING] [RPC] cmd_id=cmd-1784187287 trace=br-80fbd950-1784187287728 device not in registry: 0000000000000925
+[2026-07-16 15:35:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:35:03] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-16 15:35:03] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:35:04] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:35:04] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 15:35:04] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:35:43] [INFO] [RPC] cmd_id=cmd-1784187343 trace=br-4f0f43c1-1784187343729 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:35:49] [INFO] [RPC] cmd_id=cmd-1784187348 trace=br-875ef5fe-1784187349287 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:36:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:36:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:36:05] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:36:05] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:37:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:37:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:37:06] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:37:06] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:38:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:38:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:38:08] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:38:08] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:38:38] [INFO] [RPC] cmd_id=cmd-1784187518 trace=br-46592540-1784187518745 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:39:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:39:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:39:09] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:39:09] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:40:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:40:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:40:10] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:40:10] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:41:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:41:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:41:11] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:41:11] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:42:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:42:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:42:13] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:42:13] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:42:28] [INFO] [RPC] cmd_id=cmd-1784187748 trace=br-a5e45885-1784187748600 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:43:05] [INFO] [RPC] cmd_id=cmd-1784187784 trace=br-0df55669-1784187785245 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:43:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:43:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:43:14] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:43:14] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:44:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:44:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:44:15] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:44:15] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:44:21] [INFO] [RPC] cmd_id=cmd-1784187860 trace=br-8928636c-1784187861187 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:45:13] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 15:45:13] [INFO] config: config.yaml
+[2026-07-16 15:45:13] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 15:45:13] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 15:45:13] [INFO] MQTT on_connect: OK
+[2026-07-16 15:45:13] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 15:45:13] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 15:45:13] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 15:45:13] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 15:45:13] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 15:45:13] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 15:45:13] [INFO] [OK] RPC Server on 127.0.0.1:3001 endpoint=/bridge/send_command
+[2026-07-16 15:45:13] [INFO] [VSOA] Unified server listening on 127.0.0.1:3001
+[2026-07-16 15:45:13] [INFO] [OK] Unified VSOA Server listening on 127.0.0.1:3001
+[2026-07-16 15:45:13] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 15:45:13] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 15:45:13] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 15:45:13] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 15:45:13] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 15:45:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:45:15] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-16 15:45:15] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:45:16] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:45:16] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 15:45:16] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:45:22] [INFO] [RPC] cmd_id=cmd-1784187922 trace=br-39d14bd0-1784187922579 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:45:39] [INFO] [RPC] cmd_id=cmd-1784187939 trace=br-d3039411-1784187939333 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:46:18] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:46:18] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:47:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:47:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:47:19] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:47:19] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:48:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:48:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:48:20] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:48:20] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:49:08] [INFO] [RPC] cmd_id=cmd-1784188148 trace=br-45cc9740-1784188148919 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:49:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:49:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:49:21] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:49:21] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:50:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:50:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:50:22] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:50:22] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:50:33] [INFO] [RPC] cmd_id=cmd-1784188233 trace=br-a6ccbfa2-1784188233651 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 15:51:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:51:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:51:24] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:51:24] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:52:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:52:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:52:25] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:52:25] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:53:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:53:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:53:26] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:53:26] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:54:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:54:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:54:27] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:54:27] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:55:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:55:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:55:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:55:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:56:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:56:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:56:30] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:56:30] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:57:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:57:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:57:31] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:57:31] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:58:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:58:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:58:32] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:58:32] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 15:59:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 15:59:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 15:59:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 15:59:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:00:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:00:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:00:34] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:00:34] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:01:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:01:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:01:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:01:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:01:38] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-16 16:01:46] [INFO] MQTT on_connect: OK
+[2026-07-16 16:02:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:02:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:02:37] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:02:37] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:03:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:03:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:03:38] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:03:38] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:04:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:04:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:04:41] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:04:41] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:05:26] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-16 16:05:35] [INFO] MQTT on_connect: OK
+[2026-07-16 16:05:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:05:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:05:43] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:05:43] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:06:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:06:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:06:42] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:06:42] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:07:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:07:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:07:43] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:07:43] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:08:08] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 16:08:08] [INFO] config: config.yaml
+[2026-07-16 16:08:08] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 16:08:08] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 16:08:08] [INFO] MQTT on_connect: OK
+[2026-07-16 16:08:08] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 16:08:08] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 16:08:08] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 16:08:08] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 16:08:08] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 16:08:08] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 16:08:08] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-16 16:08:08] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-16 16:08:08] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-16 16:08:08] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 16:08:08] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 16:08:08] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 16:08:08] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 16:08:08] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 16:08:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:08:44] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-16 16:08:44] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:08:44] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:08:44] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 16:08:44] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:09:02] [INFO] [RPC] cmd_id=cmd-1784189342 trace=br-4fc2d399-1784189342687 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:09:11] [INFO] [RPC] cmd_id=cmd-1784189351 trace=br-9c6e9a0b-1784189351513 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:09:12] [INFO] [RPC] cmd_id=cmd-1784189352 trace=br-41d2e977-1784189352747 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:09:13] [INFO] [RPC] cmd_id=cmd-1784189353 trace=br-4fb4510f-1784189353798 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:09:20] [INFO] [RPC] cmd_id=cmd-1784189360 trace=br-0145825d-1784189360620 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:09:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:09:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:09:46] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:09:46] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:10:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:10:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:10:47] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:10:47] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:11:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:11:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:11:48] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:11:48] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:12:30] [INFO] [RPC] cmd_id=cmd-1784189550 trace=br-08e0320b-1784189550881 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:12:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:12:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:12:49] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:12:49] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:13:09] [INFO] [RPC] cmd_id=cmd-1784189589 trace=br-a6a37320-1784189589572 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:13:14] [INFO] [RPC] cmd_id=cmd-1784189594 trace=br-f30d4a83-1784189594891 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-16 16:13:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:13:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:13:50] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:13:50] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:14:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:14:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:14:52] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:14:52] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:15:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:15:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:15:53] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:15:53] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:16:11] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-16 16:16:20] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-16 16:16:30] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-16 16:17:11] [INFO] MQTT on_connect: OK
+[2026-07-16 16:17:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:17:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:17:57] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:17:57] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:18:31] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-16 16:18:40] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-16 16:18:48] [ERROR] MQTT reconnect failed: timed out
+[2026-07-16 16:25:34] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-16 16:35:32] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-16 16:35:32] [INFO] config: config.yaml
+[2026-07-16 16:35:32] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-16 16:35:32] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-16 16:35:32] [INFO] MQTT on_connect: OK
+[2026-07-16 16:35:32] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-16 16:35:32] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-16 16:35:32] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (8 uplink topics)
+[2026-07-16 16:35:32] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-16 16:35:32] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-16 16:35:32] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-16 16:35:32] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-16 16:35:32] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-16 16:35:32] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-16 16:35:32] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-16 16:35:32] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-16 16:35:32] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-16 16:35:32] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-16 16:35:32] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-16 16:36:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:36:20] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-16 16:36:20] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:36:21] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:36:21] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-16 16:36:21] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:37:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:37:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:37:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:37:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:37:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:37:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-16 16:38:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-16 16:38:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-16 16:38:29] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-16 16:38:29] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi

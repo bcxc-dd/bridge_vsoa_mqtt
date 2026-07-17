@@ -60,6 +60,8 @@ class PubSubHandler:
         reconnect_interval_ms: int = 3000,
         reconnect_max_retries: int = 10,
         reconnect_backoff_multiplier: float = 2.0,
+        # --- 方案 B: ChirpStack 下行适配 ---
+        chirpstack_config: dict | None = None,
     ) -> None:
         self._server_url = server_url
         self._subscribe_urls = subscribe_urls or ["/ctrl/cmd"]
@@ -74,6 +76,7 @@ class PubSubHandler:
         self._reconnect_interval_ms = reconnect_interval_ms
         self._reconnect_max_retries = reconnect_max_retries
         self._reconnect_backoff_multiplier = reconnect_backoff_multiplier
+        self._chirpstack = chirpstack_config
         self._client: vsoa.Client | None = None
         self._running = False
 
@@ -94,6 +97,7 @@ class PubSubHandler:
         publisher = self._publisher
         registry = self._registry
         dedup = self._dedup
+        chirpstack_cfg = self._chirpstack
 
         def _publish_ack(cmd: dict, error_code: int, trace_id: str) -> None:
             """通过统一 VSOA Server (3001) publish ACK 到 /ctrl/ack。"""
@@ -135,6 +139,7 @@ class PubSubHandler:
                 return
 
             # ② 设备注册表检查（v3.0 新增）
+            device = None
             if registry is not None:
                 device = registry.lookup(cmd.get("device_id", ""))
                 if device is None:
@@ -151,10 +156,12 @@ class PubSubHandler:
                     _publish_ack(cmd, ERR_CMD_DUPLICATE_ID.code, trace_id)
                     return
 
-            # ④ 构造 MQTT 消息
+            # ④ 构造 MQTT 消息（方案 B: ChirpStack 模式）
             try:
                 topic, payload_str = build_mqtt_message(
                     cmd, topic_prefix, topic_prefixes, trace_id=trace_id,
+                    chirpstack=chirpstack_cfg,
+                    device_info=device,
                 )
             except Exception:
                 logger.error("[PubSub] cmd_id=%s trace=%s build_mqtt_message error:\n%s",
