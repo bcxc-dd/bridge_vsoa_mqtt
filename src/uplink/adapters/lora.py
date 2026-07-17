@@ -57,7 +57,6 @@ class LoraAdapter(Adapter):
         #   优先级: deviceInfo.devEui > deviceInfo.deviceName > 顶层 device_id >
         #           顶层 devEUI/dev_eui > 顶层 deviceName > topic
         report.device_id = (
-        report.device_id = (
             _first_str(payload, ["device_id", "deviceName", "devEUI", "dev_eui"])
             or _extract_device_info_dev_eui(payload)
             or extract_device_id_from_topic(topic)
