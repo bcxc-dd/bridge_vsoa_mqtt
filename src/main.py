@@ -6,7 +6,8 @@ MQTT ↔ VSOA 桥接组件 — 统一入口
 启动:  python src/main.py [--config config.yaml] [--no-mqtt]
 
 端口:
-  3001 — VSOA Server（上行查询 + 下行 RPC + ACK/事件发布）
+  vsoa://192.168.200.231:3000
+       — VSOA Server（上行查询 + 下行 RPC + ACK/事件发布）
   3000 — 出站 VSOA Client（订阅业务层 /ctrl/cmd）
   1883 — 出站 MQTT（上行订阅 + 下行发布）
   9090 — TCP JSON Lines 注入（离线测试）
@@ -58,6 +59,10 @@ def main() -> None:
                         help="Path to config.yaml")
     parser.add_argument("--no-mqtt", action="store_true",
                         help="Disable MQTT (offline mode)")
+    parser.add_argument("--mqtt-broker", help="Override MQTT broker host")
+    parser.add_argument("--mqtt-port", type=int, help="Override MQTT broker port")
+    parser.add_argument("--mqtt-topic", action="append", dest="mqtt_topics",
+                        help="Override MQTT uplink topic (repeatable)")
     args = parser.parse_args()
 
     # ---- 1. Load config ----
@@ -67,6 +72,15 @@ def main() -> None:
         logging.basicConfig(level=logging.INFO)
         logging.getLogger("bridge").error("Config load failed:\n%s", traceback.format_exc())
         sys.exit(1)
+
+    if args.mqtt_broker:
+        config.mqtt.broker = args.mqtt_broker
+    if args.mqtt_port is not None:
+        if not 1 <= args.mqtt_port <= 65535:
+            parser.error("--mqtt-port must be between 1 and 65535")
+        config.mqtt.port = args.mqtt_port
+    if args.mqtt_topics:
+        config.mqtt.uplink_topics = list(dict.fromkeys(args.mqtt_topics))
 
     # ---- 2. Setup logging ----
     _setup_logging(config)

@@ -6,8 +6,8 @@ is delegated to bridge/main.py.
 Run:
     python mqtt_monitor.py
 
-Requires bridge/main.py running for downlink:
-  - RPC:  vsoa://127.0.0.1:3001  /bridge/send_command
+Requires src/main.py running for downlink:
+  - RPC:  configured VSOA Server  /bridge/send_command
   - Pub/Sub: business VSOA Server :3000  (auto-started by this GUI if needed)
              → bridge subscribes /ctrl/cmd → MQTT
 """
@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import queue
+import subprocess
 import sys
 import threading
 import time
@@ -60,6 +61,7 @@ PUBLIC_BROKER_TOPICS = (
     "zigbee/+/report",
 )
 DEFAULT_CONFIG = Path(__file__).resolve().parent / "config.yaml"
+MONITOR_PROFILES = Path(__file__).resolve().parent / "mqtt_monitor_profiles.json"
 BRIDGE_ROOT = Path(__file__).resolve().parent
 
 if str(BRIDGE_ROOT) not in sys.path:
@@ -88,6 +90,153 @@ class PublicBrokerMessage:
     qos: int
     retained: bool
     payload: str
+
+
+@dataclass
+class GatewayProfile:
+    """Editable connection settings for one gateway monitor."""
+
+    name: str
+    mqtt_host: str
+    mqtt_port: int
+    mqtt_topics: list[str]
+    vsoa_url: str
+    vsoa_topics: list[str]
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], fallback: "GatewayProfile") -> "GatewayProfile":
+        try:
+            port = int(data.get("mqtt_port", fallback.mqtt_port))
+        except (TypeError, ValueError):
+            port = fallback.mqtt_port
+        return cls(
+            name=str(data.get("name") or fallback.name),
+            mqtt_host=str(data.get("mqtt_host") or fallback.mqtt_host),
+            mqtt_port=port,
+            mqtt_topics=_clean_topics(data.get("mqtt_topics"), fallback.mqtt_topics),
+            vsoa_url=str(data.get("vsoa_url") or fallback.vsoa_url),
+            vsoa_topics=_clean_topics(data.get("vsoa_topics"), fallback.vsoa_topics),
+        )
+
+
+def _clean_topics(value: Any, fallback: list[str] | tuple[str, ...]) -> list[str]:
+    if isinstance(value, str):
+        candidates = value.splitlines()
+    elif isinstance(value, (list, tuple)):
+        candidates = value
+    else:
+        candidates = fallback
+    return list(dict.fromkeys(str(item).strip() for item in candidates if str(item).strip()))
+
+
+def load_monitor_profiles(path: Path, defaults: dict[str, GatewayProfile]) -> dict[str, list[GatewayProfile]]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        raw = {}
+    profiles: dict[str, list[GatewayProfile]] = {}
+    for gateway, fallback in defaults.items():
+        items = raw.get(gateway, []) if isinstance(raw, dict) else []
+        parsed = [GatewayProfile.from_dict(item, fallback) for item in items if isinstance(item, dict)]
+        profiles[gateway] = parsed or [fallback]
+    return profiles
+
+
+def save_monitor_profiles(path: Path, profiles: dict[str, list[GatewayProfile]]) -> None:
+    data = {
+        gateway: [
+            {
+                "name": profile.name,
+                "mqtt_host": profile.mqtt_host,
+                "mqtt_port": profile.mqtt_port,
+                "mqtt_topics": profile.mqtt_topics,
+                "vsoa_url": profile.vsoa_url,
+                "vsoa_topics": profile.vsoa_topics,
+            }
+            for profile in items
+        ]
+        for gateway, items in profiles.items()
+    }
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+class BridgeProcessManager:
+    """Start src/main.py when needed and own only the process we create."""
+
+    def __init__(self, config_path: Path, server_url: str) -> None:
+        self.config_path = config_path
+        self.server_url = server_url
+        self.process: subprocess.Popen | None = None
+        self.mqtt_host = ""
+        self.mqtt_port = 1883
+        self.mqtt_topics: tuple[str, ...] = ()
+
+    def _bridge_is_available(self, timeout: float = 0.4) -> bool:
+        client = vsoa.Client()
+        try:
+            return client.connect(self.server_url, timeout=timeout) == vsoa.Client.CONNECT_OK
+        except Exception:
+            return False
+        finally:
+            client.close()
+
+    def start(self, timeout: float = 8.0) -> str:
+        if self._bridge_is_available():
+            return f"检测到已有 bridge：{self.server_url}"
+
+        command = [
+            sys.executable,
+            str(BRIDGE_ROOT / "src" / "main.py"),
+            "--config",
+            str(self.config_path),
+            "--mqtt-broker",
+            self.mqtt_host,
+            "--mqtt-port",
+            str(self.mqtt_port),
+        ]
+        for topic in self.mqtt_topics:
+            command.extend(("--mqtt-topic", topic))
+        creationflags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+        try:
+            self.process = subprocess.Popen(
+                command,
+                cwd=str(BRIDGE_ROOT),
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                creationflags=creationflags,
+            )
+        except OSError as exc:
+            return f"自动启动 bridge 失败：{exc}"
+
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            return_code = self.process.poll()
+            if return_code is not None:
+                self.process = None
+                return f"bridge 启动失败，进程退出码：{return_code}"
+            if self._bridge_is_available():
+                return f"bridge 已自动启动：{self.server_url}"
+            time.sleep(0.2)
+        return f"bridge 已启动，正在等待服务就绪：{self.server_url}"
+
+    def restart_for_profile(self, profile: GatewayProfile) -> str:
+        self.stop()
+        self.mqtt_host = profile.mqtt_host
+        self.mqtt_port = profile.mqtt_port
+        self.mqtt_topics = tuple(profile.mqtt_topics)
+        return self.start()
+
+    def stop(self) -> None:
+        process, self.process = self.process, None
+        if process is None or process.poll() is not None:
+            return
+        process.terminate()
+        try:
+            process.wait(timeout=5.0)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=2.0)
 
 
 # ---------------------------------------------------------------------------
@@ -207,15 +356,18 @@ class VsoaEventListener:
     def __init__(
         self,
         server_url: str,
+        topics: tuple[str, ...],
         event_callback: Callable[[str, dict[str, Any]], None],
         status_callback: Callable[[str], None],
     ) -> None:
         self.server_url = server_url
+        self.topics = topics
         self.event_callback = event_callback
         self.status_callback = status_callback
         self.stop_event = threading.Event()
         self.thread: threading.Thread | None = None
         self._connected = False
+        self.client = None
 
     def start(self) -> None:
         if self.thread is not None:
@@ -226,6 +378,7 @@ class VsoaEventListener:
     def _run(self) -> None:
         while not self.stop_event.is_set():
             client = vsoa.Client()
+            self.client = client
             try:
                 if client.connect(self.server_url, timeout=3.0) != vsoa.Client.CONNECT_OK:
                     self.status_callback("VSOA 监听: 连接失败，3s 后重试")
@@ -241,9 +394,8 @@ class VsoaEventListener:
                         pass
 
                 client.onmessage = on_message
-                client.subscribe("/device/update")
-                client.subscribe("/bridge/event")
-                client.subscribe("/ctrl/ack")
+                for topic in self.topics:
+                    client.subscribe(topic)
                 self._connected = True
                 self.status_callback(f"VSOA 监听已连接 {self.server_url}")
 
@@ -253,6 +405,7 @@ class VsoaEventListener:
                 self.status_callback(f"VSOA 监听异常: {exc}")
             finally:
                 self._connected = False
+                self.client = None
                 try:
                     client.close()
                 except Exception:
@@ -267,6 +420,11 @@ class VsoaEventListener:
 
     def stop(self) -> None:
         self.stop_event.set()
+        if self.client is not None:
+            try:
+                self.client.close()
+            except Exception:
+                pass
         if self.thread is not None:
             self.thread.join(timeout=3.0)
 
@@ -586,6 +744,8 @@ class MqttMonitorApp:
         vsoa_auto_start: bool,
         vsoa_advertised_url: str,
         bridge_config: Any,
+        bridge_process: BridgeProcessManager | None = None,
+        bridge_start_status: str = "",
         mqtt_username: str = "",
         mqtt_password: str = "",
         mqtt_client_id: str = "mqtt-display",
@@ -600,6 +760,7 @@ class MqttMonitorApp:
         self.server_url = server_url
         self.rpc_server_url = f"vsoa://127.0.0.1:{bridge_config.vsoa.server.port}"
         self.max_command_timeout_ms = bridge_config.downlink.command.max_timeout_ms
+        self.bridge_process = bridge_process
 
         # state
         self.events: queue.Queue[tuple[str, Any]] = queue.Queue()
@@ -613,35 +774,62 @@ class MqttMonitorApp:
         self.payloads: dict[str, str] = {}
         self.vsoa_payloads: dict[str, str] = {}
 
+        defaults = {
+            "lora": GatewayProfile(
+                "LoRa 默认配置", host, port,
+                [topic for topic in topics if "zigbee" not in topic.lower()],
+                self.rpc_server_url, ["/device/update", "/bridge/event", "/ctrl/ack"],
+            ),
+            "zigbee": GatewayProfile(
+                "Zigbee 默认配置", host, port,
+                [topic for topic in topics if "lora" not in topic.lower()],
+                self.rpc_server_url, ["/device/update", "/bridge/event", "/ctrl/ack"],
+            ),
+        }
+        self.profiles = load_monitor_profiles(MONITOR_PROFILES, defaults)
+        self.active_gateway = "lora"
+        self.profile_vars: dict[str, dict[str, Any]] = {}
+        self.profile_boxes: dict[str, ttk.Combobox] = {}
+        self.gateway_status_vars = {
+            "lora": tk.StringVar(value="未连接"),
+            "zigbee": tk.StringVar(value="未连接"),
+        }
+        self.connection_results = {
+            "lora": {"mqtt": "未连接", "vsoa": "未连接"},
+            "zigbee": {"mqtt": "未连接", "vsoa": "未连接"},
+        }
+
         # tk vars
         self.host_var = tk.StringVar(value=host)
         self.port_var = tk.StringVar(value=str(port))
-        self.status_var = tk.StringVar(value="未连接")
+        self.status_var = self.gateway_status_vars[self.active_gateway]
         self.count_var = tk.StringVar(value="消息 0")
         self.vsoa_count_var = tk.StringVar(value="VSOA 事件 0")
-        self.bridge_status_var = tk.StringVar(value="bridge: 3001 RPC | 3000 Pub/Sub")
+        self.bridge_status_var = tk.StringVar(
+            value=bridge_start_status
+            or f"bridge: {bridge_config.vsoa.server.port} RPC | "
+               f"{bridge_config.vsoa.business_server.port} Pub/Sub"
+        )
 
         # local business VSOA server (thin shell, no command handling)
         self.local_vsoa_server = LocalVsoaServer(
             server_url=server_url, bind_host=vsoa_bind_host, bind_port=vsoa_bind_port,
-            auto_start=vsoa_auto_start,
+            auto_start=(
+                vsoa_auto_start
+                and vsoa_bind_port != bridge_config.vsoa.server.port
+            ),
             status_callback=lambda s: self.events.put(("server_status", s)),
         )
 
         # VSOA event listener — subscribes to bridge's uplink publications
-        self.vsoa_listener = VsoaEventListener(
-            server_url=self.rpc_server_url,
-            event_callback=lambda url, data: self.events.put(("vsoa_event", (url, data))),
-            status_callback=lambda s: self.events.put(("vsoa_status", s)),
-        )
+        self.vsoa_listener: VsoaEventListener | None = None
 
         self._configure_window()
         self._build_ui()
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self.root.after(self.POLL_INTERVAL_MS, self._drain_events)
+        self._apply_gateway_profile(reconnect=True)
         self.local_vsoa_server.start_if_needed()
-        self.connect()
-        self.vsoa_listener.start()
 
     # ------------------------------------------------------------------
     # UI construction
@@ -649,7 +837,7 @@ class MqttMonitorApp:
 
     def _configure_window(self) -> None:
         self.root.title("MQTT 实时消息监视器")
-        self.root.geometry("1180x700")
+        self.root.geometry("1180x850")
         self.root.minsize(820, 500)
         style = ttk.Style(self.root)
         if "vista" in style.theme_names():
@@ -661,22 +849,27 @@ class MqttMonitorApp:
         outer = ttk.Frame(self.root, padding=12)
         outer.pack(fill=tk.BOTH, expand=True)
 
+        # --- gateway-specific editable profiles ---
+        self.gateway_notebook = ttk.Notebook(outer)
+        self.gateway_notebook.pack(fill=tk.X, pady=(0, 10))
+        for gateway, title in (("lora", "LoRa 网关"), ("zigbee", "Zigbee 网关")):
+            tab = ttk.Frame(self.gateway_notebook, padding=10)
+            self.gateway_notebook.add(tab, text=title)
+            self._build_gateway_config_tab(tab, gateway)
+        self.gateway_notebook.bind("<<NotebookTabChanged>>", self._on_gateway_changed)
+
         # --- connection bar ---
         bar = ttk.Frame(outer)
         bar.pack(fill=tk.X, pady=(0, 10))
-        ttk.Label(bar, text="Host").pack(side=tk.LEFT)
-        self.host_entry = ttk.Entry(bar, textvariable=self.host_var, width=20)
-        self.host_entry.pack(side=tk.LEFT, padx=(6, 14))
-        ttk.Label(bar, text="端口").pack(side=tk.LEFT)
-        self.port_entry = ttk.Entry(bar, textvariable=self.port_var, width=7)
-        self.port_entry.pack(side=tk.LEFT, padx=(6, 14))
-        self.connect_button = ttk.Button(bar, text="连接", command=self.toggle_connection, width=9)
+        self.active_gateway_var = tk.StringVar(value="当前：LoRa 网关")
+        ttk.Label(bar, textvariable=self.active_gateway_var, font=("Microsoft YaHei UI", 9, "bold")).pack(side=tk.LEFT)
+        self.connect_button = ttk.Button(bar, text="断开", command=self.toggle_connection, width=9)
         self.connect_button.pack(side=tk.LEFT)
         ttk.Button(bar, text="清空", command=self.clear_messages, width=9).pack(side=tk.LEFT, padx=(8, 0))
         ttk.Label(bar, textvariable=self.vsoa_count_var).pack(side=tk.RIGHT)
         ttk.Label(bar, text=" | ").pack(side=tk.RIGHT)
         ttk.Label(bar, textvariable=self.count_var).pack(side=tk.RIGHT)
-        self.status_label = ttk.Label(bar, textvariable=self.status_var)
+        self.status_label = ttk.Label(bar, textvariable=self.gateway_status_vars["lora"])
         self.status_label.pack(side=tk.RIGHT, padx=(0, 18))
 
         # --- actions ---
@@ -772,9 +965,203 @@ class MqttMonitorApp:
         vsoa_det_frame.columnconfigure(0, weight=1)
         vsoa_det_frame.rowconfigure(0, weight=1)
 
+    def _build_gateway_config_tab(self, parent: ttk.Frame, gateway: str) -> None:
+        profile = self.profiles[gateway][0]
+        variables = {
+            "profile": tk.StringVar(value=profile.name),
+            "name": tk.StringVar(value=profile.name),
+            "mqtt_host": tk.StringVar(value=profile.mqtt_host),
+            "mqtt_port": tk.StringVar(value=str(profile.mqtt_port)),
+            "mqtt_topics": tk.StringVar(value="\n".join(profile.mqtt_topics)),
+            "vsoa_url": tk.StringVar(value=profile.vsoa_url),
+            "vsoa_topics": tk.StringVar(value="\n".join(profile.vsoa_topics)),
+        }
+        self.profile_vars[gateway] = variables
+
+        ttk.Label(parent, text="配置").grid(row=0, column=0, sticky="w")
+        box = ttk.Combobox(
+            parent, textvariable=variables["profile"],
+            values=[item.name for item in self.profiles[gateway]], state="readonly", width=20,
+        )
+        box.grid(row=0, column=1, sticky="ew", padx=(6, 12))
+        box.bind("<<ComboboxSelected>>", lambda event, g=gateway: self._load_selected_profile(g))
+        self.profile_boxes[gateway] = box
+        ttk.Label(parent, text="配置名称").grid(row=0, column=2, sticky="w")
+        ttk.Entry(parent, textvariable=variables["name"], width=20).grid(row=0, column=3, sticky="ew", padx=(6, 12))
+        ttk.Button(parent, text="新建", command=lambda g=gateway: self._new_profile(g), width=8).grid(row=0, column=4, padx=(0, 6))
+        ttk.Button(parent, text="保存", command=lambda g=gateway: self._save_profile(g), width=8).grid(row=0, column=5, padx=(0, 6))
+        ttk.Button(parent, text="保存并连接", command=lambda g=gateway: self._save_and_connect(g), width=12).grid(row=0, column=6)
+
+        ttk.Label(parent, text="MQTT Broker").grid(row=1, column=0, sticky="w", pady=(8, 0))
+        ttk.Entry(parent, textvariable=variables["mqtt_host"]).grid(row=1, column=1, sticky="ew", padx=(6, 12), pady=(8, 0))
+        ttk.Label(parent, text="端口").grid(row=1, column=2, sticky="w", pady=(8, 0))
+        ttk.Entry(parent, textvariable=variables["mqtt_port"], width=8).grid(row=1, column=3, sticky="w", padx=(6, 12), pady=(8, 0))
+        ttk.Label(parent, text="VSOA URL").grid(row=1, column=4, sticky="w", pady=(8, 0))
+        ttk.Entry(parent, textvariable=variables["vsoa_url"], width=30).grid(row=1, column=5, columnspan=2, sticky="ew", padx=(6, 0), pady=(8, 0))
+
+        ttk.Label(parent, text="MQTT 订阅 Topic（每行一个）").grid(row=2, column=0, columnspan=2, sticky="w", pady=(8, 0))
+        ttk.Label(parent, text="VSOA 订阅 Topic（每行一个）").grid(row=2, column=4, columnspan=2, sticky="w", pady=(8, 0))
+        mqtt_topics = tk.Text(parent, height=3, wrap=tk.NONE, font=("Consolas", 9))
+        mqtt_topics.grid(row=3, column=0, columnspan=4, sticky="nsew", padx=(0, 12))
+        mqtt_topics.insert("1.0", variables["mqtt_topics"].get())
+        vsoa_topics = tk.Text(parent, height=3, wrap=tk.NONE, font=("Consolas", 9))
+        vsoa_topics.grid(row=3, column=4, columnspan=3, sticky="nsew")
+        vsoa_topics.insert("1.0", variables["vsoa_topics"].get())
+        variables["mqtt_topics_widget"] = mqtt_topics  # type: ignore[assignment]
+        variables["vsoa_topics_widget"] = vsoa_topics  # type: ignore[assignment]
+
+        ttk.Label(parent, text="连接结果：").grid(row=4, column=0, sticky="w", pady=(7, 0))
+        ttk.Label(parent, textvariable=self.gateway_status_vars[gateway]).grid(
+            row=4, column=1, columnspan=6, sticky="w", pady=(7, 0)
+        )
+        for column in (1, 3, 5, 6):
+            parent.columnconfigure(column, weight=1)
+
     # ------------------------------------------------------------------
     # MQTT
     # ------------------------------------------------------------------
+
+    def _profile_from_editor(self, gateway: str) -> GatewayProfile:
+        variables = self.profile_vars[gateway]
+        name = variables["name"].get().strip()
+        host = variables["mqtt_host"].get().strip()
+        vsoa_url = variables["vsoa_url"].get().strip()
+        try:
+            port = int(variables["mqtt_port"].get())
+        except ValueError as exc:
+            raise ValueError("MQTT 端口必须是数字。") from exc
+        mqtt_topics = _clean_topics(variables["mqtt_topics_widget"].get("1.0", tk.END), [])
+        vsoa_topics = _clean_topics(variables["vsoa_topics_widget"].get("1.0", tk.END), [])
+        if not name:
+            raise ValueError("请输入配置名称。")
+        if not host or not 1 <= port <= 65535:
+            raise ValueError("请输入有效的 MQTT Broker 地址和端口（1-65535）。")
+        if not mqtt_topics:
+            raise ValueError("请至少填写一个 MQTT 订阅 Topic。")
+        parsed = urlparse(vsoa_url)
+        if parsed.scheme != "vsoa" or not parsed.hostname:
+            raise ValueError("VSOA URL 必须是 vsoa://主机:端口 格式。")
+        if not vsoa_topics:
+            raise ValueError("请至少填写一个 VSOA 订阅 Topic。")
+        return GatewayProfile(name, host, port, mqtt_topics, vsoa_url, vsoa_topics)
+
+    def _show_profile(self, gateway: str, profile: GatewayProfile) -> None:
+        variables = self.profile_vars[gateway]
+        variables["profile"].set(profile.name)
+        variables["name"].set(profile.name)
+        variables["mqtt_host"].set(profile.mqtt_host)
+        variables["mqtt_port"].set(str(profile.mqtt_port))
+        variables["vsoa_url"].set(profile.vsoa_url)
+        for key, values in (("mqtt_topics_widget", profile.mqtt_topics), ("vsoa_topics_widget", profile.vsoa_topics)):
+            widget = variables[key]
+            widget.delete("1.0", tk.END)
+            widget.insert("1.0", "\n".join(values))
+
+    def _load_selected_profile(self, gateway: str) -> None:
+        selected = self.profile_vars[gateway]["profile"].get()
+        profile = next((item for item in self.profiles[gateway] if item.name == selected), None)
+        if profile is not None:
+            self._show_profile(gateway, profile)
+
+    def _new_profile(self, gateway: str) -> None:
+        base = self.profiles[gateway][0]
+        existing = {item.name for item in self.profiles[gateway]}
+        number = 1
+        while f"新配置 {number}" in existing:
+            number += 1
+        profile = GatewayProfile(
+            f"新配置 {number}", base.mqtt_host, base.mqtt_port,
+            list(base.mqtt_topics), base.vsoa_url, list(base.vsoa_topics),
+        )
+        self._show_profile(gateway, profile)
+        self.gateway_status_vars[gateway].set("新配置尚未保存")
+
+    def _save_profile(self, gateway: str, show_message: bool = True) -> GatewayProfile | None:
+        try:
+            profile = self._profile_from_editor(gateway)
+        except ValueError as exc:
+            messagebox.showerror("配置错误", str(exc), parent=self.root)
+            return None
+        selected = self.profile_vars[gateway]["profile"].get()
+        index = next((i for i, item in enumerate(self.profiles[gateway]) if item.name == selected), None)
+        duplicate = next((item for i, item in enumerate(self.profiles[gateway]) if item.name == profile.name and i != index), None)
+        if duplicate is not None:
+            messagebox.showerror("配置错误", f"配置名称“{profile.name}”已存在。", parent=self.root)
+            return None
+        if index is None:
+            self.profiles[gateway].append(profile)
+        else:
+            self.profiles[gateway][index] = profile
+        try:
+            save_monitor_profiles(MONITOR_PROFILES, self.profiles)
+        except OSError as exc:
+            messagebox.showerror("保存失败", str(exc), parent=self.root)
+            return None
+        self.profile_boxes[gateway].configure(values=[item.name for item in self.profiles[gateway]])
+        self.profile_vars[gateway]["profile"].set(profile.name)
+        self.gateway_status_vars[gateway].set(f"配置已保存：{MONITOR_PROFILES.name}")
+        if show_message:
+            messagebox.showinfo("保存成功", f"{gateway.upper()} 配置“{profile.name}”已保存。", parent=self.root)
+        return profile
+
+    def _save_and_connect(self, gateway: str) -> None:
+        if self._save_profile(gateway, show_message=False) is None:
+            return
+        target_index = 0 if gateway == "lora" else 1
+        if self.gateway_notebook.index("current") != target_index:
+            self.gateway_notebook.select(target_index)
+        else:
+            self._apply_gateway_profile(reconnect=True)
+
+    def _on_gateway_changed(self, event=None) -> None:
+        if not hasattr(self, "active_gateway_var"):
+            return
+        gateway = "lora" if self.gateway_notebook.index("current") == 0 else "zigbee"
+        if gateway == self.active_gateway:
+            return
+        self.active_gateway = gateway
+        self.status_var = self.gateway_status_vars[gateway]
+        self.status_label.configure(textvariable=self.status_var)
+        self.active_gateway_var.set(f"当前：{'LoRa' if gateway == 'lora' else 'Zigbee'} 网关")
+        self._apply_gateway_profile(reconnect=True)
+
+    def _apply_gateway_profile(self, reconnect: bool) -> None:
+        try:
+            profile = self._profile_from_editor(self.active_gateway)
+        except ValueError as exc:
+            self.gateway_status_vars[self.active_gateway].set(f"配置无效：{exc}")
+            return
+        if reconnect:
+            self.disconnect(update_status=False)
+            self._stop_vsoa_listener()
+        self.host_var.set(profile.mqtt_host)
+        self.port_var.set(str(profile.mqtt_port))
+        self.topics = tuple(profile.mqtt_topics)
+        self.server_url = profile.vsoa_url
+        self.rpc_server_url = profile.vsoa_url
+        self.vsoa_advertised_url = profile.vsoa_url
+        gateway = self.active_gateway
+        if self.bridge_process is not None:
+            self.bridge_status_var.set(self.bridge_process.restart_for_profile(profile))
+        self.connection_results[gateway] = {"mqtt": "正在连接", "vsoa": "正在连接"}
+        self._refresh_connection_result(gateway)
+        self.vsoa_listener = VsoaEventListener(
+            server_url=profile.vsoa_url,
+            topics=tuple(profile.vsoa_topics),
+            event_callback=lambda url, data: self.events.put(("vsoa_event", (url, data))),
+            status_callback=lambda status, g=gateway: self.events.put(("vsoa_status", (g, status))),
+        )
+        self.vsoa_listener.start()
+        self.connect()
+
+    def _refresh_connection_result(self, gateway: str) -> None:
+        result = self.connection_results[gateway]
+        self.gateway_status_vars[gateway].set(f"MQTT: {result['mqtt']}  |  VSOA: {result['vsoa']}")
+
+    def _stop_vsoa_listener(self) -> None:
+        listener, self.vsoa_listener = self.vsoa_listener, None
+        if listener is not None:
+            listener.stop()
 
     def toggle_connection(self) -> None:
         if self.client is None:
@@ -795,7 +1182,7 @@ class MqttMonitorApp:
             client = create_mqtt_client(f"{self.mqtt_client_id}-{id(self):x}")
             if self.mqtt_username:
                 client.username_pw_set(self.mqtt_username, self.mqtt_password)
-            client.user_data_set({"host": host})
+            client.user_data_set({"host": host, "gateway": self.active_gateway})
             client.on_connect = self._on_connect
             client.on_disconnect = self._on_disconnect
             client.on_message = self._on_message
@@ -808,10 +1195,8 @@ class MqttMonitorApp:
         self.client = client
         self.status_var.set(f"正在连接 {host}:{port} ...")
         self.connect_button.configure(text="断开")
-        self.host_entry.configure(state=tk.DISABLED)
-        self.port_entry.configure(state=tk.DISABLED)
 
-    def disconnect(self) -> None:
+    def disconnect(self, update_status: bool = True) -> None:
         client, self.client = self.client, None
         self.connected = False
         if client is not None:
@@ -819,22 +1204,21 @@ class MqttMonitorApp:
                 client.disconnect()
             finally:
                 client.loop_stop()
-        self.status_var.set("已断开")
+        if update_status:
+            self.status_var.set("已断开")
         self.connect_button.configure(text="连接")
-        self.host_entry.configure(state=tk.NORMAL)
-        self.port_entry.configure(state=tk.NORMAL)
 
     def _on_connect(self, client, userdata, flags, rc, properties=None) -> None:
         if int(rc) == 0:
             for topic in self.topics:
                 client.subscribe(topic, qos=1)
-            self.events.put(("status", f"已连接 {userdata['host']}"))
+            self.events.put(("status", (userdata["gateway"], f"MQTT 已连接 {userdata['host']}，已订阅 {len(self.topics)} 个 Topic")))
         else:
-            self.events.put(("status", f"连接失败，返回码 {rc}"))
+            self.events.put(("status", (userdata["gateway"], f"MQTT 连接失败，返回码 {rc}")))
 
     def _on_disconnect(self, client, userdata, rc, properties=None) -> None:
         if not self.closing and self.client is client:
-            self.events.put(("status", f"连接已断开（{rc}），正在重连..."))
+            self.events.put(("status", (userdata["gateway"], f"MQTT 连接已断开（{rc}），正在重连...")))
 
     def _on_message(self, client, userdata, msg) -> None:
         data, payload = decode_message_payload(msg.payload)
@@ -856,13 +1240,19 @@ class MqttMonitorApp:
                 if event == "message":
                     self._add_message(value)
                 elif event == "status":
-                    self.status_var.set(value)
+                    gateway, status = value
+                    self.connection_results[gateway]["mqtt"] = status.removeprefix("MQTT ")
+                    self._refresh_connection_result(gateway)
                 elif event == "server_status":
                     self.bridge_status_var.set(f"VSOA Server: {value}")
                 elif event == "vsoa_event":
                     self._add_vsoa_event(*value)
                 elif event == "vsoa_status":
-                    self.bridge_status_var.set(f"VSOA: {value}")
+                    gateway, status = value
+                    self.connection_results[gateway]["vsoa"] = status.removeprefix("VSOA 监听")
+                    self._refresh_connection_result(gateway)
+                    if gateway == self.active_gateway:
+                        self.bridge_status_var.set(f"VSOA: {status}")
                 elif event == "pubsub_result":
                     success, cmd_id = value
                     if success:
@@ -1201,8 +1591,10 @@ class MqttMonitorApp:
         self.closing = True
         if self.public_broker_monitor is not None:
             self.public_broker_monitor.close()
-        self.vsoa_listener.stop()
+        self._stop_vsoa_listener()
         self.disconnect()
+        if self.bridge_process is not None:
+            self.bridge_process.stop()
         self.root.destroy()
 
 
@@ -1262,18 +1654,26 @@ def main(argv: list[str] | None = None) -> int:
     configured_topics = tuple(config.mqtt.uplink_topics)
     topics = tuple(args.topics or dict.fromkeys((*configured_topics, *DEFAULT_TOPICS)))
 
+    bridge_server_url = f"vsoa://127.0.0.1:{config.vsoa.server.port}"
+    bridge_process = BridgeProcessManager(Path(args.config).resolve(), bridge_server_url)
+    bridge_start_status = "bridge 将使用当前网关配置自动启动"
+
     root = tk.Tk()
-    MqttMonitorApp(
-        root, host=host, port=port, topics=topics, max_messages=args.max_messages,
-        server_url=server_url,
-        vsoa_bind_host=vsoa_bind_host, vsoa_bind_port=vsoa_bind_port,
-        vsoa_auto_start=config.vsoa.business_server.auto_start,
-        vsoa_advertised_url=vsoa_advertised_url,
-        bridge_config=config,
-        mqtt_username=config.mqtt.username, mqtt_password=config.mqtt.password,
-        mqtt_client_id=f"{config.mqtt.client_id}-receiver",
-    )
-    root.mainloop()
+    try:
+        MqttMonitorApp(
+            root, host=host, port=port, topics=topics, max_messages=args.max_messages,
+            server_url=server_url,
+            vsoa_bind_host=vsoa_bind_host, vsoa_bind_port=vsoa_bind_port,
+            vsoa_auto_start=config.vsoa.business_server.auto_start,
+            vsoa_advertised_url=vsoa_advertised_url,
+            bridge_config=config,
+            bridge_process=bridge_process, bridge_start_status=bridge_start_status,
+            mqtt_username=config.mqtt.username, mqtt_password=config.mqtt.password,
+            mqtt_client_id=f"{config.mqtt.client_id}-receiver",
+        )
+        root.mainloop()
+    finally:
+        bridge_process.stop()
     return 0
 
 

@@ -1,0 +1,50 @@
+{
+  "lora": [
+    {
+      "name": "LoRa 默认配置",
+      "mqtt_host": "192.168.200.221",
+      "mqtt_port": 1883,
+      "mqtt_topics": [
+        "bridge/uplink/lora/+/data",
+        "bridge/uplink/generic/+/data",
+        "bridge/uplink/generic/+/status",
+        "bridge/uplink/generic/+/error",
+        "lora/+/up",
+        "application/+/device/+/event/up",
+        "s3/eora-s3-400tb-001/data",
+        "bridge/downlink/#",
+        "application/+/device/+/command/down"
+      ],
+      "vsoa_url": "vsoa://192.168.200.231:3000",
+      "vsoa_topics": [
+        "/device/update",
+        "/bridge/event",
+        "/ctrl/ack"
+      ]
+    }
+  ],
+  "zigbee": [
+    {
+      "name": "Zigbee 默认配置",
+      "mqtt_host": "192.168.3.219",
+      "mqtt_port": 1883,
+      "mqtt_topics": [
+        "bridge/uplink/zigbee/+/data",
+        "bridge/uplink/generic/+/data",
+        "bridge/uplink/generic/+/status",
+        "bridge/uplink/generic/+/error",
+        "zigbee/+/report",
+        "application/+/device/+/event/up",
+        "s3/eora-s3-400tb-001/data",
+        "bridge/downlink/#",
+        "application/+/device/+/command/down"
+      ],
+      "vsoa_url": "vsoa://192.168.200.231:3000",
+      "vsoa_topics": [
+        "/device/update",
+        "/bridge/event",
+        "/ctrl/ack"
+      ]
+    }
+  ]
+}
