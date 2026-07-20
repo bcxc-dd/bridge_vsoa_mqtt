@@ -1,6 +1,6 @@
 # MQTT ↔ VSOA 桥接组件
 
-> **版本:** v2.0  
+> **版本:** v2.1  
 > **作者:** 方宏波（下行）、辛澳翔（上行）  
 > **日期:** 2026-07-20  
 > **状态:** 开发中 — 端到端验证通过
@@ -122,9 +122,54 @@ mqtt_monitor.py (GUI, 根目录)
 
 **GUI 不实现任何桥接逻辑**：没有 DeviceRegistry、没有上行 adapter、没有 MQTT 发布。所有转换由 bridge 完成，GUI 通过订阅 bridge 的 VSOA 发布来证明桥接成功。
 
+> ⚠️ **端口注意：** Pub/Sub `/ctrl/cmd` datagram 必须发到业务 VSOA Server（port 3000），因为 bridge 的 PubSub client 订阅的是 3000 上的 `/ctrl/cmd`。VSOA 事件监听（`/device/update`、`/bridge/event`、`/ctrl/ack`）则连接 bridge server（port 3001）。
+
 ---
 
-## 4. VSOA 接口
+## 4. 数据模型
+
+### 4.1 Payload 透传（raw: dict）
+
+桥接组件的职责是**协议转换**，不应包含业务特定的传感器字段建模。v2.0 起上行数据模型改为 payload 透传模式：
+
+```python
+@dataclass
+class UplinkReport:
+    device_id: str      # 路由必需：设备标识
+    type: str            # 路由必需：设备类型（由 adapter 从 raw keys 推断）
+    raw: dict[str, Any]  # 所有传感器数据原样透传，不做字段级建模
+```
+
+**设计原则：**
+- Bridge 只提取路由必需的 `device_id` 和 `device_type`
+- 其余所有 payload 数据（temperature、humidity、smoke_level、co2_ppm...）放入 `raw` 字典透传
+- 新增传感器类型**无需改 bridge 代码**，业务层直接读取 `raw` 即可
+- `infer_type()` 自动从 `raw` 的 key 推断设备类型（temperature→温度, smoke→烟雾, 多 key→multi）
+
+**示例：**
+```json
+// MQTT 上行 payload: {"temperature": 25.0, "smoke_level": 5, "battery": 85}
+// → raw: {"temperature": 25.0, "smoke_level": 5, "battery": 85}
+// → type: "multi"  (检测到 temperature + smoke_level)
+// → GET /device/{id}/data 返回 raw 完整透传
+```
+
+### 4.2 测量值别名表
+
+Adapter 会将常见测量值映射到规范名称（写入 `raw`），未知字段原样透传：
+
+| 规范名称 | 别名（MQTT payload 中可能的 key） |
+|---------|----------------------------------|
+| `temperature` | temp, temperature, temperature_celsius |
+| `humidity` | humidity, moisture |
+| `pressure` | pressure, barometric_pressure |
+| `battery` | battery, battery_level, voltage |
+| `signal` | rssi, signal, linkquality, rssi_level |
+| `snr` | snr, loRaSNR, signal_to_noise |
+
+---
+
+## 5. VSOA 接口
 
 ### RPC 查询端点（端口 3001）
 
@@ -149,7 +194,7 @@ mqtt_monitor.py (GUI, 根目录)
 
 ---
 
-## 5. 双通道下行
+## 6. 双通道下行
 
 | | RPC | Pub/Sub |
 |--|------|---------|
@@ -161,7 +206,7 @@ mqtt_monitor.py (GUI, 根目录)
 
 ---
 
-## 6. 快速开始
+## 7. 快速开始
 
 ### 环境要求
 
@@ -226,7 +271,7 @@ python tools/verify_e2e.py
 
 ---
 
-## 7. 配置说明
+## 8. 配置说明
 
 参见 `config.yaml`：
 
@@ -244,7 +289,7 @@ python tools/verify_e2e.py
 
 ---
 
-## 8. 开发状态
+## 9. 开发状态
 
 | 项目 | 状态 |
 |------|:--:|
@@ -252,6 +297,7 @@ python tools/verify_e2e.py
 | 上行管道 (MQTT→VSOA) | ✅ |
 | 下行 RPC (VSOA→MQTT) | ✅ |
 | 下行 Pub/Sub (VSOA→MQTT) | ✅ |
+| Payload 透传（raw: dict，协议级抽象） | ✅ |
 | 设备注册表（上行自动注册 + 下行查询） | ✅ |
 | 幂等去重 | ✅ |
 | ChirpStack 下行格式 | ✅ |
@@ -263,7 +309,7 @@ python tools/verify_e2e.py
 
 ---
 
-## 9. 相关文档
+## 10. 相关文档
 
 - `doc/spec.md` — 技术规格说明书
 - `doc/task.md` — 开发任务清单

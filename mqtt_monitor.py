@@ -758,6 +758,7 @@ class MqttMonitorApp:
         self.mqtt_client_id = mqtt_client_id
         self.vsoa_advertised_url = vsoa_advertised_url
         self.server_url = server_url
+        self.pubsub_business_url = server_url  # Pub/Sub target (business VSOA Server, port 3000), not overwritten by gateway profile
         self.rpc_server_url = f"vsoa://127.0.0.1:{bridge_config.vsoa.server.port}"
         self.max_command_timeout_ms = bridge_config.downlink.command.max_timeout_ms
         self.bridge_process = bridge_process
@@ -1369,7 +1370,7 @@ class MqttMonitorApp:
 
         body = ttk.Frame(dialog, padding=12)
         body.pack(fill=tk.BOTH, expand=True)
-        ttk.Label(body, text=f"目标: {self.server_url}  →  bridge 订阅 /ctrl/cmd  →  MQTT").pack(
+        ttk.Label(body, text=f"目标: {self.pubsub_business_url}  →  bridge 订阅 /ctrl/cmd  →  MQTT").pack(
             fill=tk.X, pady=(0, 6))
 
         # device picker
@@ -1419,7 +1420,7 @@ class MqttMonitorApp:
             dialog.destroy()
 
             def send() -> None:
-                ok = self.local_vsoa_server.publish_control_command(data, target_url=self.server_url)
+                ok = self.local_vsoa_server.publish_control_command(data, target_url=self.pubsub_business_url)
                 self.events.put(("pubsub_result", (ok, str(data.get("command_id", "")))))
 
             threading.Thread(target=send, daemon=True).start()
