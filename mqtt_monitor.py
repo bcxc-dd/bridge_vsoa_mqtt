@@ -40,7 +40,7 @@ except ImportError:
     vsoa = None  # type: ignore[assignment]
 
 
-DEFAULT_HOST = "192.168.3.219"
+DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 1883
 DEFAULT_TOPICS = (
     "bridge/uplink/lora/+/data",

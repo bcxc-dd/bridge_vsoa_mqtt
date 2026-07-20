@@ -32,7 +32,7 @@ class VsoaBusinessServerConfig:
     auto_start: bool = True
     bind_host: str = "0.0.0.0"
     port: int = 3000
-    advertised_url: str = "vsoa://192.168.3.216:3000"
+    advertised_url: str = "vsoa://192.168.3.230:3000"
 
 
 @dataclass

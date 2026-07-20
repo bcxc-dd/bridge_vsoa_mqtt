@@ -2,7 +2,7 @@
 
 > **版本:** v2.0  
 > **作者:** 方宏波（下行）、辛澳翔（上行）  
-> **日期:** 2026-07-17  
+> **日期:** 2026-07-20  
 > **状态:** 开发中 — 端到端验证通过
 
 ---
@@ -30,6 +30,7 @@
 ```
 bridge-merged/
 ├── config.yaml                  # 统一配置文件
+├── mqtt_monitor.py              # GUI 监视器（Tkinter 界面，见 §3.2）
 ├── README.md
 ├── doc/
 │   ├── spec.md                  # 技术规格说明书
@@ -55,15 +56,32 @@ bridge-merged/
 │       ├── command.py           # 命令校验 + MQTT 消息构造（纯函数）
 │       └── dedup.py             # 幂等去重缓存
 ├── tools/
-│   ├── mqtt_monitor.py          # MQTT 实时监视 GUI（纯演示客户端）
+│   ├── mqtt_monitor.py          # MQTT CLI 监视器（终端版，轻量替代）
+│   ├── mqtt_test.py             # MQTT 连接测试（订阅全部 topic）
 │   ├── sim_device.py            # MQTT 设备模拟器
-│   └── verify_e2e.py            # 端到端验证脚本
+│   ├── send_downlink.py         # 下行命令发送脚本（RPC + Pub/Sub）
+│   ├── vsoa_monitor.py          # VSOA 事件监视器（ACK + 设备注册）
+│   ├── verify_e2e.py            # 端到端验证脚本
+│   ├── start_terminals.ps1      # 一键启动多终端（开发用）
+│   └── _test_publish.py         # VSOA publish 线程安全测试
 ├── tests/
-│   ├── uplink/
-│   └── downlink/
+│   ├── downlink/
+│   │   ├── test_command.py      # 命令校验单元测试
+│   │   ├── test_dedup.py        # 幂等去重单元测试
+│   │   ├── test_registry.py     # 设备注册表单元测试
+│   │   ├── test_integration.py  # 下行集成测试
+│   │   ├── mqtt_sub.py          # MQTT 订阅验证
+│   │   └── verify.py            # 手动验证脚本
+│   └── uplink/
+│       ├── conftest.py          # pytest fixtures
+│       ├── test_adapters.py     # 适配器单元测试
+│       ├── test_registry.py     # 设备注册表单元测试
+│       └── test_integration.py  # 上行集成测试
 └── logs/
     └── bridge.log               # 运行时日志
 ```
+
+> ⚠️ **已废弃文件：** `src/downlink/main.py` 和 `src/uplink/main.py` 是合并前的独立入口，依赖的模块已移至 `src/` 级别，无法独立运行。统一入口为 `src/main.py`。根目录 `mqtt_bridge.py`、`mqtt_receiver.py` 为旧版脚本，已不再使用。
 
 ---
 
@@ -80,12 +98,14 @@ bridge-merged/
 | **1883** | MQTT | 连接 MQTT Broker（订阅上行 topic + 发布下行 topic） |
 | **9090** | TCP | JSON Lines 注入（离线测试） |
 
-### 3.2 mqtt_monitor.py（纯演示 GUI）
+### 3.2 mqtt_monitor.py（GUI 监视器，根目录）
 
-**纯展示 + 下行命令发送客户端**，所有桥接逻辑委托给 `main.py`。
+**纯展示 + 下行命令发送客户端**，所有桥接逻辑委托给 `src/main.py`。
+
+> 另提供 `tools/mqtt_monitor.py`（CLI 终端版），功能较轻量，仅做 MQTT 订阅打印，不含 GUI 和 VSOA 交互。
 
 ```
-mqtt_monitor.py (纯 GUI)
+mqtt_monitor.py (GUI, 根目录)
   │
   ├─ MQTT Client ──→ broker（订阅展示，不处理）
   │
@@ -167,8 +187,10 @@ python src/main.py
 
 ```bash
 cd bridge-merged
-python tools/mqtt_monitor.py
+python mqtt_monitor.py
 ```
+
+> 也可以使用 CLI 版轻量监视器：`python tools/mqtt_monitor.py`
 
 ### GUI 使用
 
@@ -193,7 +215,7 @@ python -m pytest tests/uplink/ -v     # 仅上行测试
 python src/main.py
 
 # 终端 2: GUI 监视器
-python tools/mqtt_monitor.py
+python mqtt_monitor.py
 
 # 终端 3: 设备模拟器（模拟 LoRa/Zigbee 上报）
 python tools/sim_device.py

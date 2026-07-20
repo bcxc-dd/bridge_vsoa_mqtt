@@ -1736,56 +1736,1429 @@ OSError: [WinError 10048] 通常每个套接字地址(协议/网络地址/端口
 [2026-07-15 11:42:22] [WARNING] [PubSub] Reconnect attempt 6/10 failed
 [2026-07-15 11:42:22] [INFO] [PubSub] Reconnect attempt 7/10 in 192.0s...
 
-[2026-07-17 16:41:25] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
-[2026-07-17 16:41:25] [INFO] config: E:\2026.7实习项目（合并）\bridge_vsoa_mqtt\config.yaml
-[2026-07-17 16:41:25] [INFO] [OK] DeviceRegistry: max=64 devices
-[2026-07-17 16:41:25] [INFO] [OK] DedupCache: ttl=300s max=10000
-[2026-07-17 16:41:30] [ERROR] MQTT connect failed: timed out
-[2026-07-17 16:41:30] [ERROR] MQTT connect failed
-[2026-07-17 16:46:01] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
-[2026-07-17 16:46:01] [INFO] config: E:\2026.7实习项目（合并）\bridge_vsoa_mqtt\config.yaml
-[2026-07-17 16:46:01] [INFO] [OK] DeviceRegistry: max=64 devices
-[2026-07-17 16:46:01] [INFO] [OK] DedupCache: ttl=300s max=10000
-[2026-07-17 16:46:06] [ERROR] MQTT connect failed: timed out
-[2026-07-17 16:46:06] [ERROR] MQTT connect failed
-[2026-07-17 17:00:01] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
-[2026-07-17 17:00:01] [INFO] config: E:\2026.7实习项目（合并）\bridge_vsoa_mqtt\config.yaml
-[2026-07-17 17:00:01] [INFO] [OK] DeviceRegistry: max=64 devices
-[2026-07-17 17:00:01] [INFO] [OK] DedupCache: ttl=300s max=10000
-[2026-07-17 17:00:06] [ERROR] MQTT connect failed: timed out
-[2026-07-17 17:00:06] [ERROR] MQTT connect failed
-[2026-07-17 17:07:15] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
-[2026-07-17 17:07:15] [INFO] config: E:\2026.7实习项目（合并）\bridge_vsoa_mqtt\config.yaml
-[2026-07-17 17:07:15] [INFO] [OK] DeviceRegistry: max=64 devices
-[2026-07-17 17:07:15] [INFO] [OK] DedupCache: ttl=300s max=10000
-[2026-07-17 17:07:15] [INFO] MQTT on_connect: OK
-[2026-07-17 17:07:15] [INFO] MQTT connected: 192.168.200.221:1883 (client_id=bridge-v1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: bridge/downlink/# (QoS 1)
-[2026-07-17 17:07:15] [INFO] [MQTT] subscribed: application/+/device/+/command/down (QoS 1)
-[2026-07-17 17:07:15] [INFO] [OK] MQTT connected: 192.168.200.221:1883 (9 uplink topics)
-[2026-07-17 17:07:15] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
-[2026-07-17 17:07:15] [INFO] [OK] Uplink VSOA endpoints registered (port 3000)
-[2026-07-17 17:07:15] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
-[2026-07-17 17:07:15] [INFO] [OK] RPC Server on 0.0.0.0:3000 endpoint=/bridge/send_command
-[2026-07-17 17:07:15] [INFO] [VSOA] Unified server listening on 0.0.0.0:3000
-[2026-07-17 17:07:15] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3000
-[2026-07-17 17:07:15] [INFO] [OK] TCP inject: 0.0.0.0:9090
-[2026-07-17 17:07:15] [INFO] [PubSub] subscribed: /ctrl/cmd
-[2026-07-17 17:07:15] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
-[2026-07-17 17:07:15] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
-[2026-07-17 17:07:15] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
-[2026-07-17 17:07:15] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
-[2026-07-17 17:07:15] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
-[2026-07-17 17:07:15] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
-[2026-07-17 17:08:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
-[2026-07-17 17:08:16] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
-[2026-07-17 17:08:16] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
-[2026-07-17 17:08:16] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
-[2026-07-17 17:08:16] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 12:46:53] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-17 12:46:53] [INFO] config: config.yaml
+[2026-07-17 12:46:53] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-17 12:46:53] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-17 12:46:53] [INFO] MQTT on_connect: OK
+[2026-07-17 12:46:53] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-17 12:46:53] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-17 12:46:53] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (9 uplink topics)
+[2026-07-17 12:46:53] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-17 12:46:53] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-17 12:46:53] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-17 12:46:53] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-17 12:46:53] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-17 12:46:53] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-17 12:46:53] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-17 12:46:53] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 12:46:53] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 12:46:53] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-17 12:46:53] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-17 12:47:06] [WARNING] [RPC] cmd_id=rpc-gui-1784263617095 trace=br-544bf1fc-1784263626782 device not in registry: 
+[2026-07-17 12:56:58] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 12:56:58] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-17 12:58:02] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 12:58:02] [INFO] MQTT reconnecting in 3.0s (attempt 2)...
+[2026-07-17 12:59:05] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 12:59:05] [INFO] MQTT reconnecting in 3.0s (attempt 3)...
+[2026-07-17 13:00:09] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:00:09] [INFO] MQTT reconnecting in 3.0s (attempt 4)...
+[2026-07-17 13:01:12] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:01:12] [INFO] MQTT reconnecting in 3.0s (attempt 5)...
+[2026-07-17 13:02:16] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:02:16] [INFO] MQTT reconnecting in 3.0s (attempt 6)...
+[2026-07-17 13:03:19] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:03:19] [INFO] MQTT reconnecting in 3.0s (attempt 7)...
+[2026-07-17 13:04:23] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:04:23] [INFO] MQTT reconnecting in 3.0s (attempt 8)...
+[2026-07-17 13:05:26] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:05:26] [INFO] MQTT reconnecting in 3.0s (attempt 9)...
+[2026-07-17 13:06:30] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:06:30] [INFO] MQTT reconnecting in 3.0s (attempt 10)...
+[2026-07-17 13:07:33] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:07:33] [INFO] MQTT reconnecting in 3.0s (attempt 11)...
+[2026-07-17 13:08:37] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:08:37] [INFO] MQTT reconnecting in 3.0s (attempt 12)...
+[2026-07-17 13:09:40] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:09:40] [INFO] MQTT reconnecting in 3.0s (attempt 13)...
+[2026-07-17 13:10:44] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:10:44] [INFO] MQTT reconnecting in 3.0s (attempt 14)...
+[2026-07-17 13:11:47] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:11:47] [INFO] MQTT reconnecting in 3.0s (attempt 15)...
+[2026-07-17 13:12:51] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:12:51] [INFO] MQTT reconnecting in 3.0s (attempt 16)...
+[2026-07-17 13:13:54] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:13:54] [INFO] MQTT reconnecting in 3.0s (attempt 17)...
+[2026-07-17 13:14:58] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:14:58] [INFO] MQTT reconnecting in 3.0s (attempt 18)...
+[2026-07-17 13:16:02] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:16:02] [INFO] MQTT reconnecting in 3.0s (attempt 19)...
+[2026-07-17 13:17:06] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:17:06] [INFO] MQTT reconnecting in 3.0s (attempt 20)...
+[2026-07-17 13:18:09] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:18:09] [INFO] MQTT reconnecting in 3.0s (attempt 21)...
+[2026-07-17 13:19:13] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:19:13] [INFO] MQTT reconnecting in 3.0s (attempt 22)...
+[2026-07-17 13:20:16] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:20:16] [INFO] MQTT reconnecting in 3.0s (attempt 23)...
+[2026-07-17 13:21:20] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:21:20] [INFO] MQTT reconnecting in 3.0s (attempt 24)...
+[2026-07-17 13:22:24] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:22:24] [INFO] MQTT reconnecting in 3.0s (attempt 25)...
+[2026-07-17 13:23:27] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:23:27] [INFO] MQTT reconnecting in 3.0s (attempt 26)...
+[2026-07-17 13:24:31] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:24:31] [INFO] MQTT reconnecting in 3.0s (attempt 27)...
+[2026-07-17 13:25:34] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:25:34] [INFO] MQTT reconnecting in 3.0s (attempt 28)...
+[2026-07-17 13:26:38] [WARNING] MQTT unexpected disconnect (reason_code=Keep alive timeout)
+[2026-07-17 13:26:38] [INFO] MQTT reconnecting in 3.0s (attempt 29)...
+[2026-07-17 13:27:31] [INFO] MQTT on_connect: OK
+[2026-07-17 13:31:18] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:31:21] [INFO] Shutting down...
+[2026-07-17 13:31:21] [INFO] [PubSub] disconnected
+[2026-07-17 13:31:22] [INFO] MQTT on_disconnect: normal
+[2026-07-17 13:31:22] [INFO] MQTT disconnected
+[2026-07-17 13:31:22] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-17 13:31:22] [INFO] Bridge stopped
+[2026-07-17 13:31:22] [INFO] Shutting down...
+[2026-07-17 13:31:22] [INFO] [PubSub] disconnected
+[2026-07-17 13:31:22] [INFO] MQTT disconnected
+[2026-07-17 13:31:22] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-17 13:31:22] [INFO] Bridge stopped
+[2026-07-17 13:31:24] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-17 13:31:24] [INFO] config: config.yaml
+[2026-07-17 13:31:24] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-17 13:31:24] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-17 13:31:25] [INFO] MQTT on_connect: OK
+[2026-07-17 13:31:25] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-17 13:31:25] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-17 13:31:25] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (9 uplink topics)
+[2026-07-17 13:31:25] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-17 13:31:25] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-17 13:31:25] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-17 13:31:25] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-17 13:31:25] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-17 13:31:25] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-17 13:31:25] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-17 13:31:27] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:31:27] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-17 13:31:32] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:31:32] [WARNING] PubSub connect attempt 2/10, retrying...
+[2026-07-17 13:31:37] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:31:37] [WARNING] PubSub connect attempt 3/10, retrying...
+[2026-07-17 13:31:40] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:31:40] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:31:40] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-17 13:31:40] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-17 13:32:45] [WARNING] MQTT unexpected disconnect (reason_code=Unspecified error)
+[2026-07-17 13:32:45] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-17 13:33:12] [INFO] MQTT on_connect: OK
+[2026-07-17 13:36:14] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:36:19] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:36:19] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 13:36:19] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 13:36:25] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:36:25] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:36:25] [INFO] [PubSub] Reconnected (attempt 2)
+[2026-07-17 13:37:04] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:37:09] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:37:09] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:37:09] [INFO] [PubSub] Reconnected (attempt 1)
+[2026-07-17 13:37:37] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:37:42] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:37:42] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 13:37:42] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 13:37:48] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:37:48] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:37:48] [INFO] [PubSub] Reconnected (attempt 2)
+[2026-07-17 13:37:48] [WARNING] [RPC] cmd_id=rpc-gui-1784266665962 trace=br-442e187c-1784266668389 device not in registry: 
+[2026-07-17 13:38:04] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:38:09] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:38:09] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 13:38:09] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 13:38:18] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:38:18] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-17 13:38:18] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-17 13:38:32] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:38:32] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-17 13:38:32] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-17 13:38:56] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:38:56] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:38:56] [INFO] [PubSub] Reconnected (attempt 4)
+[2026-07-17 13:50:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:50:36] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-17 13:50:36] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:50:37] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:50:37] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-17 13:50:37] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:51:22] [INFO] Shutting down...
+[2026-07-17 13:51:22] [INFO] [PubSub] disconnected
+[2026-07-17 13:51:23] [INFO] MQTT on_disconnect: normal
+[2026-07-17 13:51:23] [INFO] MQTT disconnected
+[2026-07-17 13:51:23] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-17 13:51:23] [INFO] Bridge stopped
+[2026-07-17 13:51:23] [ERROR] Runtime error:
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\downlink\pubsub_handler.py", line 229, in run_forever
+    self._client.run()
+  File "D:\Anaconda\Lib\site-packages\vsoa\client.py", line 903, in run
+    self.__loop()
+  File "D:\Anaconda\Lib\site-packages\vsoa\client.py", line 832, in __loop
+    elist, clist, _ = select.select(rlist, wlist, (), timeout)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 334, in <lambda>
+    signal.signal(signal.SIGINT, lambda s, f: shutdown())
+                                              ^^^^^^^^^^
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 332, in shutdown
+    sys.exit(0)
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\南京翼辉暑期实习\bridge-merged\src\main.py", line 340, in main
+    _pubsub_handler.run_forever()
+  File "D:\南京翼辉暑期实习\bridge-merged\src\downlink\pubsub_handler.py", line 230, in run_forever
+    except vsoa.Error as e:
+           ^^^^^^^^^^
+AttributeError: module 'vsoa' has no attribute 'Error'
+
+[2026-07-17 13:51:23] [INFO] Shutting down...
+[2026-07-17 13:51:23] [INFO] [PubSub] disconnected
+[2026-07-17 13:51:23] [INFO] MQTT disconnected
+[2026-07-17 13:51:23] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-17 13:51:23] [INFO] Bridge stopped
+[2026-07-17 13:51:53] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-17 13:51:53] [INFO] config: config.yaml
+[2026-07-17 13:51:53] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-17 13:51:53] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-17 13:51:53] [INFO] MQTT on_connect: OK
+[2026-07-17 13:51:53] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-17 13:51:53] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-17 13:51:53] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (9 uplink topics)
+[2026-07-17 13:51:53] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-17 13:51:53] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-17 13:51:53] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-17 13:51:53] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-17 13:51:53] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-17 13:51:53] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-17 13:51:53] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-17 13:51:55] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:51:55] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-17 13:51:59] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:51:59] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:51:59] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-17 13:51:59] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-17 13:52:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:52:39] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-17 13:52:39] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:52:40] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:52:40] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-17 13:52:40] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:53:27] [WARNING] [PubSub] cmd_id=gui-1784267597785 trace=br-d3f3db4a-1784267607971 device not in registry: 
+[2026-07-17 13:53:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:53:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:53:41] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:53:41] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:53:48] [WARNING] [PubSub] cmd_id=gui-1784267616676 trace=br-42dd61f3-1784267628949 device not in registry: 
+[2026-07-17 13:54:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:54:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:54:42] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:54:42] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:55:48] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-17 13:55:48] [INFO] config: config.yaml
+[2026-07-17 13:55:48] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-17 13:55:48] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-17 13:55:48] [INFO] MQTT on_connect: OK
+[2026-07-17 13:55:48] [INFO] MQTT connected: 192.168.3.219:1883 (client_id=bridge-v1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-17 13:55:48] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-17 13:55:48] [INFO] [OK] MQTT connected: 192.168.3.219:1883 (9 uplink topics)
+[2026-07-17 13:55:48] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-17 13:55:48] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-17 13:55:48] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-17 13:55:48] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-17 13:55:48] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-17 13:55:48] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-17 13:55:48] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-17 13:55:50] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:55:50] [WARNING] PubSub connect attempt 1/10, retrying...
+[2026-07-17 13:55:53] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 13:55:53] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 13:55:53] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-17 13:55:53] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-17 13:56:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:56:44] [INFO] [REGISTRY] registered device='0000000000000925' type=status source=lora
+[2026-07-17 13:56:44] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:56:45] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:56:45] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-17 13:56:45] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:57:05] [WARNING] [PubSub] cmd_id=gui-1784267815660 trace=br-a6c99a8d-1784267825129 device not in registry: 
+[2026-07-17 13:57:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:57:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:57:46] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:57:46] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:58:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:58:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:58:02] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:58:02] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:58:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:58:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:58:11] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:58:11] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:58:15] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 13:58:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:58:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:58:17] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:58:17] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:58:20] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:58:20] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 13:58:20] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 13:58:28] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:58:28] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-17 13:58:28] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-17 13:58:42] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:58:42] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-17 13:58:42] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-17 13:59:08] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:59:08] [WARNING] [PubSub] Reconnect attempt 4/10 failed
+[2026-07-17 13:59:08] [INFO] [PubSub] Reconnect attempt 5/10 in 48.0s...
+[2026-07-17 13:59:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 13:59:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 13:59:18] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 13:59:18] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 13:59:59] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 13:59:59] [WARNING] [PubSub] Reconnect attempt 5/10 failed
+[2026-07-17 13:59:59] [INFO] [PubSub] Reconnect attempt 6/10 in 96.0s...
+[2026-07-17 14:00:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:00:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:00:20] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:00:20] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:01:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:01:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:01:22] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:01:22] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:01:35] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:01:35] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:01:35] [INFO] [PubSub] Reconnected (attempt 6)
+[2026-07-17 14:02:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:02:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:02:22] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:02:22] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:02:40] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:02:45] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:02:45] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 14:02:45] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 14:02:53] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:02:53] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-17 14:02:53] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-17 14:03:05] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:03:05] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:03:05] [INFO] [PubSub] Reconnected (attempt 3)
+[2026-07-17 14:03:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:03:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:03:23] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:03:23] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:04:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:04:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:04:24] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:04:24] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:05:06] [WARNING] [PubSub] cmd_id=gui-1784268294336 trace=br-cb2e101d-1784268306079 device not in registry: 
+[2026-07-17 14:05:20] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:05:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:05:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:05:25] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:05:25] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 14:05:25] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 14:05:26] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:05:26] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:05:31] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:05:31] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:05:31] [INFO] [PubSub] Reconnected (attempt 2)
+[2026-07-17 14:06:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:06:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:06:27] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:06:27] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:06:46] [WARNING] [PubSub] cmd_id=gui-1784268391556 trace=br-bb2f8359-1784268406826 device not in registry: 
+[2026-07-17 14:07:22] [INFO] [PubSub] cmd_id=gui-1784268423983 trace=br-695ec8e4-1784268442149 device=lora/0000000000000925 action=set -> MQTT OK
+[2026-07-17 14:07:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:07:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:07:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:07:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:08:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:08:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:08:29] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:08:29] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:09:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:09:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:09:30] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:09:30] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:10:16] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:10:21] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:10:21] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 14:10:21] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 14:10:27] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:10:27] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:10:27] [INFO] [PubSub] Reconnected (attempt 2)
+[2026-07-17 14:10:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:10:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:10:29] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:10:29] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:10:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:10:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:10:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:10:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:10:47] [INFO] [PubSub] cmd_id=gui-1784268636578 trace=br-9797df0f-1784268647990 device=lora/0000000000000925 action=set -> MQTT OK
+[2026-07-17 14:10:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:10:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:11:00] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:11:00] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:11:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:11:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:11:08] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:11:08] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:11:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:11:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:11:20] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:11:20] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:11:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:11:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:11:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:11:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:11:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:11:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:11:49] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:11:49] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:12:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:12:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:12:06] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:12:06] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:12:30] [INFO] [PubSub] cmd_id=gui-1784268739259 trace=br-ff2591ca-1784268750536 device=lora/0000000000000925 action=set -> MQTT OK
+[2026-07-17 14:12:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:12:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:12:48] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:12:48] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:13:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:13:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:13:49] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:13:49] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:14:08] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:14:13] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:14:13] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 14:14:13] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 14:14:19] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:14:19] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:14:19] [INFO] [PubSub] Reconnected (attempt 2)
+[2026-07-17 14:14:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:14:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:14:50] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:14:50] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:15:03] [INFO] [PubSub] cmd_id=gui-1784268893106 trace=br-fb969401-1784268903710 device=lora/0000000000000925 action=set -> MQTT OK
+[2026-07-17 14:15:39] [INFO] [RPC] cmd_id=rpc-gui-1784268928444 trace=br-625971ff-1784268939111 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-17 14:15:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:15:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:15:52] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:15:52] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:16:19] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:16:24] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:16:24] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 14:16:24] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 14:16:32] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:16:32] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-17 14:16:32] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-17 14:16:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:16:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:16:39] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:16:39] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:16:46] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:16:46] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-17 14:16:46] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-17 14:17:12] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:17:12] [WARNING] [PubSub] Reconnect attempt 4/10 failed
+[2026-07-17 14:17:12] [INFO] [PubSub] Reconnect attempt 5/10 in 48.0s...
+[2026-07-17 14:17:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:17:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:17:40] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:17:40] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:18:02] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 14:18:02] [WARNING] [PubSub] Reconnect attempt 5/10 failed
+[2026-07-17 14:18:02] [INFO] [PubSub] Reconnect attempt 6/10 in 96.0s...
+[2026-07-17 14:18:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:18:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:18:41] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:18:41] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:19:38] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:19:38] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:19:38] [INFO] [PubSub] Reconnected (attempt 6)
+[2026-07-17 14:19:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:19:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:19:43] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:19:43] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:20:03] [INFO] [PubSub] cmd_id=gui-1784269185310 trace=br-fedea14d-1784269203630 device=lora/0000000000000925 action=set -> MQTT OK
+[2026-07-17 14:20:24] [INFO] [RPC] cmd_id=rpc-gui-1784269210985 trace=br-b20fce08-1784269224475 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-17 14:20:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:20:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:20:44] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:20:44] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:21:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:21:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:21:45] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:21:45] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:22:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:22:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:22:46] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:22:46] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:23:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:23:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:23:48] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:23:48] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:24:23] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 14:24:27] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-17 14:24:27] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-17 14:24:27] [INFO] [PubSub] Reconnected (attempt 1)
+[2026-07-17 14:24:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:24:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:24:49] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:24:49] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:25:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:25:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:25:50] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:25:50] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:25:53] [INFO] [RPC] cmd_id=rpc-gui-1784269544998 trace=br-c4fb4282-1784269553043 device=lora/0000000000000925 action=set -> MQTT OK (attempts=1)
+[2026-07-17 14:26:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:26:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:26:51] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:26:51] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:27:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:27:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:27:52] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:27:52] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:28:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:28:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:28:54] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:28:54] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:29:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:29:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:29:55] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:29:55] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:30:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:30:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:30:56] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:30:56] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:31:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:31:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:31:57] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:31:57] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:32:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:32:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:32:58] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:32:58] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:33:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:33:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:34:00] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:34:00] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:35:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:35:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:35:01] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:35:01] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:36:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:36:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:36:02] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:36:02] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:37:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:37:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:37:03] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:37:03] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:38:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:38:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:38:04] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:38:04] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:39:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:39:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:39:06] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:39:06] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:40:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:40:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:40:07] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:40:07] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:41:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:41:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:41:08] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:41:08] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:42:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:42:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:42:09] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:42:09] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:43:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:43:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:43:11] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:43:11] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:44:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:44:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:44:12] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:44:12] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:45:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:45:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:45:13] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:45:13] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:45:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:41] [INFO] [REGISTRY] registered device='perf-perf-0717-144538-001' type=multi source=lora
+[2026-07-17 14:45:41] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:41] [INFO] [REGISTRY] registered device='perf-perf-0717-144538-002' type=multi source=lora
+[2026-07-17 14:45:41] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:41] [INFO] [REGISTRY] registered device='perf-perf-0717-144538-003' type=multi source=lora
+[2026-07-17 14:45:41] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:41] [INFO] [REGISTRY] registered device='perf-perf-0717-144538-004' type=multi source=lora
+[2026-07-17 14:45:41] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:42] [INFO] [REGISTRY] registered device='perf-perf-0717-144538-005' type=multi source=lora
+[2026-07-17 14:45:42] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-001/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-001 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-002/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-002 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-003/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-003 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-004/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-004 type=multi
+[2026-07-17 14:46:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/perf-perf-0717-144538-005/data
+[2026-07-17 14:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=perf-perf-0717-144538-005 type=multi
+[2026-07-17 14:47:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:47:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:47:15] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:47:15] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:48:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:48:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:48:17] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:48:17] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:49:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:49:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:49:18] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:49:18] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:50:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:50:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:50:19] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:50:19] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:51:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:51:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:51:21] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:51:21] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:52:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:52:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:52:22] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:52:22] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:53:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:53:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:53:23] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:53:23] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:54:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:54:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:54:24] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:54:24] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:55:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:55:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:55:25] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:55:25] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:56:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:56:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:56:27] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:56:27] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:57:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:57:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:57:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:57:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:58:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:58:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:58:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:58:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 14:59:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 14:59:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 14:59:30] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 14:59:30] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:00:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:00:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:00:31] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:00:31] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:01:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:01:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:01:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:01:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:02:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:02:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:02:34] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:02:34] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:03:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:03:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:03:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:03:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:04:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:04:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:04:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:04:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:05:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/lora_env_01/data
+[2026-07-17 15:05:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=0000000000000925 type=status
+[2026-07-17 15:05:38] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-17 15:05:38] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-17 15:06:39] [WARNING] MQTT unexpected disconnect (reason_code=Unspecified error)
+[2026-07-17 15:06:39] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-17 15:06:47] [ERROR] MQTT reconnect failed: timed out
+[2026-07-17 15:12:36] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-17 15:12:42] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:12:42] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-17 15:12:42] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-17 15:12:50] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:12:50] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-17 15:12:50] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-17 15:13:04] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:13:04] [WARNING] [PubSub] Reconnect attempt 3/10 failed
+[2026-07-17 15:13:04] [INFO] [PubSub] Reconnect attempt 4/10 in 24.0s...
+[2026-07-17 15:13:30] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:13:30] [WARNING] [PubSub] Reconnect attempt 4/10 failed
+[2026-07-17 15:13:30] [INFO] [PubSub] Reconnect attempt 5/10 in 48.0s...
+[2026-07-17 15:14:20] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:14:20] [WARNING] [PubSub] Reconnect attempt 5/10 failed
+[2026-07-17 15:14:20] [INFO] [PubSub] Reconnect attempt 6/10 in 96.0s...
+[2026-07-17 15:15:58] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:15:58] [WARNING] [PubSub] Reconnect attempt 6/10 failed
+[2026-07-17 15:15:58] [INFO] [PubSub] Reconnect attempt 7/10 in 192.0s...
+[2026-07-17 15:19:12] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:19:12] [WARNING] [PubSub] Reconnect attempt 7/10 failed
+[2026-07-17 15:19:12] [INFO] [PubSub] Reconnect attempt 8/10 in 384.0s...
+[2026-07-17 15:25:38] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:25:38] [WARNING] [PubSub] Reconnect attempt 8/10 failed
+[2026-07-17 15:25:38] [INFO] [PubSub] Reconnect attempt 9/10 in 768.0s...
+[2026-07-17 15:38:28] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 15:38:28] [WARNING] [PubSub] Reconnect attempt 9/10 failed
+[2026-07-17 15:38:28] [INFO] [PubSub] Reconnect attempt 10/10 in 1536.0s...
+[2026-07-17 16:04:06] [ERROR] [PubSub] connect failed: err=1
+[2026-07-17 16:04:06] [WARNING] [PubSub] Reconnect attempt 10/10 failed
+[2026-07-17 16:04:06] [ERROR] [PubSub] Reconnect failed after max retries, exiting
+[2026-07-17 16:04:06] [INFO] [PubSub] event loop exited
+[2026-07-17 16:04:06] [INFO] Shutting down...
+[2026-07-17 16:04:06] [INFO] [PubSub] disconnected
+[2026-07-17 16:04:07] [INFO] MQTT disconnected
+[2026-07-17 16:04:07] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-17 16:04:07] [INFO] Bridge stopped
+[2026-07-20 10:09:37] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:09:37] [INFO] config: config.yaml
+[2026-07-20 10:09:37] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:09:37] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:09:42] [ERROR] MQTT connect failed: timed out
+[2026-07-20 10:09:42] [ERROR] MQTT connect failed
+[2026-07-20 10:10:49] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:10:49] [INFO] config: config.yaml
+[2026-07-20 10:10:49] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:10:49] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:40:35] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:40:35] [INFO] config: config.yaml
+[2026-07-20 10:40:35] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:40:35] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:40:40] [WARNING] MQTT unexpected disconnect (reason_code=Unspecified error)
+[2026-07-20 10:40:40] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-20 10:40:40] [ERROR] MQTT connection timeout: 192.168.3.219:1883
+[2026-07-20 10:40:40] [ERROR] MQTT connect failed
+[2026-07-20 10:41:29] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:41:29] [INFO] config: config.yaml
+[2026-07-20 10:41:29] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:41:29] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:41:29] [INFO] MQTT on_connect: OK
+[2026-07-20 10:41:29] [INFO] MQTT connected: 127.0.0.1:1883 (client_id=bridge-v1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-20 10:41:29] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-20 10:41:29] [INFO] [OK] MQTT connected: 127.0.0.1:1883 (9 uplink topics)
+[2026-07-20 10:41:29] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-20 10:41:29] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-20 10:41:29] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-20 10:41:29] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-20 10:41:29] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-20 10:41:29] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-20 10:41:29] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-20 10:41:29] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-20 10:41:29] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-20 10:41:29] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-20 10:41:29] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-20 10:49:29] [INFO] [PubSub] Reconnect attempt 1/10 in 3.0s...
+[2026-07-20 10:49:34] [ERROR] [PubSub] connect failed: err=1
+[2026-07-20 10:49:34] [WARNING] [PubSub] Reconnect attempt 1/10 failed
+[2026-07-20 10:49:34] [INFO] [PubSub] Reconnect attempt 2/10 in 6.0s...
+[2026-07-20 10:49:42] [ERROR] [PubSub] connect failed: err=1
+[2026-07-20 10:49:42] [WARNING] [PubSub] Reconnect attempt 2/10 failed
+[2026-07-20 10:49:42] [INFO] [PubSub] Reconnect attempt 3/10 in 12.0s...
+[2026-07-20 10:49:44] [INFO] Shutting down...
+[2026-07-20 10:49:44] [INFO] [PubSub] disconnected
+[2026-07-20 10:49:45] [INFO] MQTT on_disconnect: normal
+[2026-07-20 10:49:45] [INFO] MQTT disconnected
+[2026-07-20 10:49:45] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-20 10:49:45] [INFO] Bridge stopped
+[2026-07-20 10:49:45] [INFO] Shutting down...
+[2026-07-20 10:49:45] [INFO] [PubSub] disconnected
+[2026-07-20 10:49:45] [INFO] MQTT disconnected
+[2026-07-20 10:49:45] [INFO] [RPC] RPC stop requested (server lifecycle external)
+[2026-07-20 10:49:45] [INFO] Bridge stopped
+[2026-07-20 10:52:00] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:52:00] [INFO] config: config.yaml
+[2026-07-20 10:52:00] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:52:00] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:52:05] [WARNING] MQTT unexpected disconnect (reason_code=Unspecified error)
+[2026-07-20 10:52:05] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-20 10:52:05] [ERROR] MQTT connection timeout: 192.168.3.219:1883
+[2026-07-20 10:52:05] [ERROR] MQTT connect failed
+[2026-07-20 10:52:28] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-20 10:52:28] [INFO] config: config.yaml
+[2026-07-20 10:52:28] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-20 10:52:28] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-20 10:52:28] [INFO] MQTT on_connect: OK
+[2026-07-20 10:52:28] [INFO] MQTT connected: 127.0.0.1:1883 (client_id=bridge-v1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-20 10:52:28] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-20 10:52:28] [INFO] [OK] MQTT connected: 127.0.0.1:1883 (9 uplink topics)
+[2026-07-20 10:52:28] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-20 10:52:28] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-20 10:52:28] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-20 10:52:28] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-20 10:52:28] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-20 10:52:28] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-20 10:52:28] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-20 10:52:28] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-20 10:52:28] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-20 10:52:28] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-20 10:52:28] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-20 10:53:01] [INFO] [MQTT] RX topic=s3/eora-s3-400tb-001/data
+[2026-07-20 10:53:01] [INFO] [REGISTRY] registered device='eora-s3-400tb-001' type=status source=mqtt
+[2026-07-20 10:53:01] [INFO] [UPLINK] registered source=mqtt adapter=generic_adapter device=eora-s3-400tb-001 type=status
+[2026-07-20 10:53:47] [INFO] [PubSub] cmd_id=gui-1784515991635 trace=br-83577bf8-1784516027347 device=lora/eora-s3-400tb-001 action=set -> MQTT OK
+[2026-07-20 10:55:06] [INFO] [RPC] cmd_id=rpc-gui-1784516090414 trace=br-4050baaf-1784516106231 device=lora/eora-s3-400tb-001 action=set -> MQTT OK (attempts=1)
