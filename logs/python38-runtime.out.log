@@ -1,0 +1,16 @@
+[2026-07-22 11:37:10] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-22 11:37:10] [INFO] config: config.yaml
+[2026-07-22 11:37:10] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-22 11:37:10] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-22 11:37:10] [INFO] [INFO] MQTT disabled (--no-mqtt)
+[2026-07-22 11:37:10] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-22 11:37:10] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-22 11:37:10] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-22 11:37:10] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-22 11:37:11] [INFO] [SCENE] engine started: 2 rules
+[2026-07-22 11:37:11] [INFO] [SCENE] registered 9 VSOA RPC endpoints
+[2026-07-22 11:37:11] [INFO] [OK] Scene engine: 2 rules from C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\scenes.yaml
+[2026-07-22 11:37:11] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-22 11:37:11] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-22 11:37:11] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-22 11:37:11] [INFO] [INFO] PubSub disabled (--uplink-only)

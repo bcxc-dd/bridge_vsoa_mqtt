@@ -43,6 +43,8 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 DB_PATH = DATA_DIR / "platform.db"
+DB_BACKUP_DIR = DATA_DIR / "backups"
+DB_BACKUP_KEEP = 12
 PROFILES_PATH = DATA_DIR / "connection_profiles.json"
 VSOA_PROFILES_PATH = DATA_DIR / "vsoa_connection_profiles.json"
 
@@ -62,6 +64,29 @@ BRIDGE_CONFIG_PATH = BRIDGE_ROOT / "config.yaml"
 BRIDGE_PYTHON = BRIDGE_ROOT / ".venv" / "Scripts" / "python.exe"
 AUTH_SECRET_PATH = DATA_DIR / "auth_secret.key"
 TOKEN_TTL_SECONDS = 8 * 60 * 60
+
+
+def is_internal_scene_event(event: dict[str, Any]) -> bool:
+    return event.get("channel") == "/scene/trigger" or event.get("device_id") == "trigger"
+
+
+def backup_platform_database(stage: str) -> Path | None:
+    """Create a consistent SQLite snapshot without interrupting live readers."""
+    if not DB_PATH.is_file() or DB_PATH.stat().st_size == 0:
+        return None
+    DB_BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+    destination = DB_BACKUP_DIR / f"platform-{stage}-{timestamp}.db"
+    with sqlite3.connect(DB_PATH) as source, sqlite3.connect(destination) as target:
+        source.backup(target)
+    automatic = sorted(
+        DB_BACKUP_DIR.glob("platform-*.db"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    for stale in automatic[DB_BACKUP_KEEP:]:
+        stale.unlink(missing_ok=True)
+    return destination
 
 
 def _b64(value: bytes) -> str:
@@ -131,7 +156,7 @@ def load_bridge_profile() -> dict[str, Any]:
     pubsub_config = vsoa_config.get("pubsub_client") or {}
     uplink_topics = list(mqtt_config.get("uplink_topics") or [])
     supported_sources = [
-        source for source in ("lora", "zigbee", "generic")
+        source for source in ("lora", "zigbee", "wifi", "generic")
         if any(f"/{source}/" in topic for topic in uplink_topics)
     ]
     return {
@@ -166,7 +191,7 @@ BRIDGE_PROFILE = load_bridge_profile()
 
 UPLINK_TOPICS = list(BRIDGE_PROFILE.get("mqtt", {}).get("uplink_topics") or [])
 DOWNLINK_TOPIC = f"{BRIDGE_PROFILE.get('mqtt', {}).get('downlink_topic_prefix', 'bridge/downlink')}/#"
-VSOA_URLS = ["/device/update", "/bridge/event", "/ctrl/ack"]
+VSOA_URLS = ["/device/update", "/bridge/event", "/ctrl/ack", "/scene/trigger"]
 DEFAULT_TOPICS = [*UPLINK_TOPICS, DOWNLINK_TOPIC]
 
 
@@ -322,6 +347,13 @@ class Database:
                     connection_source TEXT NOT NULL DEFAULT '',
                     updated_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS device_annotations (
+                    device_id TEXT PRIMARY KEY,
+                    display_name TEXT NOT NULL,
+                    note TEXT NOT NULL DEFAULT '',
+                    updated_by TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
                 CREATE TABLE IF NOT EXISTS alerts (
                     id TEXT PRIMARY KEY,
                     device_id TEXT NOT NULL,
@@ -357,6 +389,16 @@ class Database:
                     resource TEXT NOT NULL,
                     detail TEXT NOT NULL,
                     ip_address TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS scene_triggers (
+                    id TEXT PRIMARY KEY,
+                    scene_id TEXT NOT NULL,
+                    scene_name TEXT NOT NULL,
+                    device_id TEXT NOT NULL,
+                    triggered_at TEXT NOT NULL,
+                    conditions_snapshot TEXT NOT NULL,
+                    actions_sent TEXT NOT NULL,
+                    trace_id TEXT
                 );
                 """
             )
@@ -449,12 +491,56 @@ class Database:
             )
         return next(item for item in self.device_profiles() if item["device_id"] == profile["device_id"])
 
+    def threshold_rules(self, device_id: str) -> list[dict[str, Any]]:
+        with self.connect() as db:
+            row = db.execute(
+                "SELECT thresholds FROM device_profiles WHERE device_id = ?",
+                (device_id,),
+            ).fetchone()
+        if not row:
+            return []
+        stored = json.loads(row["thresholds"] or "{}")
+        return stored.get("rules", []) if isinstance(stored, dict) else []
+
+    def save_threshold_rules(
+        self,
+        device: dict[str, Any],
+        rules: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        existing = next(
+            (item for item in self.device_profiles() if item["device_id"] == device["device_id"]),
+            {},
+        )
+        return self.upsert_device_profile({
+            "device_id": device["device_id"],
+            "name": existing.get("name") or device.get("name") or device["device_id"],
+            "project": existing.get("project") or device.get("project") or "generic",
+            "device_type": existing.get("device_type") or device.get("device_type") or "environment_sensor",
+            "capabilities": existing.get("capabilities") or device.get("capabilities") or [],
+            "thresholds": {"rules": rules},
+            "connection_source": existing.get("connection_source") or device.get("connection_source") or "",
+        })
+
+    def device_annotations(self) -> dict[str, dict[str, Any]]:
+        with self.connect() as db:
+            rows = db.execute("SELECT * FROM device_annotations").fetchall()
+        return {row["device_id"]: dict(row) for row in rows}
+
+    def upsert_device_annotation(
+        self, device_id: str, display_name: str, note: str, username: str
+    ) -> dict[str, Any]:
+        with self.lock, self.connect() as db:
+            db.execute(
+                "INSERT OR REPLACE INTO device_annotations VALUES (?, ?, ?, ?, ?)",
+                (device_id, display_name.strip(), note.strip(), username, now_iso()),
+            )
+        return self.device_annotations()[device_id]
+
     def create_alert(self, event: dict[str, Any], alert_type: str, severity: str, message: str, value: Any) -> None:
-        cutoff = datetime.fromtimestamp(time.time() - 300).astimezone().isoformat()
         with self.lock, self.connect() as db:
             duplicate = db.execute(
-                "SELECT 1 FROM alerts WHERE device_id = ? AND alert_type = ? AND status = 'active' AND created_at >= ?",
-                (event["device_id"], alert_type, cutoff),
+                "SELECT 1 FROM alerts WHERE device_id = ? AND alert_type = ? AND status = 'active'",
+                (event["device_id"], alert_type),
             ).fetchone()
             if duplicate:
                 return
@@ -498,17 +584,39 @@ class Database:
             rows = db.execute("SELECT * FROM commands ORDER BY requested_at DESC LIMIT ?", (limit,)).fetchall()
         return [{**dict(row), "parameters": json.loads(row["parameters"]), "result": json.loads(row["result"]) if row["result"] else None} for row in rows]
 
-    def recent_events(self, limit: int = 100) -> list[dict[str, Any]]:
+    def insert_scene_trigger(self, payload: dict[str, Any]) -> None:
+        with self.lock, self.connect() as db:
+            db.execute(
+                "INSERT OR REPLACE INTO scene_triggers VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    uuid.uuid4().hex, str(payload.get("scene_id", "")),
+                    str(payload.get("scene_name", payload.get("scene_id", ""))),
+                    str(payload.get("device_id", "unknown")),
+                    str(payload.get("triggered_at") or now_iso()),
+                    json_text(payload.get("conditions_snapshot") or {}),
+                    json_text(payload.get("actions_sent") or []),
+                    payload.get("trace_id"),
+                ),
+            )
+
+    def scene_triggers(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self.connect() as db:
+            rows = db.execute("SELECT * FROM scene_triggers ORDER BY triggered_at DESC LIMIT ?", (limit,)).fetchall()
+        return [{**dict(row), "conditions_snapshot": json.loads(row["conditions_snapshot"]), "actions_sent": json.loads(row["actions_sent"])} for row in rows]
+
+    def recent_events(self, limit: int = 100, offset: int = 0) -> list[dict[str, Any]]:
         with self.connect() as db:
             rows = db.execute(
-                "SELECT * FROM events ORDER BY timestamp DESC LIMIT ?", (limit,)
+                "SELECT * FROM events ORDER BY timestamp DESC LIMIT ? OFFSET ?", (limit, offset)
             ).fetchall()
         return [
-            {
+            event
+            for row in rows
+            for event in [{
                 **dict(row),
                 "payload": json.loads(row["payload"]),
-            }
-            for row in rows
+            }]
+            if not is_internal_scene_event(event)
         ]
 
     def temperature_series(
@@ -670,9 +778,12 @@ class Database:
     def device_summaries(self) -> list[dict[str, Any]]:
         events = self.recent_events(1000)
         profiles = {item["device_id"]: item for item in self.device_profiles()}
+        annotations = self.device_annotations()
         grouped: dict[str, dict[str, Any]] = {}
         now = time.time()
         for event in events:
+            if is_internal_scene_event(event):
+                continue
             device_id = event["device_id"] or "unknown"
             group_key = f"{event['project']}:{device_id}"
             item = grouped.setdefault(
@@ -686,11 +797,15 @@ class Database:
                     "channels": set(),
                     "latest_payload": event["payload"],
                     "connection_source": event["source"],
+                    "available_metrics": {},
                 },
             )
             item["messages"] += 1
             item["errors"] += event["status"] == "error"
             item["channels"].add(event["channel"])
+            if not is_lora_camera_packet(event["payload"]):
+                for metric in discover_alert_metrics(event["payload"]):
+                    item["available_metrics"].setdefault(metric["field"], metric)
         result = []
         for item in grouped.values():
             try:
@@ -699,17 +814,20 @@ class Database:
                 age = 999999
             item["online"] = age <= 120
             item["channels"] = sorted(item["channels"])
+            item["available_metrics"] = list(item["available_metrics"].values())
             profile = profiles.get(item["device_id"], {})
+            annotation = annotations.get(item["device_id"], {})
             payload = item["latest_payload"] if isinstance(item["latest_payload"], dict) else {}
             inferred = []
             for key, value in payload.items():
                 if isinstance(value, (int, float, bool)) and key not in {"timestamp", "report_count"}:
                     inferred.append({"id": key, "type": "switch" if isinstance(value, bool) else "telemetry", "label": key})
             item.update({
-                "name": profile.get("name") or payload.get("name") or payload.get("deviceName") or item["device_id"],
+                "name": annotation.get("display_name") or profile.get("name") or payload.get("name") or payload.get("deviceName") or item["device_id"],
+                "note": annotation.get("note", ""),
                 "device_type": profile.get("device_type") or payload.get("type") or "environment_sensor",
                 "capabilities": profile.get("capabilities") or inferred,
-                "thresholds": profile.get("thresholds") or {"temperature_high": 35, "battery_low": 20},
+                "thresholds": profile.get("thresholds") or {"rules": []},
                 "connection_source": profile.get("connection_source") or item["connection_source"],
                 "simulated": device_id_is_simulated(item["device_id"]),
             })
@@ -717,8 +835,274 @@ class Database:
         known = {item["device_id"] for item in result}
         for profile in profiles.values():
             if profile["device_id"] not in known:
-                result.append({**profile, "last_seen": "", "messages": 0, "errors": 0, "channels": [], "latest_payload": {}, "online": False, "simulated": False})
+                annotation = annotations.get(profile["device_id"], {})
+                result.append({**profile, "name": annotation.get("display_name") or profile["name"], "note": annotation.get("note", ""), "last_seen": "", "messages": 0, "errors": 0, "channels": [], "latest_payload": {}, "available_metrics": [], "online": False, "simulated": False})
         return sorted(result, key=lambda item: item["last_seen"], reverse=True)
+
+    def environment_dashboard(self, project: str, limit_per_device: int = 500) -> dict[str, Any]:
+        metric_catalog = {
+            "temperature": {"label": "温度", "unit": "°C", "data_type": "number", "aliases": ("temperature", "temperature_c", "temp", "temp_c", "air_temperature", "ambient_temperature")},
+            "humidity": {"label": "空气湿度", "unit": "%", "data_type": "number", "aliases": ("humidity", "humidity_percent", "air_humidity", "relative_humidity")},
+            "soil_moisture": {"label": "土壤湿度", "unit": "%", "data_type": "number", "aliases": ("soil_moisture", "soilMoisture", "soil_humidity", "soilHumidity", "moisture", "soil")},
+            "rainfall": {"label": "降水水平", "unit": "mm", "data_type": "number", "aliases": ("rainfall", "rainfall_mm", "rain_level", "rainLevel", "precipitation", "precipitation_level", "rain")},
+            "pressure": {"label": "气压", "unit": "hPa", "data_type": "number", "aliases": ("pressure", "air_pressure", "barometric_pressure")},
+            "illuminance": {"label": "光照", "unit": "lux", "data_type": "number", "aliases": ("illuminance", "illumination", "light_level", "light", "lux")},
+            "co2": {"label": "二氧化碳", "unit": "ppm", "data_type": "number", "aliases": ("co2", "co2_ppm", "carbon_dioxide")},
+            "pm2_5": {"label": "PM2.5", "unit": "μg/m³", "data_type": "number", "aliases": ("pm2_5", "pm25", "pm2.5")},
+            "pm10": {"label": "PM10", "unit": "μg/m³", "data_type": "number", "aliases": ("pm10",)},
+            "voc": {"label": "VOC", "unit": "ppb", "data_type": "number", "aliases": ("voc", "tvoc")},
+            "wind_speed": {"label": "风速", "unit": "m/s", "data_type": "number", "aliases": ("wind_speed", "windspeed")},
+            "noise": {"label": "环境噪声", "unit": "dB", "data_type": "number", "aliases": ("noise", "noise_level", "sound_level")},
+            "uv_index": {"label": "紫外线指数", "unit": "", "data_type": "number", "aliases": ("uv_index", "uv", "ultraviolet")},
+            "water_level": {"label": "水位", "unit": "cm", "data_type": "number", "aliases": ("water_level", "water_depth")},
+            "voltage": {"label": "电压", "unit": "V", "data_type": "number", "aliases": ("voltage", "voltage_v", "volt", "battery_voltage", "supply_voltage")},
+            "smoke": {"label": "烟雾", "unit": "%", "data_type": "number", "aliases": ("smoke", "smoke_level", "smoke_relative_percent", "smoke_alarm", "gas")},
+            "presence": {"label": "人体红外", "unit": "", "data_type": "boolean", "aliases": ("presence", "human_presence", "motion_detected", "pir", "motion", "infrared")},
+        }
+        aliases = {field: definition["aliases"] for field, definition in metric_catalog.items()}
+        image_keys = ("image_url", "image", "image_base64", "image_b64", "photo", "picture")
+
+        def containers(payload: dict[str, Any]) -> list[dict[str, Any]]:
+            values = [payload]
+            seen = {id(payload)}
+            for current in values:
+                for child in current.values():
+                    children = [child] if isinstance(child, dict) else child if isinstance(child, list) else []
+                    for nested in children:
+                        if isinstance(nested, dict) and id(nested) not in seen:
+                            seen.add(id(nested))
+                            values.append(nested)
+            return values
+
+        def find_value(payload: dict[str, Any], names: tuple[str, ...]) -> Any:
+            for container in containers(payload):
+                for name in names:
+                    value = container.get(name)
+                    if isinstance(value, (int, float, bool)):
+                        return value
+            return None
+
+        def is_camera_transport(payload: dict[str, Any]) -> bool:
+            if is_lora_camera_packet(payload):
+                return True
+            for container in containers(payload):
+                event_type = str(container.get("event", "")).lower()
+                payload_type = str(container.get("type", "")).lower()
+                transport = str(container.get("camera_transport", "")).lower()
+                if event_type == "camera_reassembly" or payload_type in {"camera", "camera_frame"}:
+                    return True
+                if transport == "lorawan_hcv3":
+                    return True
+                encoded = container.get("data")
+                if not isinstance(encoded, str) or not encoded:
+                    continue
+                try:
+                    header = base64.b64decode(encoded, validate=True)[:3]
+                except (ValueError, TypeError):
+                    continue
+                if header[:2] in {b"HC", b"HP"}:
+                    return True
+            return False
+
+        def decode_lora_payload_metrics(payload: dict[str, Any], device_id: str) -> dict[str, Any]:
+            device_name = str(payload.get("deviceName") or payload.get("name") or device_id)
+            dev_eui = str(payload.get("devEUI") or payload.get("devEui") or "")
+            if "ebyte test device 470" not in device_name.lower() and dev_eui != "0000000000000925":
+                return {}
+            encoded = payload.get("data")
+            if not isinstance(encoded, str) or not encoded:
+                return {}
+            try:
+                raw = base64.b64decode(encoded, validate=True)
+            except (ValueError, TypeError):
+                return {}
+            if len(raw) != 37 or raw[0] != 2:
+                return {}
+            return {
+                "temperature": round(int.from_bytes(raw[21:23], "big", signed=True) / 10, 1),
+                "humidity": round(int.from_bytes(raw[23:25], "big") / 10, 1),
+                "soil_moisture": round(int.from_bytes(raw[25:27], "big") / 10, 1),
+                "rainfall": round(int.from_bytes(raw[27:29], "big") / 10, 1),
+                "signal": int.from_bytes(raw[36:37], "big", signed=True),
+                "motor_running": bool(raw[1] & 0x02),
+                "led_on": bool(raw[1] & 0x04),
+            }
+
+        profiles = {item["device_id"]: item for item in self.device_profiles()}
+        annotations = self.device_annotations()
+        with self.connect() as db:
+            if project == "wifi":
+                rows = db.execute(
+                    """
+                    SELECT * FROM (
+                        SELECT * FROM events
+                        WHERE project = 'wifi'
+                           OR (project = 'generic' AND channel LIKE 'bridge/uplink/%/camera/%')
+                        ORDER BY timestamp DESC LIMIT 20000
+                    ) ORDER BY timestamp ASC
+                    """
+                ).fetchall()
+            elif project in {"lora", "zigbee"}:
+                rows = db.execute(
+                    """
+                    SELECT * FROM (
+                        SELECT * FROM events
+                        WHERE project = ? OR channel LIKE ?
+                        ORDER BY timestamp DESC LIMIT 20000
+                    ) ORDER BY timestamp ASC
+                    """,
+                    (project, f"bridge/uplink/{project}/%"),
+                ).fetchall()
+            else:
+                rows = db.execute(
+                    """
+                    SELECT * FROM (
+                        SELECT * FROM events WHERE project = ?
+                        ORDER BY timestamp DESC LIMIT 20000
+                    ) ORDER BY timestamp ASC
+                    """,
+                    (project,),
+                ).fetchall()
+
+        grouped: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            event = dict(row)
+            payload = json.loads(event["payload"])
+            device_id = event["device_id"] or "unknown"
+            if device_id == "unknown" or device_id_is_simulated(device_id):
+                continue
+            item = grouped.setdefault(device_id, {
+                "device_id": device_id,
+                "points": [], "frames": [], "rssi": [], "snr": [], "sequences": [],
+                "packets": 0, "last_seen": event["timestamp"], "latest_image": "",
+                "latest_frame": {}, "camera_seen": False,
+            })
+            item["last_seen"] = event["timestamp"]
+            camera_transport = is_camera_transport(payload)
+            item["camera_seen"] = item["camera_seen"] or camera_transport
+            if not camera_transport:
+                point = {"timestamp": event["timestamp"]}
+                for field, names in aliases.items():
+                    value = find_value(payload, names)
+                    if value is not None:
+                        point[field] = value
+                if project == "lora":
+                    point.update(decode_lora_payload_metrics(payload, device_id))
+                if len(point) > 1:
+                    item["points"].append(point)
+
+            rx_info = payload.get("rxInfo")
+            rx = rx_info[0] if isinstance(rx_info, list) and rx_info and isinstance(rx_info[0], dict) else {}
+            rssi = find_value(payload, ("rssi", "rssi_dbm", "signal"))
+            snr = find_value(payload, ("snr",))
+            rssi = rx.get("rssi", rssi)
+            snr = rx.get("snr", snr)
+            if isinstance(rssi, (int, float)):
+                item["rssi"].append(rssi)
+            if isinstance(snr, (int, float)):
+                item["snr"].append(snr)
+            sequence = payload.get("fCnt", payload.get("fcnt", payload.get("sequence", payload.get("seq"))))
+            if event["source"] == "mqtt":
+                item["packets"] += 1
+                if isinstance(sequence, int):
+                    item["sequences"].append(sequence)
+
+            for container in containers(payload):
+                for key in image_keys:
+                    value = container.get(key)
+                    if isinstance(value, str) and value:
+                        if value.startswith(("data:image/", "http://", "https://", "/api/")):
+                            item["latest_image"] = value
+                        elif key in ("image_base64", "image_b64"):
+                            image_format = str(container.get("format", "jpeg")).lower()
+                            mime = container.get("image_mime") or ("image/png" if image_format == "png" else "image/jpeg")
+                            item["latest_image"] = f"data:{mime};base64,{value}"
+                        if item["latest_image"]:
+                            item["latest_frame"] = {
+                                "format": container.get("format") or container.get("image_mime") or "unknown",
+                                "width": container.get("width"),
+                                "height": container.get("height"),
+                                "bytes": container.get("bytes"),
+                                "fps": container.get("fps"),
+                                "hub_ip": container.get("hub_ip"),
+                                "topic": container.get("topic") or event["channel"],
+                            }
+                        break
+
+        now = time.time()
+        devices = []
+        links = []
+        for device_id, item in grouped.items():
+            profile = profiles.get(device_id, {})
+            annotation = annotations.get(device_id, {})
+            # A HCv3 camera payload was historically decoded by the legacy
+            # sensor adapter. Never expose those binary-derived values as
+            # environmental telemetry, including rows saved before detection.
+            points = [] if item["camera_seen"] else item["points"][-limit_per_device:]
+            latest = {}
+            for point in points:
+                latest.update({key: value for key, value in point.items() if key != "timestamp"})
+            sequences = item["sequences"]
+            missing = 0
+            comparable = 0
+            for previous, current in zip(sequences, sequences[1:]):
+                if current > previous:
+                    missing += max(0, current - previous - 1)
+                    comparable += 1
+            loss_rate = None
+            if comparable:
+                loss_rate = round(missing * 100 / max(1, len(sequences) + missing), 2)
+            try:
+                online = now - datetime.fromisoformat(item["last_seen"]).timestamp() <= 120
+            except ValueError:
+                online = False
+            device_type = "camera" if item["camera_seen"] or item["latest_image"] else profile.get("device_type") or "environment_sensor"
+            devices.append({
+                "device_id": device_id,
+                "name": annotation.get("display_name") or profile.get("name") or ("EoRa Hub WiFi Camera" if project == "wifi" and item["latest_image"] else device_id),
+                "note": annotation.get("note", ""),
+                "project": project,
+                "device_type": device_type,
+                "capabilities": profile.get("capabilities") or [],
+                "online": online,
+                "last_seen": item["last_seen"],
+                "latest": latest,
+                "points": points,
+                "metrics": [
+                    {"field": field, **{key: value for key, value in definition.items() if key != "aliases"}}
+                    for field, definition in metric_catalog.items()
+                    if any(field in point for point in points)
+                ],
+                "latest_image": item["latest_image"],
+                "latest_frame": item["latest_frame"],
+            })
+            links.append({
+                "device_id": device_id,
+                "name": annotation.get("display_name") or profile.get("name") or device_id,
+                "online": online,
+                "last_seen": item["last_seen"],
+                "packets": item["packets"],
+                "rssi": item["rssi"][-1] if item["rssi"] else None,
+                "avg_rssi": round(sum(item["rssi"]) / len(item["rssi"]), 1) if item["rssi"] else None,
+                "snr": item["snr"][-1] if item["snr"] else None,
+                "avg_snr": round(sum(item["snr"]) / len(item["snr"]), 1) if item["snr"] else None,
+                "missing_packets": missing if comparable else None,
+                "loss_rate": loss_rate,
+            })
+        return {
+            "project": project,
+            "devices": sorted(devices, key=lambda value: value["last_seen"], reverse=True),
+            "links": sorted(links, key=lambda value: value["last_seen"], reverse=True),
+        }
+
+    def lora_dashboard(self, limit_per_device: int = 500) -> dict[str, Any]:
+        return self.environment_dashboard("lora", limit_per_device)
+
+    def zigbee_dashboard(self, limit_per_device: int = 500) -> dict[str, Any]:
+        return self.environment_dashboard("zigbee", limit_per_device)
+
+    def wifi_dashboard(self, limit_per_device: int = 500) -> dict[str, Any]:
+        return self.environment_dashboard("wifi", limit_per_device)
 
     def transformation_pairs(self, limit: int = 30) -> list[dict[str, Any]]:
         events = list(reversed(self.recent_events(400)))
@@ -828,13 +1212,19 @@ class SocketHub:
 
 
 hub = SocketHub()
+metrics_broadcast_at = 0.0
 
 
 def infer_project(channel: str, payload: dict[str, Any]) -> str:
-    if channel.startswith("application/") or channel == "s3/eora-s3-400tb-001/data":
+    normalized_channel = channel.lower().replace("-", "_")
+    if channel == "s3/eora-s3-400tb-001/data" or normalized_channel == "bridge/uplink/generic/eora_s3_400tb_001/data":
+        return "wifi"
+    if channel.startswith("application/"):
         return "lora"
     text = f"{channel} {payload.get('source', '')} {payload.get('type', '')}".lower()
     text += f" {payload.get('protocol', '')}".lower()
+    if payload.get("type") == "camera_frame" or "/camera/" in channel.lower() or "wifi" in text:
+        return "wifi"
     if "zigbee" in text:
         return "zigbee"
     if "lora" in text:
@@ -842,7 +1232,154 @@ def infer_project(channel: str, payload: dict[str, Any]) -> str:
     return "generic"
 
 
+def is_lora_camera_packet(payload: dict[str, Any]) -> bool:
+    """Identify HC/HP camera traffic before telemetry and alert processing."""
+    candidates = [payload]
+    raw = payload.get("raw")
+    if isinstance(raw, dict):
+        candidates.append(raw)
+    for candidate in candidates:
+        if str(candidate.get("camera_transport", "")).lower() == "lorawan_hcv3":
+            return True
+        if str(candidate.get("event", "")).lower() == "camera_reassembly":
+            return True
+        encoded = candidate.get("data")
+        if not isinstance(encoded, str) or not encoded:
+            continue
+        try:
+            magic = base64.b64decode(encoded, validate=True)[:2]
+        except Exception:
+            continue
+        if magic in {b"HC", b"HP"}:
+            return True
+    return False
+
+
+ALERT_METRICS = {
+    "temperature": ("温度", "°C", ("temperature", "temperature_c", "temp", "temp_c", "air_temperature")),
+    "humidity": ("空气湿度", "%", ("humidity", "humidity_percent", "air_humidity", "relative_humidity")),
+    "soil_moisture": ("土壤湿度", "%", ("soil_moisture", "soilHumidity", "soil_humidity", "moisture")),
+    "rainfall": ("降水水平", "mm", ("rainfall", "rainfall_mm", "rain_level", "precipitation")),
+    "voltage": ("电压", "V", ("voltage", "voltage_v", "battery_voltage", "supply_voltage")),
+    "battery": ("电量", "%", ("battery", "battery_percent", "battery_level")),
+    "smoke": ("烟雾", "%", ("smoke", "smoke_level", "smoke_relative_percent", "smoke_alarm")),
+    "presence": ("人体红外", "", ("presence", "human_presence", "motion_detected", "motion", "infrared")),
+    "illuminance": ("光照", "lux", ("illuminance", "illumination", "light_level", "lux")),
+    "pressure": ("气压", "hPa", ("pressure", "air_pressure", "barometric_pressure")),
+    "co2": ("二氧化碳", "ppm", ("co2", "co2_ppm", "carbon_dioxide")),
+    "pm2_5": ("PM2.5", "μg/m³", ("pm2_5", "pm25", "pm2.5")),
+    "pm10": ("PM10", "μg/m³", ("pm10",)),
+    "voc": ("VOC", "ppb", ("voc", "tvoc")),
+    "noise": ("环境噪声", "dB", ("noise", "noise_level", "sound_level")),
+    "water_level": ("水位", "cm", ("water_level", "water_depth")),
+    "signal": ("信号强度", "dBm", ("signal", "rssi", "rssi_dbm")),
+    "snr": ("信噪比", "dB", ("snr", "lora_snr")),
+}
+
+ALERT_OPERATORS = {
+    "gt": ("大于", lambda actual, threshold: actual > threshold),
+    "gte": ("大于等于", lambda actual, threshold: actual >= threshold),
+    "lt": ("小于", lambda actual, threshold: actual < threshold),
+    "lte": ("小于等于", lambda actual, threshold: actual <= threshold),
+    "eq": ("等于", lambda actual, threshold: actual == threshold),
+    "neq": ("不等于", lambda actual, threshold: actual != threshold),
+}
+
+
+def payload_metric(payload: dict[str, Any], field: str) -> Any:
+    aliases = ALERT_METRICS.get(field, (field, "", (field,)))[2]
+    containers = [payload]
+    seen = {id(payload)}
+    for container in containers:
+        for name in aliases:
+            value = container.get(name)
+            if isinstance(value, (int, float, bool)):
+                return value
+        for child in container.values():
+            children = [child] if isinstance(child, dict) else child if isinstance(child, list) else []
+            for nested in children:
+                if isinstance(nested, dict) and id(nested) not in seen:
+                    seen.add(id(nested))
+                    containers.append(nested)
+    return None
+
+
+NON_BUSINESS_METRIC_FIELDS = {
+    "timestamp", "time", "report_count", "seq", "sequence", "fcnt", "fport",
+    "dr", "length", "binary_length", "chunk_index", "chunk_count", "chunk_len",
+    "repeat_index", "repeat_count", "image_seq", "image_len", "bytes", "flags",
+    "status_code", "command_id", "cluster_id", "manufacturer_code", "endpoint",
+    "send_time_ms", "lorawan_retry_count", "uplinkid", "frequency", "bandwidth",
+    "spreadingfactor", "adc_raw", "voltage_mv", "adr", "confirmed", "joined",
+    "application_retry", "checksum_valid", "valid", "ok", "direction",
+    "address_mode", "registered_at", "created_at", "updated_at", "last_seen",
+    "channel", "port", "retry_count", "message_count", "received_count",
+    "missing_count", "success_count", "failure_count", "report_interval",
+}
+ALL_ALERT_ALIASES = {
+    alias.lower()
+    for _, _, aliases in ALERT_METRICS.values()
+    for alias in aliases
+}
+
+
+def discover_alert_metrics(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    discovered: dict[str, dict[str, Any]] = {}
+    for field, (label, unit, _) in ALERT_METRICS.items():
+        value = payload_metric(payload, field)
+        if value is not None:
+            discovered[field] = {
+                "field": field, "label": label, "unit": unit, "value": value,
+                "data_type": "boolean" if isinstance(value, bool) else "number",
+            }
+    queue = [payload]
+    seen = {id(payload)}
+    while queue:
+        current = queue.pop(0)
+        for key, value in current.items():
+            normalized = str(key).lower()
+            if (
+                isinstance(value, (int, float, bool))
+                and normalized
+                and normalized[0].isalpha()
+                and normalized not in NON_BUSINESS_METRIC_FIELDS
+                and normalized not in discovered
+                and normalized not in ALL_ALERT_ALIASES
+                and normalized.replace("_", "").isalnum()
+            ):
+                discovered[normalized] = {
+                    "field": normalized,
+                    "label": str(key).replace("_", " "),
+                    "unit": "",
+                    "value": value,
+                    "data_type": "boolean" if isinstance(value, bool) else "number",
+                }
+            children = [value] if isinstance(value, dict) else value if isinstance(value, list) else []
+            for child in children:
+                if isinstance(child, dict) and id(child) not in seen:
+                    seen.add(id(child))
+                    queue.append(child)
+    return list(discovered.values())
+
+
+def threshold_matches(actual: Any, operator: str, threshold: Any) -> bool:
+    if operator not in ALERT_OPERATORS or actual is None:
+        return False
+    try:
+        if isinstance(actual, bool) or isinstance(threshold, bool):
+            if operator not in {"eq", "neq"}:
+                return False
+            expected = threshold if isinstance(threshold, bool) else str(threshold).lower() == "true"
+            return ALERT_OPERATORS[operator][1](bool(actual), expected)
+        return ALERT_OPERATORS[operator][1](float(actual), float(threshold))
+    except (TypeError, ValueError):
+        return False
+
+
 def infer_device(channel: str, payload: dict[str, Any]) -> str:
+    normalized_channel = channel.lower().replace("-", "_")
+    if channel == "s3/eora-s3-400tb-001/data" or normalized_channel == "bridge/uplink/generic/eora_s3_400tb_001/data":
+        return "eora_s3_400tb_001"
     for key in ("device_id", "deviceId", "deviceName", "devEUI", "friendly_name", "ieeeAddr"):
         value = payload.get(key)
         if value:
@@ -869,6 +1406,7 @@ async def record_event(
     status: str = "ok",
     latency_ms: float | None = None,
 ) -> dict[str, Any]:
+    global metrics_broadcast_at
     event = {
         "id": uuid.uuid4().hex,
         "timestamp": now_iso(),
@@ -882,21 +1420,53 @@ async def record_event(
         "latency_ms": latency_ms,
         "status": status,
     }
-    db.insert_event(event)
+    await asyncio.to_thread(db.insert_event, event)
     if channel == "/ctrl/ack" and event.get("trace_id"):
-        db.acknowledge_command(event["trace_id"], payload)
+        await asyncio.to_thread(db.acknowledge_command, event["trace_id"], payload)
+    if channel == "/scene/trigger" and payload.get("event") == "scene_triggered":
+        await asyncio.to_thread(db.insert_scene_trigger, payload)
+        for action in payload.get("actions_sent", []):
+            if action.get("action") == "capture":
+                try:
+                    await asyncio.to_thread(
+                        save_latest_camera_image,
+                        str(action.get("device_id", "")),
+                        str((action.get("params") or {}).get("save_directory", "")),
+                    )
+                except Exception as exc:
+                    db.create_alert(event, "camera_save_failed", "warning", f"场景图像保存失败: {exc}", str(exc))
     data = payload.get("data") if isinstance(payload.get("data"), dict) else payload
-    temperature = data.get("temperature") if isinstance(data, dict) else None
-    battery = data.get("battery") if isinstance(data, dict) else None
-    smoke = data.get("smoke") if isinstance(data, dict) else None
-    if isinstance(temperature, (int, float)) and not isinstance(temperature, bool) and temperature > 35:
-        db.create_alert(event, "temperature_high", "warning", f"温度达到 {temperature} °C，超过默认阈值", temperature)
-    if isinstance(battery, (int, float)) and not isinstance(battery, bool) and battery < 20:
-        db.create_alert(event, "battery_low", "warning", f"设备电量仅剩 {battery}%", battery)
-    if smoke is True or (isinstance(smoke, (int, float)) and smoke > 0):
-        db.create_alert(event, "smoke", "critical", "检测到烟雾告警", smoke)
+    camera_packet = is_lora_camera_packet(payload)
+    if not camera_packet and isinstance(data, dict):
+        rules = await asyncio.to_thread(db.threshold_rules, event["device_id"])
+        for rule in rules:
+            if not rule.get("enabled", True):
+                continue
+            field = str(rule.get("field", ""))
+            operator = str(rule.get("operator", ""))
+            actual = payload_metric(data, field)
+            threshold = rule.get("value")
+            if not threshold_matches(actual, operator, threshold):
+                continue
+            label, unit, _ = ALERT_METRICS.get(field, (field, "", (field,)))
+            operator_label = ALERT_OPERATORS[operator][0]
+            value_text = str(actual).lower() if isinstance(actual, bool) else f"{actual:g}"
+            threshold_text = str(threshold).lower() if isinstance(threshold, bool) else f"{threshold:g}"
+            message = f"{label}当前为 {value_text}{unit}，达到告警条件（{operator_label} {threshold_text}{unit}）"
+            await asyncio.to_thread(
+                db.create_alert,
+                event,
+                f"threshold:{field}:{operator}",
+                rule.get("severity", "warning"),
+                message,
+                {"field": field, "actual": actual, "operator": operator, "threshold": threshold, "unit": unit},
+            )
     await hub.broadcast({"type": "event", "data": event})
-    await hub.broadcast({"type": "metrics", "data": db.metrics()})
+    now = time.monotonic()
+    if now - metrics_broadcast_at >= 2.0:
+        metrics_broadcast_at = now
+        metrics = await asyncio.to_thread(db.metrics)
+        await hub.broadcast({"type": "metrics", "data": metrics})
     return event
 
 
@@ -1091,12 +1661,25 @@ class VsoaService:
         self.health: dict[str, Any] = {}
         self.health_error = ""
         self._fetch_lock = threading.Lock()
+        self._stop_reconnect = threading.Event()
 
     def connect(self, url: str, loop: asyncio.AbstractEventLoop) -> None:
         if vsoa is None:
             raise RuntimeError("vsoa SDK is not installed")
         self.disconnect()
         self.url, self.loop, self.error = url, loop, ""
+        self._stop_reconnect = threading.Event()
+        client = self._open_client(url)
+        self.client, self.connected = client, True
+        self.thread = threading.Thread(
+            target=self._run_with_reconnect,
+            args=(client, url, self._stop_reconnect),
+            daemon=True,
+            name="platform-vsoa",
+        )
+        self.thread.start()
+
+    def _open_client(self, url: str):
         client = vsoa.Client()
 
         def on_message(cli, message_url, payload, quick):
@@ -1108,16 +1691,58 @@ class VsoaService:
                     record_event("vsoa", "result", url_text, data), self.loop
                 )
 
+        def on_connect(cli, connected, server_info):
+            del server_info
+            if self.client is cli:
+                self.connected = bool(connected)
+                if not connected:
+                    self.health = {}
+                    self.health_error = "VSOA connection lost"
+
         client.onmessage = on_message
+        client.onconnect = on_connect
         result = client.connect(url)
         if result != 0:
             self.error = f"connect failed: {result}"
             raise RuntimeError(self.error)
         for item in VSOA_URLS:
             client.subscribe(item)
-        self.client, self.connected = client, True
-        self.thread = threading.Thread(target=client.run, daemon=True, name="platform-vsoa")
-        self.thread.start()
+        return client
+
+    def _run_with_reconnect(
+        self,
+        client,
+        url: str,
+        stop_event: threading.Event,
+    ) -> None:
+        current = client
+        while not stop_event.is_set():
+            try:
+                current.run()
+            except Exception as exc:
+                if not stop_event.is_set():
+                    self.error = f"VSOA receive loop stopped: {exc}"
+            if stop_event.is_set():
+                return
+            if self.client is current:
+                self.connected = False
+                self.health = {}
+                self.health_error = "VSOA disconnected; reconnecting"
+            if stop_event.wait(2.0):
+                return
+            try:
+                current = self._open_client(url)
+                if stop_event.is_set():
+                    current.close()
+                    return
+                self.client = current
+                self.connected = True
+                self.error = ""
+                self.health_error = ""
+            except Exception as exc:
+                self.error = f"VSOA reconnect failed: {exc}"
+                if stop_event.wait(2.0):
+                    return
 
     def probe_health(self) -> dict[str, Any]:
         if not self.client or not self.connected:
@@ -1150,7 +1775,37 @@ class VsoaService:
         del header, status
         return dict(reply.param) if reply and getattr(reply, "param", None) else {}
 
+    def scene_call(self, operation: str, payload: dict[str, Any] | None = None) -> Any:
+        if not self.connected or not self.url:
+            raise RuntimeError("请先连接本机协议桥接 VSOA 服务（通常为 vsoa://127.0.0.1:3001）")
+        # Scene RPC is isolated from the long-running subscription client. A busy
+        # telemetry stream must not block scene list/edit requests in the UI.
+        client = vsoa.Client()
+        result = client.connect(self.url)
+        if result != 0:
+            raise RuntimeError(f"场景服务连接失败: {result}")
+        runner = threading.Thread(target=client.run, daemon=True, name=f"scene-rpc-{operation}")
+        runner.start()
+        time.sleep(0.05)
+        try:
+            header, reply, status = client.fetch(
+                f"/scene/{operation}", payload=vsoa.Payload(param=payload or {}), timeout=3.0,
+            )
+        finally:
+            try:
+                client.close()
+            except Exception:
+                pass
+        del header
+        if status != 0:
+            raise RuntimeError(f"场景服务调用超时或失败: {status}")
+        response = dict(reply.param) if reply and getattr(reply, "param", None) else {}
+        if response.get("error_code", -1) != 0:
+            raise RuntimeError(response.get("error_msg") or "场景服务调用失败")
+        return response.get("data")
+
     def disconnect(self) -> None:
+        self._stop_reconnect.set()
         client = self.client
         self.connected = False
         self.client = None
@@ -1240,19 +1895,73 @@ class UserRequest(BaseModel):
 class DeviceProfileRequest(BaseModel):
     device_id: str = Field(min_length=1, max_length=128)
     name: str = Field(min_length=1, max_length=120)
-    project: str = Field(pattern="^(lora|zigbee|generic)$")
+    project: str = Field(pattern="^(lora|zigbee|wifi|generic)$")
     device_type: str = Field(default="environment_sensor", max_length=80)
     capabilities: list[dict[str, Any]] = Field(default_factory=list)
     thresholds: dict[str, Any] = Field(default_factory=dict)
     connection_source: str = Field(default="", max_length=120)
 
 
+class DeviceAnnotationRequest(BaseModel):
+    display_name: str = Field(min_length=1, max_length=120)
+    note: str = Field(default="", max_length=500)
+
+
+class ThresholdRuleRequest(BaseModel):
+    field: str = Field(pattern=r"^[A-Za-z][A-Za-z0-9_.-]{0,63}$")
+    operator: str = Field(pattern="^(gt|gte|lt|lte|eq|neq)$")
+    value: float | bool
+    severity: str = Field(default="warning", pattern="^(warning|critical)$")
+    enabled: bool = True
+
+
+class DeviceThresholdRequest(BaseModel):
+    rules: list[ThresholdRuleRequest] = Field(default_factory=list, max_length=32)
+
+
+class CameraSaveRequest(BaseModel):
+    save_directory: str = Field(default="", max_length=500)
+
+
 class CommandRequest(BaseModel):
     device_id: str = Field(min_length=1, max_length=128)
-    project: str = Field(pattern="^(lora|zigbee|generic)$")
+    project: str = Field(pattern="^(lora|zigbee|wifi|generic)$")
     command: str = Field(min_length=1, max_length=80)
     parameters: dict[str, Any] = Field(default_factory=dict)
     confirmed: bool = False
+
+
+class SceneConditionRequest(BaseModel):
+    device_id: str = Field(default="", max_length=128)
+    sensor: str = Field(min_length=1, max_length=64)
+    operator: str = Field(pattern="^(gt|gte|lt|lte|eq|neq)$")
+    value: float | bool
+    trigger_mode: str = Field(default="level", pattern="^(level|edge)$")
+    hold_seconds: int = Field(default=0, ge=0, le=86400)
+
+
+class SceneActionRequest(BaseModel):
+    device_type: str = Field(pattern="^(lora|zigbee|wifi|generic)$")
+    device_id: str = Field(min_length=1, max_length=128)
+    action: str = Field(default="set", pattern="^(set|reset|capture)$")
+    params: dict[str, Any]
+
+
+class SceneRuleRequest(BaseModel):
+    scene_id: str = Field(default="", max_length=128)
+    name: str = Field(min_length=1, max_length=120)
+    description: str = Field(default="", max_length=500)
+    condition_logic: str = Field(default="and", pattern="^(and|or)$")
+    conditions: list[SceneConditionRequest] = Field(min_length=1, max_length=10)
+    actions: list[SceneActionRequest] = Field(min_length=1, max_length=10)
+    enabled: bool = True
+    duration_seconds: int = Field(default=0, ge=0, le=86400)
+    cooldown_seconds: int = Field(default=60, ge=0, le=86400)
+    schedule_start: str | None = Field(default=None, max_length=80)
+    schedule_end: str | None = Field(default=None, max_length=80)
+    created_at: str | None = None
+    updated_at: str | None = None
+    last_triggered_at: str | None = None
 
 
 def mqtt_diagnostic(request: ConnectionRequest) -> dict[str, Any]:
@@ -1585,7 +2294,34 @@ async def execute_performance_run(run: dict[str, Any]) -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     del app
+    await asyncio.to_thread(backup_platform_database, "startup")
     db.initialize()
+    mqtt_profile = BRIDGE_PROFILE.get("mqtt", {})
+    mqtt_host = str(mqtt_profile.get("broker", "")).strip()
+    if mqtt_host:
+        try:
+            mqtt_service.connect(
+                mqtt_host,
+                int(mqtt_profile.get("port", 1883)),
+                asyncio.get_running_loop(),
+                name="项目默认 Broker",
+                username=str(mqtt_profile.get("username", "")),
+                password=str(mqtt_profile.get("password", "")),
+                topics=list(mqtt_profile.get("uplink_topics") or DEFAULT_TOPICS),
+                qos=int(mqtt_profile.get("qos", 1)),
+            )
+        except Exception as exc:
+            # Keep the platform available so the operations page can diagnose or reconnect it.
+            state = mqtt_service.connections.get("项目默认 Broker")
+            if state is not None:
+                state["error"] = f"项目 Broker 自动连接失败: {exc}"
+    local_vsoa_url = BRIDGE_PROFILE.get("vsoa", {}).get("local_url", "")
+    if local_vsoa_url:
+        try:
+            await asyncio.to_thread(vsoa_service.connect, local_vsoa_url, asyncio.get_running_loop())
+            await asyncio.to_thread(vsoa_service.probe_health)
+        except Exception as exc:
+            vsoa_service.error = f"本机桥接自动连接失败: {exc}"
     yield
     mqtt_service.disconnect()
     vsoa_service.disconnect()
@@ -1593,6 +2329,7 @@ async def lifespan(app: FastAPI):
         task.cancel()
     for task in list(performance_tasks.values()):
         task.cancel()
+    await asyncio.to_thread(backup_platform_database, "shutdown")
 
 
 app = FastAPI(title="Smart Environment IoT Platform", version="1.0.0", lifespan=lifespan)
@@ -1658,7 +2395,7 @@ async def current_user(request: Request):
 
 
 @app.get("/api/status")
-async def get_status():
+def get_status():
     bridge_running = vsoa_service.health.get("status") == "running"
     link_connected = mqtt_service.connected and vsoa_service.connected
     return {
@@ -1683,7 +2420,7 @@ async def get_status():
 
 
 @app.get("/api/project")
-async def get_project_profile():
+def get_project_profile():
     return load_bridge_profile()
 
 
@@ -1696,20 +2433,77 @@ async def get_project_health():
 
 
 @app.get("/api/events")
-async def get_events(limit: int = 100):
-    return db.recent_events(max(1, min(limit, 500)))
+def get_events(limit: int = 100, offset: int = 0):
+    return db.recent_events(max(1, min(limit, 500)), max(0, offset))
 
 
 @app.get("/api/temperature-series")
-async def get_temperature_series(limit_per_device: int = 500, include_performance: bool = False):
+def get_temperature_series(limit_per_device: int = 500, include_performance: bool = False):
     return db.temperature_series(
         max(10, min(limit_per_device, 1000)), include_performance=include_performance
     )
 
 
 @app.get("/api/devices")
-async def get_devices():
+def get_devices():
     return db.device_summaries()
+
+
+@app.patch("/api/devices/{device_id}/annotation")
+async def update_device_annotation(device_id: str, annotation: DeviceAnnotationRequest, request: Request):
+    known = {item["device_id"] for item in db.device_summaries()}
+    if device_id not in known:
+        raise HTTPException(status_code=404, detail="设备不存在")
+    saved = db.upsert_device_annotation(
+        device_id, annotation.display_name, annotation.note, request.state.user["sub"]
+    )
+    db.audit(request.state.user["sub"], "device_annotation_saved", device_id, saved)
+    return saved
+
+
+def save_latest_camera_image(device_id: str, save_directory: str = "") -> dict[str, Any]:
+    cameras = db.wifi_dashboard(20).get("devices", [])
+    camera = next((item for item in cameras if item["device_id"] == device_id), None)
+    if not camera or not camera.get("latest_image"):
+        raise HTTPException(status_code=404, detail="该设备暂无可保存图像")
+    image = camera["latest_image"]
+    if not image.startswith("data:image/") or ";base64," not in image:
+        raise HTTPException(status_code=400, detail="当前图像不是可保存的 Base64 帧")
+    header, encoded = image.split(",", 1)
+    extension = ".png" if "image/png" in header else ".jpg"
+    root = Path(save_directory).expanduser() if save_directory.strip() else DATA_DIR / "camera_captures"
+    if not root.is_absolute():
+        root = (ROOT / root).resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    safe_device = "".join(char if char.isalnum() or char in "-_" else "_" for char in device_id)
+    destination = root / f"{safe_device}-{datetime.now().strftime('%Y%m%d-%H%M%S-%f')}{extension}"
+    try:
+        destination.write_bytes(base64.b64decode(encoded, validate=True))
+    except (ValueError, OSError) as exc:
+        raise HTTPException(status_code=400, detail=f"保存图像失败: {exc}") from exc
+    return {"ok": True, "device_id": device_id, "saved_path": str(destination), "bytes": destination.stat().st_size}
+
+
+@app.post("/api/cameras/{device_id}/save")
+async def save_camera_image(device_id: str, payload: CameraSaveRequest, request: Request):
+    result = await asyncio.to_thread(save_latest_camera_image, device_id, payload.save_directory)
+    db.audit(request.state.user["sub"], "camera_image_saved", device_id, result)
+    return result
+
+
+@app.get("/api/lora-dashboard")
+async def get_lora_dashboard(limit_per_device: int = 500):
+    return db.lora_dashboard(max(20, min(limit_per_device, 1000)))
+
+
+@app.get("/api/zigbee-dashboard")
+async def get_zigbee_dashboard(limit_per_device: int = 500):
+    return db.zigbee_dashboard(max(20, min(limit_per_device, 1000)))
+
+
+@app.get("/api/wifi-dashboard")
+async def get_wifi_dashboard(limit_per_device: int = 500):
+    return db.wifi_dashboard(max(20, min(limit_per_device, 1000)))
 
 
 @app.get("/api/device-profiles")
@@ -1724,8 +2518,26 @@ async def upsert_device_profile(profile: DeviceProfileRequest, request: Request)
     return saved
 
 
+@app.put("/api/devices/{device_id}/thresholds")
+async def save_device_thresholds(
+    device_id: str,
+    payload: DeviceThresholdRequest,
+    request: Request,
+):
+    device = next(
+        (item for item in db.device_summaries() if item["device_id"] == device_id),
+        None,
+    )
+    if not device:
+        raise HTTPException(status_code=404, detail="设备不存在")
+    rules = [rule.model_dump() for rule in payload.rules]
+    saved = db.save_threshold_rules(device, rules)
+    db.audit(request.state.user["sub"], "device_thresholds_saved", device_id, {"rules": rules})
+    return saved["thresholds"]
+
+
 @app.get("/api/alerts")
-async def get_alerts(limit: int = 100):
+def get_alerts(limit: int = 100):
     return db.alerts(max(1, min(limit, 500)))
 
 
@@ -1739,36 +2551,158 @@ async def acknowledge_alert(alert_id: str, request: Request):
 
 
 @app.get("/api/commands")
-async def get_commands(limit: int = 100):
+def get_commands(limit: int = 100):
     return db.commands(max(1, min(limit, 500)))
+
+
+def scene_rpc(operation: str, payload: dict[str, Any] | None = None) -> Any:
+    try:
+        return vsoa_service.scene_call(operation, payload)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+def scene_action_conflict(candidate: dict[str, Any], ignored_scene_id: str = "") -> str | None:
+    if not candidate.get("enabled"):
+        return None
+    listed = scene_rpc("list", {}) or {}
+    opposite = {
+        ("on", "off"), ("off", "on"), ("blink", "off"), ("off", "blink"),
+        (True, False), (False, True), ("start", "stop"), ("stop", "start"),
+    }
+    for scene in listed.get("scenes", []):
+        if not scene.get("enabled") or scene.get("scene_id") in {ignored_scene_id, candidate.get("scene_id")}:
+            continue
+        for current in candidate.get("actions", []):
+            if current.get("action") == "capture":
+                continue
+            for existing in scene.get("actions", []):
+                if current.get("device_id") != existing.get("device_id"):
+                    continue
+                current_params = current.get("params") or {}
+                existing_params = existing.get("params") or {}
+                control_keys = set(current_params) & set(existing_params) & {"relay", "led", "buzzer", "motor", "state"}
+                for key in control_keys:
+                    value, old_value = current_params[key], existing_params[key]
+                    angle_conflict = key == "motor" and value == old_value == "rotate" and current_params.get("angle") != existing_params.get("angle")
+                    if value != old_value or (value, old_value) in opposite or angle_conflict:
+                        return f"与场景“{scene.get('name', scene.get('scene_id'))}”冲突：设备 {current.get('device_id')} 的 {key} 动作互斥"
+    return None
+
+
+@app.get("/api/scenes/sensors")
+async def get_scene_sensors():
+    data = await asyncio.to_thread(scene_rpc, "sensors", {})
+    return (data or {}).get("sensors", [])
+
+
+@app.get("/api/scene-triggers")
+async def get_scene_triggers(limit: int = 100):
+    return db.scene_triggers(max(1, min(limit, 500)))
+
+
+@app.get("/api/scenes")
+async def get_scenes():
+    data = await asyncio.to_thread(scene_rpc, "list", {})
+    return (data or {}).get("scenes", [])
+
+
+@app.post("/api/scenes")
+async def create_scene(scene: SceneRuleRequest):
+    payload = scene.model_dump(exclude_none=True)
+    conflict = await asyncio.to_thread(scene_action_conflict, payload)
+    if conflict:
+        raise HTTPException(status_code=409, detail=conflict)
+    return await asyncio.to_thread(scene_rpc, "add", payload)
+
+
+@app.put("/api/scenes/{scene_id}")
+async def update_scene(scene_id: str, scene: SceneRuleRequest):
+    payload = scene.model_dump(exclude_none=True)
+    payload["scene_id"] = scene_id
+    conflict = await asyncio.to_thread(scene_action_conflict, payload, scene_id)
+    if conflict:
+        raise HTTPException(status_code=409, detail=conflict)
+    return await asyncio.to_thread(scene_rpc, "update", payload)
+
+
+@app.delete("/api/scenes/{scene_id}")
+async def delete_scene(scene_id: str):
+    return await asyncio.to_thread(scene_rpc, "delete", {"scene_id": scene_id})
+
+
+@app.post("/api/scenes/{scene_id}/enable")
+async def enable_scene(scene_id: str):
+    return await asyncio.to_thread(scene_rpc, "enable", {"scene_id": scene_id})
+
+
+@app.post("/api/scenes/{scene_id}/disable")
+async def disable_scene(scene_id: str):
+    return await asyncio.to_thread(scene_rpc, "disable", {"scene_id": scene_id})
 
 
 @app.post("/api/commands")
 async def create_device_command(command_request: CommandRequest, request: Request):
     if not command_request.confirmed:
         raise HTTPException(status_code=400, detail="控制命令必须由用户确认")
-    if not vsoa_service.connected:
-        raise HTTPException(status_code=400, detail="协议桥接 VSOA 未连接，无法下发控制命令")
-    if command_request.project not in {"lora", "zigbee"}:
-        raise HTTPException(status_code=400, detail="桥接项目仅支持 LoRa 和 ZigBee 下行设备")
+    normalized_device_id = command_request.device_id.strip().lower().replace("-", "_")
+    is_eora_device = (
+        command_request.project == "lora"
+        or (
+            command_request.project in {"generic", "wifi"}
+            and normalized_device_id == "eora_s3_400tb_001"
+        )
+    )
+    if command_request.project not in {"lora", "zigbee"} and not is_eora_device:
+        raise HTTPException(status_code=400, detail="该通用设备尚未配置下行适配器")
     trace_id = uuid.uuid4().hex
-    action_map = {"turn_on": "set", "turn_off": "set", "refresh": "get"}
+    action_map = {
+        "turn_on": "set", "turn_off": "set", "refresh": "get",
+        "motor_on": "set", "motor_off": "set",
+        "led_on": "set", "led_off": "set",
+        "buzzer_on": "set", "buzzer_off": "set",
+        "led_blink_on": "set", "led_blink_off": "set",
+    }
     action = action_map.get(command_request.command, command_request.command)
     if action not in {"set", "get", "reset", "config"}:
         raise HTTPException(status_code=400, detail="桥接项目不支持该控制动作")
     parameters = dict(command_request.parameters)
+    mqtt_payload: dict[str, Any] | None = None
+    if is_eora_device:
+        actuator = next((name for name in ("motor", "led") if parameters.get(name) in {"on", "off"}), None)
+        requested_value = parameters.get(actuator) if actuator else None
+        if actuator is None and parameters.get("cmd") in {"motor", "led"}:
+            actuator = parameters.get("cmd")
+            requested_value = parameters.get("value")
+        if requested_value is None and command_request.command in {"turn_on", "motor_on"}:
+            actuator = "motor"
+            requested_value = "on"
+        if requested_value is None and command_request.command in {"turn_off", "motor_off"}:
+            actuator = "motor"
+            requested_value = "off"
+        if requested_value is None and command_request.command == "led_on":
+            actuator, requested_value = "led", "on"
+        if requested_value is None and command_request.command == "led_off":
+            actuator, requested_value = "led", "off"
+        if actuator not in {"motor", "led"} or requested_value not in {"on", "off"}:
+            raise HTTPException(status_code=400, detail="EoRa 设备只支持电机或 LED 的开启与关闭")
+        parameters = {actuator: requested_value}
+        mqtt_payload = {"cmd": actuator, "value": requested_value}
     parameters.setdefault("requested_command", command_request.command)
+    bridge_device_type = "generic" if is_eora_device else command_request.project
     bridge_command = {
         "command_id": trace_id,
         "trace_id": trace_id,
-        "device_type": command_request.project,
+        "device_type": bridge_device_type,
         "device_id": command_request.device_id,
         "action": action,
         "params": parameters,
         "timestamp": now_iso(),
         "timeout_ms": 10_000,
     }
-    topic = f"{BRIDGE_PROFILE.get('mqtt', {}).get('downlink_topic_prefix', 'bridge/downlink')}/{command_request.project}/{command_request.device_id}/{action}"
+    topic_prefix = BRIDGE_PROFILE.get('mqtt', {}).get('downlink_topic_prefix', 'bridge/downlink')
+    topic = (f"{topic_prefix}/generic/eora_s3_400tb_001/cmd" if is_eora_device
+             else f"{topic_prefix}/{command_request.project}/{command_request.device_id}/{action}")
     username = request.state.user["sub"]
     command = {
         "id": uuid.uuid4().hex, "trace_id": trace_id,
@@ -1777,11 +2711,35 @@ async def create_device_command(command_request: CommandRequest, request: Reques
         "topic": topic, "status": "pending", "requested_by": username, "requested_at": now_iso(),
     }
     db.create_command(command)
-    try:
-        result = await asyncio.to_thread(vsoa_service.send_command, bridge_command)
-    except Exception as exc:
-        result = {"error_code": -1, "error_msg": str(exc), "trace_id": trace_id}
-    db.acknowledge_command(trace_id, result)
+    if is_eora_device:
+        if not mqtt_service.connected:
+            db.acknowledge_command(trace_id, {
+                "success": False,
+                "error": "MQTT Broker 未连接",
+                "trace_id": trace_id,
+            })
+            raise HTTPException(status_code=503, detail="MQTT Broker 未连接，无法发布控制命令")
+        published = await asyncio.to_thread(mqtt_service.publish, topic, mqtt_payload or {})
+        if not published:
+            db.acknowledge_command(trace_id, {
+                "success": False,
+                "error": "MQTT 发布失败",
+                "trace_id": trace_id,
+            })
+            raise HTTPException(status_code=502, detail="控制命令未能发布到 MQTT Broker")
+    else:
+        if not vsoa_service.connected:
+            db.acknowledge_command(trace_id, {
+                "success": False,
+                "error": "协议桥接 VSOA 未连接",
+                "trace_id": trace_id,
+            })
+            raise HTTPException(status_code=400, detail="协议桥接 VSOA 未连接，无法下发控制命令")
+        try:
+            result = await asyncio.to_thread(vsoa_service.send_command, bridge_command)
+        except Exception as exc:
+            result = {"error_code": -1, "error_msg": str(exc), "trace_id": trace_id}
+        db.acknowledge_command(trace_id, result)
     command = next(item for item in db.commands(100) if item["trace_id"] == trace_id)
     db.audit(username, "command_sent", command_request.device_id, {"trace_id": trace_id, "command": command_request.command, "parameters": command_request.parameters})
     return command

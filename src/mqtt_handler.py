@@ -14,14 +14,14 @@ import json
 import logging
 import threading
 import time
-from typing import Any, Callable
+from typing import Any, Callable, Dict
 
 import paho.mqtt.client as mqtt
 
 logger = logging.getLogger("bridge.mqtt")
 
 # Callback: (topic: str, payload: dict) -> None
-MessageCallback = Callable[[str, dict[str, Any]], None]
+MessageCallback = Callable[[str, Dict[str, Any]], None]
 
 
 class MQTTHandler:
@@ -41,6 +41,8 @@ class MQTTHandler:
         "bridge/uplink/",
         "lora/",
         "zigbee/",
+        "application/",
+        "s3/",
     )
 
     def __init__(self) -> None:
@@ -265,3 +267,29 @@ class MQTTHandler:
                     logger.exception("[MQTT] uplink callback error for topic=%s", topic)
         else:
             logger.debug("[MQTT] RX non-uplink topic=%s (no handler)", topic)
+
+
+class MQTTPublisherRouter:
+    """Route project downlinks to their owning Broker."""
+
+    def __init__(self, default_handler: MQTTHandler | None = None) -> None:
+        self._default = default_handler
+        self._routes: dict[str, MQTTHandler] = {}
+
+    def add_route(self, project: str, handler: MQTTHandler) -> None:
+        self._routes[project.strip().lower()] = handler
+
+    def publish(self, topic: str, payload: str, qos: int | None = None) -> bool:
+        parts = topic.strip("/").split("/")
+        project = parts[2].lower() if len(parts) >= 3 and parts[:2] == ["bridge", "downlink"] else ""
+        handler = self._routes.get(project) or self._default
+        if handler is None:
+            logger.error("No MQTT route for topic=%s", topic)
+            return False
+        logger.info("[MQTT] TX route=%s topic=%s", project or "default", topic)
+        return handler.publish(topic, payload, qos=qos)
+
+    @property
+    def is_connected(self) -> bool:
+        handlers = [self._default, *self._routes.values()]
+        return any(handler and handler.is_connected for handler in handlers)

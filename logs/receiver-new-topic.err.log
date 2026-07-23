@@ -1,0 +1,2 @@
+C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\mqtt_receiver.py:508: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client(

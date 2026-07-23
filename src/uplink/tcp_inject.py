@@ -12,12 +12,12 @@ import json
 import logging
 import socketserver
 import threading
-from typing import Any, Callable
+from typing import Any, Callable, Dict
 
 logger = logging.getLogger(__name__)
 
 # Callback: (topic: str, payload: dict[str, Any]) -> None
-InjectCallback = Callable[[str, dict[str, Any]], None]
+InjectCallback = Callable[[str, Dict[str, Any]], None]
 
 MAX_JSON_LEN = 8192
 MAX_TOPIC_LEN = 192

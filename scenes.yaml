@@ -1,0 +1,51 @@
+scenes:
+- scene_id: scene-1a887a32813a
+  name: Scene1
+  description: test
+  condition_logic: and
+  conditions:
+  - sensor: temperature
+    operator: gt
+    value: 20.0
+    trigger_mode: level
+    device_id: eora_s3_400tb_001
+    hold_seconds: 1
+  actions:
+  - device_type: zigbee
+    device_id: '0xC38F'
+    action: set
+    params:
+      led: 'on'
+  enabled: false
+  duration_seconds: 30
+  cooldown_seconds: 1
+  schedule_start: null
+  schedule_end: null
+  created_at: '2026-07-22T02:49:06.258168+00:00'
+  updated_at: '2026-07-23T06:26:10.019972+00:00'
+  last_triggered_at: '2026-07-23T06:25:43.252445+00:00'
+- scene_id: scene-3bed044cd05b
+  name: Scene2
+  description: test2
+  condition_logic: and
+  conditions:
+  - sensor: temperature
+    operator: gt
+    value: 20.0
+    trigger_mode: level
+    device_id: eora_s3_400tb_001
+    hold_seconds: 1
+  actions:
+  - device_type: generic
+    device_id: eora_s3_400tb_001
+    action: set
+    params:
+      led: 'on'
+  enabled: false
+  duration_seconds: 60
+  cooldown_seconds: 5
+  schedule_start: null
+  schedule_end: null
+  created_at: '2026-07-22T02:58:42.610837+00:00'
+  updated_at: '2026-07-23T06:27:25.902790+00:00'
+  last_triggered_at: '2026-07-23T06:26:46.221210+00:00'

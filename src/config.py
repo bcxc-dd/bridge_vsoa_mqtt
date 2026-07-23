@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 """
 Unified configuration loader for MQTT ↔ VSOA Bridge.
 
 Reads config.yaml and returns a typed BridgeConfig dataclass.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import MISSING, dataclass, field, is_dataclass
 from pathlib import Path
 from typing import Any
 
@@ -81,6 +83,18 @@ class MqttConfig:
     uplink_topics: list[str] = field(default_factory=list)
     downlink_topic_prefix: str = "bridge/downlink"
     downlink_topic_prefixes: dict = field(default_factory=dict)
+    project_brokers: dict = field(default_factory=dict)
+
+
+@dataclass
+class CameraReassemblyConfig:
+    enabled: bool = True
+    uplink_fport: int = 2
+    downlink_fport: int = 3
+    timeout_seconds: int = 45
+    max_image_bytes: int = 8192
+    max_retransmit_requests: int = 3
+    send_ack: bool = True
 
 
 @dataclass
@@ -91,6 +105,7 @@ class UplinkConfig:
     max_topic_len: int = 192
     max_device_id_len: int = 64
     adapters: list[str] = field(default_factory=lambda: ["lora", "zigbee", "generic"])
+    camera: CameraReassemblyConfig = field(default_factory=CameraReassemblyConfig)
 
 
 @dataclass
@@ -137,6 +152,16 @@ class LoggingConfig:
 
 
 @dataclass
+class SceneEngineConfig:
+    enabled: bool = True
+    rules_path: str = "scenes.yaml"
+    default_cooldown_seconds: int = 60
+    max_rules: int = 100
+    max_conditions_per_rule: int = 10
+    max_actions_per_rule: int = 10
+
+
+@dataclass
 class BridgeConfig:
     """Root configuration for the MQTT-VSOA Bridge."""
     bridge: BridgeInfoConfig = field(default_factory=BridgeInfoConfig)
@@ -146,6 +171,7 @@ class BridgeConfig:
     downlink: DownlinkConfig = field(default_factory=DownlinkConfig)
     chirpstack: ChirpstackConfig = field(default_factory=ChirpstackConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
+    scene_engine: SceneEngineConfig = field(default_factory=SceneEngineConfig)
 
 
 # ---------------------------------------------------------------------------
@@ -173,15 +199,21 @@ def _dict_to_dataclass(cls: type, data: dict | None) -> object:
     """Recursively convert a dict to a dataclass instance."""
     if data is None:
         return cls()
-    field_types = {f.name: f.type for f in cls.__dataclass_fields__.values()}
+    fields_by_name = cls.__dataclass_fields__
     kwargs: dict[str, Any] = {}
     for key, value in data.items():
-        if key in field_types:
-            target_type = field_types[key]
-            if hasattr(target_type, "__dataclass_fields__") and isinstance(value, dict):
-                kwargs[key] = _dict_to_dataclass(target_type, value)
-            else:
-                kwargs[key] = value
+        config_field = fields_by_name.get(key)
+        if config_field is None:
+            continue
+        nested_type = None
+        if config_field.default_factory is not MISSING:
+            default_value = config_field.default_factory()
+            if is_dataclass(default_value):
+                nested_type = type(default_value)
+        if nested_type is not None and isinstance(value, dict):
+            kwargs[key] = _dict_to_dataclass(nested_type, value)
+        else:
+            kwargs[key] = value
     return cls(**kwargs)
 
 

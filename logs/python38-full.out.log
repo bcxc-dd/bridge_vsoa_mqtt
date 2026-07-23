@@ -1,0 +1,1112 @@
+[2026-07-22 13:37:12] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-22 13:37:12] [INFO] config: config.yaml
+[2026-07-22 13:37:12] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-22 13:37:12] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-22 13:37:12] [INFO] MQTT on_connect: OK
+[2026-07-22 13:37:12] [INFO] MQTT connected: 192.168.200.221:1883 (client_id=mqtt-vsoa-bridge-lora)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-22 13:37:12] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-22 13:37:12] [INFO] [OK] MQTT connected: 192.168.200.221:1883 (9 uplink topics)
+[2026-07-22 13:37:12] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-22 13:37:12] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-22 13:37:12] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-22 13:37:12] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-22 13:37:12] [INFO] [SCENE] engine started: 2 rules
+[2026-07-22 13:37:12] [INFO] [SCENE] registered 9 VSOA RPC endpoints
+[2026-07-22 13:37:12] [INFO] [OK] Scene engine: 2 rules from C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\scenes.yaml
+[2026-07-22 13:37:12] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-22 13:37:12] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-22 13:37:12] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-22 13:37:14] [INFO] [BUSINESS] local VSOA Server listening: 0.0.0.0:3000
+[2026-07-22 13:37:14] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-22 13:37:14] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-22 13:37:14] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+========================================================
+[INFO] MQTT-VSOA Bridge v1.0.0 started
+[INFO] VSOA Server         : 0.0.0.0:3001
+[INFO]   RPC: /bridge/health, /adapter/list, /uplink/schema
+[INFO]   RPC: /device/list, /device/all/data, /device/{id}/data
+[INFO]   RPC: /bridge/send_command (downlink)
+[INFO]   RPC: /scene/list, /scene/add, /scene/update, /scene/delete
+[INFO]   Pub: /device/update, /bridge/event, /ctrl/ack
+[INFO] MQTT                 : enabled (192.168.200.221:1883)
+[INFO]   Uplink topics      : 9
+[INFO]   Downlink prefix    : bridge/downlink
+[INFO] PubSub subscribed    : ['/ctrl/cmd'] → /ctrl/ack
+[INFO] TCP inject           : 0.0.0.0:9090
+[INFO] Device registry      : max 64 devices
+========================================================
+[2026-07-22 13:37:14] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-22 13:38:47] [INFO] [REGISTRY] registered device='lora_env_01' type=multi source=lora
+[2026-07-22 13:38:47] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=lora_env_01 type=multi
+[2026-07-22 13:38:47] [INFO] [REGISTRY] registered device='zigbee_env_01' type=multi source=zigbee
+[2026-07-22 13:38:47] [INFO] [UPLINK] registered source=zigbee adapter=zigbee_adapter device=zigbee_env_01 type=multi
+[2026-07-22 13:38:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=lora_env_01 type=temperature
+[2026-07-22 13:42:26] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:42:26] [INFO] [REGISTRY] registered device='Ebyte Test Device 470' type=status source=lora
+[2026-07-22 13:42:26] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:42:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:42:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:42:27] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:42:27] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-22 13:42:27] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:43:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:43:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:43:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:43:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:43:28] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:43:28] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:43:28] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:43:28] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:44:28] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:44:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:44:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:44:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:44:29] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:44:29] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:44:29] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:44:29] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:44:31] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:31] [INFO] [REGISTRY] registered device='EoRa-HUB-400TB' type=status source=lora
+[2026-07-22 13:44:31] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:33] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:38] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:42] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:47] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:56] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:44:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:44:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:44:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:00] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:03] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:12] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:21] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:23] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:28] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:32] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:32] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:45:32] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:45:32] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:45:32] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:45:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:39] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:41] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:48] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:50] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:52] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:57] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:45:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:45:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:01] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:04] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:06] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:08] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:10] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:12] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:15] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:17] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:19] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:21] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:24] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:26] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:28] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:33] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:35] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:35] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:46:35] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:46:35] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:46:35] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:46:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:42] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:44] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:46] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:53] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:55] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:46:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:46:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:46:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:00] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:04] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:20] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:29] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:31] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:47:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:47:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:47:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:47:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:36] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:47:36] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:47:36] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:47:36] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:47:38] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:47] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:52] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:56] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:47:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:47:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:47:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:00] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:03] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:12] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:19] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:21] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:23] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:32] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:48:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:48:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:48:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:48:38] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:48:38] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:48:38] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:48:38] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:48:39] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:41] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:48] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:50] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:52] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:57] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:48:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:48:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:48:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:01] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:03] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:06] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:08] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:10] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:12] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:15] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:17] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:19] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:21] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:24] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:26] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:28] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:33] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:35] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:38] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:49:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:49:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:49:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:49:39] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:49:39] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:49:39] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:49:39] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:49:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:42] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:44] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:46] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:53] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:55] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:49:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:49:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:49:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:00] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:04] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:20] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:29] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:31] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:38] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:39] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:50:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:50:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:50:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:50:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:40] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:50:40] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:50:40] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:50:40] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:50:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:47] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:47] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:47] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:52] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:54] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:56] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:56] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:50:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:50:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:50:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:01] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:03] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:12] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:12] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:21] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:21] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:21] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:23] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:23] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:23] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:30] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:32] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:39] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:39] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:39] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:41] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:51:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:51:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:51:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:51:41] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:43] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:51:43] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:51:43] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:51:43] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:51:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:46] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:48] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:48] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:48] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:50] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:50] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:50] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:52] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:52] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:52] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:55] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:57] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:57] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:51:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:51:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:51:59] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:01] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:01] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:04] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:06] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:08] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:08] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:10] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:15] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:17] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:19] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:19] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:24] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:24] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:24] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:26] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:26] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:26] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:28] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:28] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:28] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:31] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:33] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:33] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:35] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:35] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:37] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:42] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:42] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:44] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 13:52:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:52:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 13:52:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 13:52:44] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:44] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:45] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 13:52:45] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:52:45] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 13:52:45] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:52:46] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:49] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:51] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:53] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:53] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:53] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:55] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:55] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:55] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:58] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:52:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:52:58] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:52:58] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:00] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:00] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:00] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:04] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:04] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:16] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:18] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:20] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:20] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:22] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:25] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:27] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:29] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:29] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:29] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:31] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:31] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:31] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:34] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:34] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:34] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:36] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:36] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:36] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:38] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:38] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:38] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:40] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-22 13:53:40] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
+[2026-07-22 13:53:41] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-22 13:53:41] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=EoRa-HUB-400TB type=status
