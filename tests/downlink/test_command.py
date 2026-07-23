@@ -170,6 +170,49 @@ class TestBuildMQTTMessage:
         topic, _ = build_mqtt_message(cmd, "bridge/downlink")
         assert topic == "bridge/downlink/zigbee/zb-03/config"
 
+    @pytest.mark.parametrize(
+        ("device_id", "params", "expected_data"),
+        [
+            ("0xB25B", {"relay": "on"}, "01"),
+            ("0xb25b", {"relay": "off"}, "00"),
+            ("0xC38F", {"led": "on"}, "01"),
+            ("0xc38f", {"led": "off"}, "00"),
+        ],
+    )
+    def test_zigbee_board_contract(self, device_id, params, expected_data):
+        command = {
+            **VALID_CMD,
+            "device_type": "zigbee",
+            "device_id": device_id,
+            "action": "set",
+            "params": {**params, "requested_command": "set"},
+        }
+
+        topic, payload_text = build_mqtt_message(command, "bridge/downlink")
+
+        canonical_id = "0xB25B" if device_id.lower() == "0xb25b" else "0xC38F"
+        assert topic == f"bridge/downlink/zigbee/{canonical_id}/set"
+        assert json.loads(payload_text) == {
+            "device_id": canonical_id,
+            "params": {"data": expected_data},
+        }
+
+    @pytest.mark.parametrize(
+        ("device_id", "params"),
+        [("0xB25B", {"led": "on"}), ("0xC38F", {"relay": "on"})],
+    )
+    def test_zigbee_board_rejects_wrong_actuator(self, device_id, params):
+        command = {
+            **VALID_CMD,
+            "device_type": "zigbee",
+            "device_id": device_id,
+            "action": "set",
+            "params": params,
+        }
+
+        with pytest.raises(ValueError):
+            build_mqtt_message(command, "bridge/downlink")
+
     def test_payload_contains_required_fields(self):
         _, payload_str = build_mqtt_message(VALID_CMD, "bridge/downlink")
         p = json.loads(payload_str)
@@ -197,6 +240,46 @@ class TestBuildMQTTMessage:
     def test_custom_prefix(self):
         topic, _ = build_mqtt_message(VALID_CMD, "custom/prefix")
         assert topic == "custom/prefix/lora/lora-node-01/set"
+
+    @pytest.mark.parametrize("device_id", ["eora_s3_400tb_001", "eora-s3-400tb-001"])
+    @pytest.mark.parametrize("value", ["on", "off"])
+    def test_eora_motor_uses_device_contract(self, device_id, value):
+        command = {
+            **VALID_CMD,
+            "device_type": "generic",
+            "device_id": device_id,
+            "params": {"motor": value},
+        }
+
+        topic, payload = build_mqtt_message(command, "bridge/downlink")
+
+        assert topic == "bridge/downlink/generic/eora_s3_400tb_001/cmd"
+        assert payload == f'{{"cmd":"motor","value":"{value}"}}'
+
+    def test_eora_motor_rejects_unknown_action_value(self):
+        command = {
+            **VALID_CMD,
+            "device_type": "generic",
+            "device_id": "eora_s3_400tb_001",
+            "params": {"motor": "blink"},
+        }
+
+        with pytest.raises(ValueError, match="motor/led"):
+            build_mqtt_message(command, "bridge/downlink")
+
+    @pytest.mark.parametrize("value", ["on", "off"])
+    def test_eora_led_uses_device_contract(self, value):
+        command = {
+            **VALID_CMD,
+            "device_type": "generic",
+            "device_id": "eora_s3_400tb_001",
+            "params": {"led": value},
+        }
+
+        topic, payload = build_mqtt_message(command, "bridge/downlink")
+
+        assert topic == "bridge/downlink/generic/eora_s3_400tb_001/cmd"
+        assert payload == f'{{"cmd":"led","value":"{value}"}}'
 
 
 # ---------------------------------------------------------------------------

@@ -37,6 +37,12 @@ MEASUREMENT_ALIASES: dict[str, list[str]] = {
     "battery":      ["battery", "battery_level"],
     "signal":       ["signal", "rssi", "linkquality"],
     "snr":          ["snr", "loRaSNR"],
+    "soil_moisture": ["soil_moisture", "soil_humidity", "soil"],
+    "precipitation": ["precipitation", "rain", "rainfall"],
+    "illuminance":   ["illuminance", "light", "lux", "brightness"],
+    "smoke":         ["smoke", "smoke_alarm", "gas"],
+    "pir":           ["pir", "motion", "presence", "occupancy", "infrared"],
+    "voltage":       ["voltage", "volt", "battery_voltage", "supply_voltage"],
 }
 
 #: Direct string fields mapped by canonical name → aliases.
@@ -81,6 +87,7 @@ class UplinkReport:
 
     battery: Optional[int] = None
     signal: Optional[int] = None
+    raw: dict[str, Any] = field(default_factory=dict)
 
     @property
     def has_temperature(self) -> bool:
@@ -159,17 +166,24 @@ def parse_common_measurements(payload: dict[str, Any], report: UplinkReport) -> 
 
     Called by every adapter after setting source/adapter.
     """
+    # Preserve the complete business payload. Canonical aliases are added
+    # below so scene rules can use one stable sensor name while the original
+    # device-specific fields remain available to the platform.
+    report.raw.update(payload)
+
     # -- string fields --
     for canonical, aliases in STRING_FIELD_ALIASES.items():
         value = _first_str(payload, aliases)
         if value is not None:
             setattr(report, canonical, value)
 
-    # -- numeric fields --
+    # -- numeric and boolean fields --
     for canonical, aliases in MEASUREMENT_ALIASES.items():
-        value = _first_numeric(payload, aliases)
+        value = _first_measurement(payload, aliases)
         if value is not None:
-            setattr(report, canonical, value)
+            report.raw[canonical] = value
+            if hasattr(report, canonical):
+                setattr(report, canonical, value)
 
     # -- timestamp (int64) --
     ts = payload.get("timestamp")
@@ -190,6 +204,14 @@ def _first_numeric(payload: dict[str, Any], candidates: list[str]) -> Optional[f
             except (ValueError, TypeError):
                 continue
     return None
+
+
+def _first_measurement(payload: dict[str, Any], candidates: list[str]) -> Any:
+    for key in candidates:
+        value = payload.get(key)
+        if isinstance(value, bool):
+            return value
+    return _first_numeric(payload, candidates)
 
 
 def extract_device_id_from_topic(topic: str) -> str:
@@ -221,7 +243,18 @@ def infer_type(report: UplinkReport) -> None:
     """Auto-detect device type from available measurements."""
     if report.type:
         return
-    metrics = sum([report.has_temperature, report.has_humidity, report.has_pressure])
+    metric_keys = {
+        "temperature", "humidity", "pressure", "soil_moisture",
+        "precipitation", "illuminance", "smoke", "pir", "voltage",
+    }
+    available = metric_keys.intersection(report.raw)
+    if report.has_temperature:
+        available.add("temperature")
+    if report.has_humidity:
+        available.add("humidity")
+    if report.has_pressure:
+        available.add("pressure")
+    metrics = len(available)
     if metrics > 1:
         report.type = "multi"
     elif report.has_temperature:
@@ -230,6 +263,8 @@ def infer_type(report: UplinkReport) -> None:
         report.type = "humidity"
     elif report.has_pressure:
         report.type = "pressure"
+    elif available:
+        report.type = next(iter(available))
     else:
         report.type = "status"
 

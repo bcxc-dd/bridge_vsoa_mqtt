@@ -7,6 +7,8 @@ Covers the same scenarios as the LoRa/Zigbee injection in
 
 from __future__ import annotations
 
+import base64
+
 import pytest
 
 from src.uplink.adapters.base import (
@@ -19,6 +21,7 @@ from src.uplink.adapters.base import (
     topic_has_segment,
 )
 from src.uplink.adapters.lora import LoraAdapter
+from src.uplink.adapters.wifi import WifiAdapter
 from src.uplink.adapters.zigbee import ZigbeeAdapter
 from src.uplink.adapters.generic import GenericAdapter
 
@@ -43,8 +46,31 @@ class TestLoraMatch:
     def test_payload_rxInfo(self):
         assert LoraAdapter().match("other/topic", {"rxInfo": []}) is True
 
+    def test_chirpstack_topic(self):
+        assert LoraAdapter().match("application/1/device/abc/event/up", {}) is True
+
+    def test_s3_topic(self):
+        assert LoraAdapter().match("s3/eora-s3-400tb-001/data", {}) is False
+
     def test_non_lora_returns_false(self):
         assert LoraAdapter().match("plain/data", {"temperature": 25.0}) is False
+
+
+class TestWifiAdapter:
+    def test_matches_eora_wifi_topic(self):
+        assert WifiAdapter().match("s3/eora-s3-400tb-001/data", {}) is True
+        assert WifiAdapter().match("bridge/uplink/generic/eora_s3_400tb_001/data", {}) is True
+
+    def test_parses_environment_payload_as_wifi(self):
+        report = WifiAdapter().parse(
+            "s3/eora-s3-400tb-001/data",
+            {"temperature": 26.5, "humidity": 61, "soil_moisture": 42},
+        )
+        assert report.source == "wifi"
+        assert report.adapter == "wifi_adapter"
+        assert report.device_id == "eora_s3_400tb_001"
+        assert report.temperature == 26.5
+        assert report.raw["soil_moisture"] == 42
 
 
 class TestLoraParse:
@@ -93,6 +119,114 @@ class TestLoraParse:
     def test_missing_device_id_raises(self):
         with pytest.raises(AdapterParseError, match="missing device id"):
             LoraAdapter().parse("no/device", {"temperature": 25})
+
+    def test_chirpstack_base64_payload(self):
+        binary = (
+            (7).to_bytes(2, "big")
+            + (0x12345678).to_bytes(4, "big")
+            + (1000).to_bytes(4, "big")
+            + bytes([2])
+            + (265).to_bytes(2, "big", signed=True)
+            + (612).to_bytes(2, "big")
+            + bytes([0x09])
+        )
+        payload = {
+            "deviceInfo": {"deviceName": "lora-real-01", "devEui": "AABB"},
+            "time": "2026-07-16T10:35:00+08:00",
+            "rxInfo": [{"rssi": -72, "snr": 8.5}],
+            "data": base64.b64encode(binary).decode(),
+        }
+        report = LoraAdapter().parse(
+            "application/1/device/AABB/event/up", payload
+        )
+        assert report.device_id == "lora-real-01"
+        assert report.temperature == 26.5
+        assert report.humidity == 61.2
+        assert report.signal == -72
+        assert report.snr == 8.5
+        assert report.timestamp > 0
+
+    def test_chirpstack_environment_frame_includes_soil_and_rainfall(self):
+        binary = (
+            (27).to_bytes(2, "big")
+            + (0x12345678).to_bytes(4, "big")
+            + (9000).to_bytes(4, "big")
+            + bytes([1])
+            + (268).to_bytes(2, "big", signed=True)
+            + (558).to_bytes(2, "big")
+            + (431).to_bytes(2, "big")
+            + (125).to_bytes(2, "big")
+            + bytes([0x01])
+        )
+        report = LoraAdapter().parse(
+            "application/1/device/AABB/event/up",
+            {
+                "deviceInfo": {"deviceName": "lora-field-01"},
+                "data": base64.b64encode(binary).decode(),
+            },
+        )
+
+        assert report.temperature == 26.8
+        assert report.humidity == 55.8
+        assert report.raw["soil_moisture"] == 43.1
+        assert report.raw["precipitation"] == 12.5
+
+    def test_chirpstack_unknown_payload_length_is_preserved(self):
+        payload = {
+            "deviceInfo": {"deviceName": "lora-real-01"},
+            "data": base64.b64encode(b"bad").decode(),
+        }
+        report = LoraAdapter().parse("application/1/device/AABB/event/up", payload)
+        assert report.raw["data"] == payload["data"]
+        assert report.raw["binary_length"] == 3
+
+    def test_hpv1_camera_status_is_not_decoded_as_environment_data(self):
+        packet = b"HP" + bytes([1, 2]) + (18512).to_bytes(4, "little") + bytes(8)
+        report = LoraAdapter().parse(
+            "application/1/device/dc56b7d6a7dd94a1/event/up",
+            {
+                "deviceInfo": {
+                    "deviceName": "EoRa-HUB-400TB",
+                    "devEui": "dc56b7d6a7dd94a1",
+                },
+                "fPort": 2,
+                "data": base64.b64encode(packet).decode(),
+            },
+        )
+
+        assert report.temperature is None
+        assert report.humidity is None
+        assert report.raw["camera_transport"] == "lorawan_hcv3"
+        assert report.raw["camera_packet"] == "status"
+
+    def test_unknown_business_fields_are_passed_through(self):
+        payload = {
+            "device_id": "field-node-01",
+            "soilHumidity": 42,
+            "custom_metric": 17.5,
+            "object": {"rain": 2.1},
+        }
+        report = LoraAdapter().parse("bridge/uplink/lora/field-node-01/data", payload)
+        assert report.raw["custom_metric"] == 17.5
+        assert report.raw["object"] == {"rain": 2.1}
+
+    def test_unified_lora_topic_decodes_business_payload(self):
+        payload = {
+            "deviceInfo": {
+                "deviceName": "Ebyte Test Device 470",
+                "devEui": "0000000000000925",
+            },
+            "data": "ABid2tGAABkRCAABDQI+AQ==",
+            "rxInfo": [{"rssi": -40, "snr": 14.0}],
+        }
+
+        report = LoraAdapter().parse(
+            "bridge/uplink/lora/lora_env_01/data", payload
+        )
+
+        assert report.device_id == "Ebyte Test Device 470"
+        assert report.temperature == 26.9
+        assert report.humidity == 57.4
 
 
 # ========================================================================

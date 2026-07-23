@@ -1,0 +1,116 @@
+INFO:     Started server process [20328]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50420 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.231:62136 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:61292 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:65494 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.204:48973 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1OTY5fQ.a8byVhw9sSZlyrfw83J4chsOUX7F3HQry1S78TBbh5E" [accepted]
+INFO:     connection open
+INFO:     192.168.200.209:17331 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTc3fQ.O_Y9hoiJxodv9u1VfnJts9bwTexRuY4j2ohA2ZNXiMk" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:50853 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     192.168.200.204:29565 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTYzNTd9.mJetPkmeN-Khg8wokbxtwpjwsQmaaqaW9nDB71LvYV4" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:65080 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:52112 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:51923 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection closed
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     192.168.200.231:64029 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:58171 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.209:52067 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTc3fQ.O_Y9hoiJxodv9u1VfnJts9bwTexRuY4j2ohA2ZNXiMk" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:61816 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     192.168.200.204:15715 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTYzNTd9.mJetPkmeN-Khg8wokbxtwpjwsQmaaqaW9nDB71LvYV4" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51841 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:63355 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:61636 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:62203 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     192.168.200.231:65185 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection closed
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:65383 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:65326 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     192.168.200.231:63231 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection closed
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:63774 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:55531 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     192.168.200.204:5224 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTYzNTd9.mJetPkmeN-Khg8wokbxtwpjwsQmaaqaW9nDB71LvYV4" [accepted]
+INFO:     connection open
+INFO:     192.168.200.209:17864 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTc3fQ.O_Y9hoiJxodv9u1VfnJts9bwTexRuY4j2ohA2ZNXiMk" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:55570 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:59086 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:59448 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:61050 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.231:57409 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open
+INFO:     192.168.200.209:33641 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTc3fQ.O_Y9hoiJxodv9u1VfnJts9bwTexRuY4j2ohA2ZNXiMk" [accepted]
+INFO:     connection open
+INFO:     192.168.200.204:65138 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTYzNTd9.mJetPkmeN-Khg8wokbxtwpjwsQmaaqaW9nDB71LvYV4" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:61541 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:56303 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     192.168.200.246:50081 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE2NjA1fQ.NMIZQ5WUjgtMQsvmbmzG2dZCSJCLDBPszX_93Cr_M58" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:61123 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsIm5hbWUiOiLns7vnu5_nrqHnkIblkZgiLCJleHAiOjE3ODQ3MTQ1Mjh9.c20mIfnUF9E3FenK-9dIYaV7fuHSY4D_9SfA4wt8snI" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     192.168.200.231:54393 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyIiwicm9sZSI6InVzZXIiLCJuYW1lIjoi546v5aKD55So5oi3IiwiZXhwIjoxNzg0NzE1NTI0fQ.qUNmrxoBfx3O0tiuhOda2B2galfvmuU6oNMe50mfHvA" [accepted]
+INFO:     connection open

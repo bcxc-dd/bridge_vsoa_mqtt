@@ -1,0 +1,4 @@
+# Runtime dependencies supported by Python 3.8.10.
+# VSOA 1.0.4 is vendored in ./vsoa with annotation-only compatibility edits.
+paho-mqtt==2.1.0
+PyYAML==6.0.3

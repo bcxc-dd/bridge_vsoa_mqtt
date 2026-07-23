@@ -1,0 +1,38 @@
+正在连接MQTT...
+MQTT连接成功
+订阅Topic:
+  bridge/uplink/lora/+/data
+  s3/eora-s3-400tb-001/data
+
+========================
+Topic:
+bridge/uplink/lora/lora_env_01/data
+
+========== LoRaWAN数据 ==========
+Device ID: lora_env_01
+DevEUI: 0000000000000925
+设备: Ebyte Test Device 470
+
+时间:
+2026-07-16T06:09:52.745859455+00:00
+
+网关:
+Gateway: e4b323fffef78b8c
+RSSI: -40
+SNR: 14.0
+
+Base64:
+ABid2tGAABkRCAABDQI+AQ==
+
+HEX:
+00189ddad1800019110800010d023e01
+
+======= LoRa解析结果 =======
+温度: 26.9 ℃
+湿度: 57.4 %
+序号: 24
+Boot ID: 0x9ddad180
+LoRaWAN重传: 0
+已入网: True
+应用层重传: False
+============================

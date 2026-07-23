@@ -22,6 +22,7 @@
 
 **上行（Uplink）：** MQTT 设备数据 → adapter 解析 → 设备注册表 → VSOA 查询接口 + 发布通知  
 **下行（Downlink）：** VSOA 命令 → 校验 → 注册表检查 → 幂等去重 → MQTT 控制消息下发
+**场景联动（Scene）：** 真实上行传感数据 → 条件匹配 → 冷却/边沿判断 → MQTT 下行动作 → 触发记录
 
 ---
 
@@ -55,6 +56,12 @@ bridge-merged/
 │       ├── pubsub_handler.py    # 下行 Pub/Sub 订阅 + ACK
 │       ├── command.py           # 命令校验 + MQTT 消息构造（纯函数）
 │       └── dedup.py             # 幂等去重缓存
+│   └── scene_engine/
+│       ├── engine.py            # 条件匹配、冷却、边沿与自动停止
+│       ├── models.py            # 场景规则模型和校验
+│       ├── sensors.py           # 传感字段定义与归一化读取
+│       ├── persistence.py       # scenes.yaml 原子持久化
+│       └── rpc_api.py           # /scene/* VSOA 管理接口
 ├── tools/
 │   ├── mqtt_monitor.py          # MQTT CLI 监视器（终端版，轻量替代）
 │   ├── mqtt_test.py             # MQTT 连接测试（订阅全部 topic）
@@ -166,6 +173,29 @@ Adapter 会将常见测量值映射到规范名称（写入 `raw`），未知字
 | `battery` | battery, battery_level, voltage |
 | `signal` | rssi, signal, linkquality, rssi_level |
 | `snr` | snr, loRaSNR, signal_to_noise |
+| `soil_moisture` | soil_moisture, soil_humidity, soil |
+| `precipitation` | precipitation, rain, rainfall |
+| `illuminance` | illuminance, light, lux, brightness |
+| `smoke` | smoke, smoke_alarm, gas |
+| `pir` | pir, motion, presence, occupancy, infrared |
+| `voltage` | voltage, volt, battery_voltage, supply_voltage |
+
+### 4.3 LoRaWAN HCv3 图片分片
+
+桥接进程直接在现有 MQTT 上行管道内处理 FPort 2 的 HCv3 图片分片，不会建立第二个 MQTT 连接。处理流程为：分片 CRC16 校验、按 `DevEUI + image_seq` 分组、重复片去重、乱序重排、整图 CRC32 与 JPEG 首尾标记校验。只有完整图片会进入设备注册表和 VSOA `/device/update`，并以 `image_b64`、`image_mime=image/jpeg` 和 `camera_transport=lorawan_hcv3` 输出。
+
+图片完整时，桥接通过 ChirpStack 下行 Topic 在 FPort 3 发送 HA `ACK_OK`；超时缺片时发送 `RETX_REQUEST` 和缺失的 `chunk_index` 列表。相关参数位于 `uplink.camera`：
+
+```yaml
+camera:
+  enabled: true
+  uplink_fport: 2
+  downlink_fport: 3
+  timeout_seconds: 45
+  max_image_bytes: 8192
+  max_retransmit_requests: 3
+  send_ack: true
+```
 
 ---
 
@@ -183,6 +213,7 @@ Adapter 会将常见测量值映射到规范名称（写入 `raw`），未知字
 | `/device/{id}/data` | command | 单设备完整数据 |
 | `/device/{id}/status` | command | 单设备状态 |
 | `/bridge/send_command` | command | **下行命令入口（同步 RPC 回执）** |
+| `/scene/list` 等 | command | 场景查询、创建、更新、删除、启停与热重载 |
 
 ### VSOA 发布通知
 
@@ -191,6 +222,11 @@ Adapter 会将常见测量值映射到规范名称（写入 `raw`），未知字
 | `/device/update` | 每次设备注册/更新 | 上行 |
 | `/bridge/event` | 每次上行消息处理完成 | 上行 |
 | `/ctrl/ack` | 每次 Pub/Sub 下行命令处理完成 | 下行 |
+| `/scene/trigger` | 场景触发或持续动作自动停止 | 下行 |
+
+### 场景联动
+
+场景规则保存在 `scenes.yaml`，支持平铺 AND/OR 条件、`gt/gte/lt/lte/eq/neq`、持续或边沿触发、冷却期、`HH:MM`/ISO 时间窗口、批量动作和持续时间结束后的自动停止。人体红外 `pir` 默认采用边沿触发；同一目标发生冲突时采用后触发者生效。
 
 ---
 
@@ -210,22 +246,33 @@ Adapter 会将常见测量值映射到规范名称（写入 `raw`），未知字
 
 ### 环境要求
 
-- Python ≥ 3.10
-- VSOA Python SDK v1.0.4
-- paho-mqtt、pyyaml
+- Python 3.8.10 或更高版本
+- paho-mqtt 2.1.0
+- PyYAML 6.0.3
+- 项目已内置经过 Python 3.8 类型注解兼容处理的 VSOA Python SDK v1.0.4，部署时不再安装 PyPI 的 `vsoa` 包
 
 ```bash
-pip install paho-mqtt pyyaml
-# VSOA SDK 按内部文档安装
+python3.8 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements-py38.txt
+python -m tools.python38_smoke
 ```
+
+> 必须从仓库根目录启动，使项目内置的 `vsoa/` 优先加载。官方 v1.0.4 包声明要求 Python >= 3.10，本仓库仅对其类型注解语法做了 Python 3.8 兼容处理，协议逻辑保持不变，许可证见 `vsoa/LICENSE`。
 
 ### 启动
 
 **终端 1 — bridge 主服务**
 
 ```bash
-cd bridge-merged
-python src/main.py
+cd bridge_vsoa_mqtt
+python -m src.main --config config.yaml
+```
+
+完整双向模式不要添加 `--uplink-only`。桥接会按配置自动启动或复用 `3000` 业务 VSOA Server，订阅 `/ctrl/cmd` 并将命令发布到 MQTT；也可以在 Linux/LoRaWAN 主机执行：
+
+```bash
+sh run_bridge_py38.sh
 ```
 
 **终端 2 — GUI 监视器**
@@ -285,6 +332,7 @@ python tools/verify_e2e.py
 | `uplink` | TCP 注入端口、设备上限、适配器列表 |
 | `downlink.command` | 超时、去重、重试参数 |
 | `chirpstack` | ChirpStack 下行格式（enabled + confirmed + fPort） |
+| `scene_engine` | 场景规则文件、默认冷却期和规则数量上限 |
 | `logging` | 日志级别与输出 |
 
 ---
@@ -305,6 +353,8 @@ python tools/verify_e2e.py
 | traceId 全链路追踪 | ✅ |
 | GUI 监视器（mqtt_monitor.py） | ✅ |
 | VSOA 事件监听（上下行桥接验证） | ✅ |
+| 智慧场景规则、持久化与 VSOA 管理接口 | ✅ |
+| 平台场景编辑与触发记录 | ✅ |
 | 对接真实设备 | 📌 待进行 |
 
 ---

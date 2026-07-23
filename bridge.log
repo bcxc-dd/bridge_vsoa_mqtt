@@ -1,0 +1,159 @@
+[2026-07-22 11:37:15] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-22 11:37:15] [INFO] config: .\config.yaml
+[2026-07-22 11:37:15] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-22 11:37:15] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-22 11:37:15] [INFO] MQTT on_connect: OK
+[2026-07-22 11:37:15] [INFO] MQTT connected: 192.168.200.221:1883 (client_id=mqtt-vsoa-bridge-lora)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-22 11:37:16] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-22 11:37:16] [INFO] [OK] MQTT connected: 192.168.200.221:1883 (9 uplink topics)
+[2026-07-22 11:37:16] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-22 11:37:16] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-22 11:37:16] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-22 11:37:16] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-22 11:37:16] [INFO] [SCENE] engine started: 2 rules
+[2026-07-22 11:37:16] [INFO] [SCENE] registered 9 VSOA RPC endpoints
+[2026-07-22 11:37:16] [INFO] [OK] Scene engine: 2 rules from C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\scenes.yaml
+[2026-07-22 11:37:16] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-22 11:37:16] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-22 11:37:16] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-22 11:37:16] [INFO] [INFO] PubSub disabled (--uplink-only)
+========================================================
+[INFO] MQTT-VSOA Bridge v1.0.0 started
+[INFO] VSOA Server         : 0.0.0.0:3001
+[INFO]   RPC: /bridge/health, /adapter/list, /uplink/schema
+[INFO]   RPC: /device/list, /device/all/data, /device/{id}/data
+[INFO]   RPC: /bridge/send_command (downlink)
+[INFO]   RPC: /scene/list, /scene/add, /scene/update, /scene/delete
+[INFO]   Pub: /device/update, /bridge/event, /ctrl/ack
+[INFO] MQTT                 : enabled (192.168.200.221:1883)
+[INFO]   Uplink topics      : 9
+[INFO]   Downlink prefix    : bridge/downlink
+[INFO] PubSub               : disabled (--uplink-only)
+[INFO] TCP inject           : 0.0.0.0:9090
+[INFO] Device registry      : max 64 devices
+========================================================
+[2026-07-22 11:37:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:37:59] [INFO] [REGISTRY] registered device='Ebyte Test Device 470' type=status source=lora
+[2026-07-22 11:37:59] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:38:00] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:38:00] [INFO] [REGISTRY] registered device='eora_s3_400tb_001' type=multi source=bridge
+[2026-07-22 11:38:00] [INFO] [UPLINK] registered source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:39:01] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:39:01] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:39:02] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:39:02] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:39:02] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:39:02] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:40:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:40:02] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:40:03] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:40:03] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:40:03] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:40:03] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:41:03] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:41:03] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:41:03] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:41:04] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:41:04] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:41:04] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:41:04] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:41:04] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:42:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:42:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:42:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:42:05] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:42:06] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:42:06] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:42:06] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:42:06] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:43:06] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:43:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:43:06] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:43:06] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:43:07] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:43:07] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:43:07] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:43:07] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:44:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:44:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:44:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:44:07] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:44:08] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:44:08] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:44:08] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:44:08] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:45:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:45:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:45:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:45:09] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:45:10] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:45:10] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:45:10] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:45:10] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:46:10] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:46:10] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:46:10] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:46:11] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:46:11] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:46:11] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:46:11] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:47:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:47:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:47:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:47:11] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:47:12] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:47:12] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:47:12] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:47:12] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:48:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:48:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:48:13] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:48:13] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:48:14] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:48:14] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:48:14] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:48:14] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:49:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:49:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:49:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:49:14] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:49:15] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:49:15] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:49:15] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:49:15] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:50:15] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:50:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:50:15] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:50:15] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:50:16] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:50:16] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:50:16] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:50:16] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:51:17] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:51:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:51:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:51:17] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:51:18] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:51:18] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:51:18] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:51:18] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 11:51:32] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-22 11:51:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:51:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-22 11:51:32] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-22 11:51:33] [INFO] [MQTT] RX topic=bridge/uplink/generic/eora_s3_400tb_001/data
+[2026-07-22 11:51:33] [INFO] [SCENE] triggered scene=scene-1a887a32813a source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:51:33] [INFO] [SCENE] triggered scene=scene-3bed044cd05b source_device=eora_s3_400tb_001 actions=1
+[2026-07-22 11:51:33] [INFO] [UPLINK] updated source=bridge adapter=generic_adapter device=eora_s3_400tb_001 type=multi
+[2026-07-22 13:32:50] [WARNING] MQTT unexpected disconnect (reason_code=Unspecified error)
+[2026-07-22 13:32:50] [INFO] MQTT reconnecting in 3.0s (attempt 1)...
+[2026-07-22 13:32:54] [INFO] MQTT on_connect: OK

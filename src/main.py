@@ -3,7 +3,7 @@ MQTT ↔ VSOA 桥接组件 — 统一入口
 
 同时启动上行（MQTT→VSOA）和下行（VSOA→MQTT）处理管道。
 
-启动:  python src/main.py [--config config.yaml] [--no-mqtt]
+启动:  python src/main.py [--config config.yaml] [--no-mqtt] [--uplink-only]
 
 端口:
   vsoa://192.168.200.231:3000
@@ -16,6 +16,7 @@ MQTT ↔ VSOA 桥接组件 — 统一入口
 from __future__ import annotations
 
 import argparse
+import base64
 import logging
 import signal
 import sys
@@ -34,7 +35,7 @@ for _p in (str(_SRC), str(_ROOT)):
 
 from config import load_config, BridgeConfig
 from device_registry import DeviceRegistry
-from mqtt_handler import MQTTHandler
+from mqtt_handler import MQTTHandler, MQTTPublisherRouter
 
 logger = logging.getLogger("bridge")
 
@@ -44,9 +45,14 @@ logger = logging.getLogger("bridge")
 _vsoa_server: Any = None        # unified vsoa.Server
 _pubsub_handler: Any = None
 _mqtt_handler: MQTTHandler | None = None
+_project_mqtt_handlers: dict[str, MQTTHandler] = {}
+_mqtt_router: MQTTPublisherRouter | None = None
 _tcp_inject: Any = None
 _rpc_server: Any = None
 _uplink_server: Any = None
+_scene_engine: Any = None
+_scene_rpc: Any = None
+_business_server: Any = None
 
 
 # ---------------------------------------------------------------------------
@@ -63,6 +69,8 @@ def main() -> None:
     parser.add_argument("--mqtt-port", type=int, help="Override MQTT broker port")
     parser.add_argument("--mqtt-topic", action="append", dest="mqtt_topics",
                         help="Override MQTT uplink topic (repeatable)")
+    parser.add_argument("--uplink-only", action="store_true",
+                        help="Run MQTT-to-VSOA uplink without the VSOA :3000 control service")
     args = parser.parse_args()
 
     # ---- 1. Load config ----
@@ -104,7 +112,7 @@ def main() -> None:
                     config.downlink.command.dedup.max_size)
 
     # ---- 4. MQTT Handler ----
-    global _mqtt_handler
+    global _mqtt_handler, _mqtt_router, _project_mqtt_handlers
     mqtt_enabled = not args.no_mqtt
     if mqtt_enabled:
         _mqtt_handler = MQTTHandler()
@@ -123,11 +131,49 @@ def main() -> None:
             logger.error("MQTT connect failed")
             sys.exit(1)
         _mqtt_handler.subscribe(config.mqtt.uplink_topics, qos=config.mqtt.qos)
+        _mqtt_router = MQTTPublisherRouter(_mqtt_handler)
+        _project_mqtt_handlers = {}
+        for project, broker_config in config.mqtt.project_brokers.items():
+            if not isinstance(broker_config, dict):
+                logger.warning("[MQTT] invalid project broker config: %s", project)
+                continue
+            project_handler = MQTTHandler()
+            project_ok = project_handler.connect(
+                broker=str(broker_config.get("broker", "")),
+                port=int(broker_config.get("port", 1883)),
+                client_id=str(broker_config.get("client_id", f"mqtt-vsoa-bridge-{project}")),
+                keepalive=int(broker_config.get("keepalive", 60)),
+                username=str(broker_config.get("username", "")),
+                password=str(broker_config.get("password", "")),
+                reconnect_enabled=config.mqtt.reconnect.enabled,
+                reconnect_interval_ms=config.mqtt.reconnect.interval_ms,
+                reconnect_max_retries=config.mqtt.reconnect.max_retries,
+            )
+            _project_mqtt_handlers[project] = project_handler
+            _mqtt_router.add_route(project, project_handler)
+            if project_ok:
+                topics = list(
+                    broker_config.get("uplink_topics")
+                    or [f"bridge/uplink/{project}/+/data"]
+                )
+                project_handler.subscribe(
+                    topics,
+                    qos=int(broker_config.get("qos", config.mqtt.qos)),
+                )
+                logger.info(
+                    "[OK] MQTT project route: %s -> %s:%d (%d uplink topics)",
+                    project, broker_config.get("broker"),
+                    int(broker_config.get("port", 1883)), len(topics),
+                )
+            else:
+                logger.error("[MQTT] project Broker unavailable: %s", project)
         logger.info("[OK] MQTT connected: %s:%d (%d uplink topics)",
                     config.mqtt.broker, config.mqtt.port,
                     len(config.mqtt.uplink_topics))
     else:
         _mqtt_handler = None
+        _mqtt_router = None
+        _project_mqtt_handlers = {}
         logger.info("[INFO] MQTT disabled (--no-mqtt)")
 
     # ---- 5. Unified VSOA Server (port 3001) ----
@@ -173,8 +219,8 @@ def main() -> None:
         max_timeout_ms=config.downlink.command.max_timeout_ms,
         mqtt_topic_prefix=config.mqtt.downlink_topic_prefix,
         mqtt_topic_prefixes=config.mqtt.downlink_topic_prefixes,
-        mqtt_publisher=_mqtt_handler.publish if _mqtt_handler else None,
-        mqtt_is_connected=lambda: _mqtt_handler.is_connected if _mqtt_handler else False,
+        mqtt_publisher=_mqtt_router.publish if _mqtt_router else None,
+        mqtt_is_connected=lambda: _mqtt_router.is_connected if _mqtt_router else False,
         registry=registry,
         dedup=dedup,
         retry_max_retries=config.downlink.command.retry.max_retries,
@@ -182,6 +228,27 @@ def main() -> None:
         chirpstack_config=chirpstack_cfg,
         server=_vsoa_server,
     )
+
+    # ---- 5c. Scene automation engine + management RPC ----
+    from scene_engine import SceneEngine
+    from scene_engine.rpc_api import SceneRpcServer
+    global _scene_engine, _scene_rpc
+    rules_path = Path(config.scene_engine.rules_path)
+    if not rules_path.is_absolute():
+        rules_path = Path(args.config).resolve().parent / rules_path
+    _scene_engine = SceneEngine(
+        rules_path=str(rules_path),
+        mqtt_publisher=_mqtt_router.publish if _mqtt_router else None,
+        mqtt_topic_prefix=config.mqtt.downlink_topic_prefix,
+        mqtt_topic_prefixes=config.mqtt.downlink_topic_prefixes,
+        registry=registry,
+        default_cooldown_seconds=config.scene_engine.default_cooldown_seconds,
+        max_rules=config.scene_engine.max_rules,
+        max_conditions_per_rule=config.scene_engine.max_conditions_per_rule,
+        max_actions_per_rule=config.scene_engine.max_actions_per_rule,
+        event_publisher=_vsoa_publish,
+    )
+    _scene_rpc = SceneRpcServer(_scene_engine, _vsoa_server)
 
     # ---- 6. Start uplink VSOA Server ----
     _uplink_server.start()
@@ -197,6 +264,17 @@ def main() -> None:
         sys.exit(1)
     logger.info("[OK] RPC Server on %s:%d endpoint=%s",
                 config.vsoa.server.bind_host, config.vsoa.server.port, "/bridge/send_command")
+
+    if config.scene_engine.enabled:
+        try:
+            _scene_engine.start()
+            _scene_rpc.start()
+            logger.info("[OK] Scene engine: %d rules from %s", len(_scene_engine.list_rules()), rules_path)
+        except Exception:
+            logger.error("Scene engine failed to start:\n%s", traceback.format_exc())
+            sys.exit(1)
+    else:
+        logger.info("[INFO] Scene engine disabled")
 
     # ---- 6c. Start shared VSOA Server (now that all handlers are registered) ----
     _vsoa_ready = False
@@ -229,12 +307,104 @@ def main() -> None:
 
     # ---- 7. TCP Inject (port 9090) ----
     from uplink.tcp_inject import TcpInjectServer
+    from uplink.camera_reassembler import (
+        Hcv3CameraReassembler,
+        build_chirpstack_downlink,
+        build_ha_payload,
+    )
     global _tcp_inject
+
+    camera_cfg = config.uplink.camera
+    camera_reassembler = Hcv3CameraReassembler(
+        timeout_seconds=camera_cfg.timeout_seconds,
+        max_image_bytes=camera_cfg.max_image_bytes,
+        max_retransmit_requests=camera_cfg.max_retransmit_requests,
+        uplink_fport=camera_cfg.uplink_fport,
+    )
+    camera_stop = threading.Event()
+
+    def _publish_camera_control(outcome) -> None:
+        if (
+            not camera_cfg.send_ack
+            or outcome.control_status is None
+            or not _mqtt_handler
+        ):
+            return
+        if not camera_reassembler.is_latest(outcome.device_id, outcome.image_seq):
+            logger.info(
+                "[CAMERA] suppress stale HA device=%s seq=%d",
+                outcome.device_id, outcome.image_seq,
+            )
+            return
+        app_id = outcome.app_id or config.chirpstack.application_id
+        if not app_id:
+            logger.warning(
+                "[CAMERA] cannot send HA control: application_id missing device=%s seq=%s",
+                outcome.device_id, outcome.image_seq,
+            )
+            return
+        binary = build_ha_payload(
+            outcome.image_seq,
+            outcome.control_status,
+            outcome.missing if outcome.control_status == 1 else None,
+        )
+        downlink_topic, downlink_payload = build_chirpstack_downlink(
+            app_id,
+            outcome.device_id,
+            binary,
+            fport=camera_cfg.downlink_fport,
+            confirmed=False,
+        )
+        if _mqtt_handler.publish(downlink_topic, downlink_payload, qos=config.mqtt.qos):
+            logger.info(
+                "[CAMERA] HA downlink status=%d device=%s seq=%d missing=%s topic=%s fPort=%d ha_b64=%s ha_hex=%s",
+                outcome.control_status, outcome.device_id, outcome.image_seq,
+                outcome.missing, downlink_topic, camera_cfg.downlink_fport,
+                base64.b64encode(binary).decode("ascii"), binary.hex(),
+            )
+        else:
+            logger.warning(
+                "[CAMERA] HA downlink publish failed device=%s seq=%d",
+                outcome.device_id, outcome.image_seq,
+            )
+
+    def _publish_camera_event(outcome) -> None:
+        if not outcome.state.startswith("duplicate"):
+            _vsoa_publish("/bridge/event", outcome.to_event())
+        _publish_camera_control(outcome)
+
+    def _camera_watchdog() -> None:
+        while not camera_stop.wait(1.0):
+            for expired in camera_reassembler.expire():
+                logger.warning(
+                    "[CAMERA] %s device=%s seq=%d received=%d/%d missing=%s",
+                    expired.state, expired.device_id, expired.image_seq,
+                    expired.received_count, expired.chunk_count, expired.missing,
+                )
+                _publish_camera_event(expired)
 
     def _process_uplink(topic: str, payload: dict) -> None:
         """上行处理管道: adapter → registry.upsert → VSOA 通知。"""
         from uplink.adapters import select_adapter
         from uplink.adapters.base import AdapterParseError
+
+        if camera_cfg.enabled:
+            camera_outcome = camera_reassembler.ingest(topic, payload)
+            if camera_outcome is not None:
+                _publish_camera_event(camera_outcome)
+                logger.info(
+                    "[CAMERA] state=%s device=%s seq=%d chunk=%d/%d received=%d",
+                    camera_outcome.state, camera_outcome.device_id,
+                    camera_outcome.image_seq, camera_outcome.chunk_index + 1,
+                    camera_outcome.chunk_count, camera_outcome.received_count,
+                )
+                if not camera_outcome.complete:
+                    return
+                topic = (
+                    f"bridge/uplink/lora/{camera_outcome.device_id}/camera/frame"
+                )
+                payload = camera_outcome.payload or payload
+
         adapter = select_adapter(topic, payload)
         try:
             report_obj = adapter.parse(topic, payload)
@@ -254,6 +424,9 @@ def main() -> None:
             "timestamp": int(time.time() * 1000),
         })
 
+        if _scene_engine and _scene_engine.running:
+            _scene_engine.on_uplink(dev)
+
         action = "registered" if created else "updated"
         logger.info("[UPLINK] %s source=%s adapter=%s device=%s type=%s",
                     action, report_obj.source, report_obj.adapter,
@@ -266,18 +439,29 @@ def main() -> None:
     _tcp_inject.start()
     logger.info("[OK] TCP inject: 0.0.0.0:%d", config.uplink.tcp_inject_port)
 
-    # ---- 8. PubSub Client (connect business layer VSOA Server :3000) ----
+    # ---- 8. Business VSOA Server + PubSub Client (:3000 /ctrl/cmd) ----
     # In --no-mqtt (offline) mode, skip PubSub — no business-layer VSOA server
-    if mqtt_enabled:
+    if mqtt_enabled and not args.uplink_only:
+        from downlink.business_server import BusinessVsoaServer
         from downlink.pubsub_handler import PubSubHandler
-        global _pubsub_handler
+        global _business_server, _pubsub_handler
+        _business_server = BusinessVsoaServer(
+            server_url=config.vsoa.pubsub_client.server_url,
+            bind_host=config.vsoa.business_server.bind_host,
+            bind_port=config.vsoa.business_server.port,
+            auto_start=config.vsoa.business_server.auto_start,
+        )
+        if not _business_server.start_if_needed():
+            logger.error("Business VSOA Server unavailable: %s",
+                         config.vsoa.pubsub_client.server_url)
+            sys.exit(1)
         _pubsub_handler = PubSubHandler(
             server_url=config.vsoa.pubsub_client.server_url,
             subscribe_urls=list(config.vsoa.pubsub_client.subscribe_urls),
             max_timeout_ms=config.downlink.command.max_timeout_ms,
             mqtt_topic_prefix=config.mqtt.downlink_topic_prefix,
             mqtt_topic_prefixes=config.mqtt.downlink_topic_prefixes,
-            mqtt_publisher=_mqtt_handler.publish if _mqtt_handler else None,
+            mqtt_publisher=_mqtt_router.publish if _mqtt_router else None,
             ack_publish_url=config.vsoa.pubsub_client.ack_publish_url,
             ack_publisher=lambda url, data: _vsoa_publish(url, data),
             registry=registry,
@@ -299,6 +483,8 @@ def main() -> None:
             logger.error("PubSub connect failed after %d attempts", max_retries)
             sys.exit(1)
         logger.info("[OK] PubSub subscribed: %s", config.vsoa.pubsub_client.subscribe_urls)
+    elif args.uplink_only:
+        logger.info("[INFO] PubSub disabled (--uplink-only)")
     else:
         logger.info("[INFO] PubSub disabled (offline mode)")
 
@@ -306,6 +492,24 @@ def main() -> None:
     if _mqtt_handler:
         _mqtt_handler.set_uplink_callback(
             lambda topic, payload: _process_uplink(topic, payload)
+        )
+    for project_handler in _project_mqtt_handlers.values():
+        project_handler.set_uplink_callback(
+            lambda topic, payload: _process_uplink(topic, payload)
+        )
+
+    camera_thread = None
+    if camera_cfg.enabled and _mqtt_handler:
+        camera_thread = threading.Thread(
+            target=_camera_watchdog,
+            daemon=True,
+            name="hcv3-camera-watchdog",
+        )
+        camera_thread.start()
+        logger.info(
+            "[OK] HCv3 camera reassembly: uplink FPort=%d, downlink FPort=%d, timeout=%ds",
+            camera_cfg.uplink_fport, camera_cfg.downlink_fport,
+            camera_cfg.timeout_seconds,
         )
 
     # ---- 9. Banner ----
@@ -315,12 +519,15 @@ def main() -> None:
     print(f"[INFO]   RPC: /bridge/health, /adapter/list, /uplink/schema")
     print(f"[INFO]   RPC: /device/list, /device/all/data, /device/{{id}}/data")
     print(f"[INFO]   RPC: /bridge/send_command (downlink)")
+    print(f"[INFO]   RPC: /scene/list, /scene/add, /scene/update, /scene/delete")
     print(f"[INFO]   Pub: /device/update, /bridge/event, /ctrl/ack")
     print(f"[INFO] MQTT                 : {'enabled' if mqtt_enabled else 'disabled'} "
           f"({config.mqtt.broker}:{config.mqtt.port})")
     print(f"[INFO]   Uplink topics      : {len(config.mqtt.uplink_topics)}")
     print(f"[INFO]   Downlink prefix    : {config.mqtt.downlink_topic_prefix}")
-    if _pubsub_handler is not None:
+    if args.uplink_only:
+        print("[INFO] PubSub               : disabled (--uplink-only)")
+    elif _pubsub_handler is not None:
         print(f"[INFO] PubSub subscribed    : {config.vsoa.pubsub_client.subscribe_urls} "
               f"→ {config.vsoa.pubsub_client.ack_publish_url}")
     else:
@@ -332,12 +539,23 @@ def main() -> None:
     # ---- 10. Signal handling ----
     def shutdown(signum=None, frame=None) -> None:
         logger.info("Shutting down...")
+        camera_stop.set()
+        if camera_thread and camera_thread.is_alive():
+            camera_thread.join(timeout=2)
         if _pubsub_handler:
             _pubsub_handler.stop()
+        if _business_server:
+            _business_server.stop()
+        if _scene_rpc:
+            _scene_rpc.stop()
+        if _scene_engine:
+            _scene_engine.stop()
         if _tcp_inject:
             _tcp_inject.stop()
         if _mqtt_handler:
             _mqtt_handler.disconnect()
+        for project_handler in _project_mqtt_handlers.values():
+            project_handler.disconnect()
         if _rpc_server:
             _rpc_server.stop()
         if _uplink_server:

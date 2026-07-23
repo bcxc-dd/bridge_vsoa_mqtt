@@ -3,7 +3,12 @@ __pycache__/
 *.pyc
 node_modules/
 dist/
+*.log
 data/platform.db
+data/backups/
+data/connection_profiles.json
+data/vsoa_connection_profiles.json
 data/uploads/*
+data/camera_captures/
 data/auth_secret.key
 !data/uploads/.gitkeep

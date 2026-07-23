@@ -1,0 +1,228 @@
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1110, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 953, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 687, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 377, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: %d format: a real number is required, not ReasonCode
+Call stack:
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4523, in _thread_main
+    self.loop_forever(retry_first_connection=True)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2297, in loop_forever
+    rc = self._loop(timeout)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 1686, in _loop
+    rc = self.loop_read()
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 2102, in loop_read
+    return self._loop_rc_handle(rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 3047, in _loop_rc_handle
+    self._do_on_disconnect(packet_from_broker=False, v1_rc=rc)
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\.venv\Lib\site-packages\paho\mqtt\client.py", line 4383, in _do_on_disconnect
+    on_disconnect(
+  File "C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\src\mqtt_handler.py", line 215, in _on_disconnect
+    logger.warning("MQTT unexpected disconnect (reason_code=%d)", reason_code)
+Message: 'MQTT unexpected disconnect (reason_code=%d)'
+Arguments: (ReasonCode(Disconnect, 'Unspecified error'),)

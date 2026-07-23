@@ -9,10 +9,10 @@ bridge:
 
 # ---------- VSOA 连接 ----------
 vsoa:
-  # --- VSOA Server（bridge 内嵌，对外地址 vsoa://192.168.200.231:3000）---
+  # --- VSOA Server（bridge 内嵌，场景与桥接接口使用 3001）---
   server:
     bind_host: "0.0.0.0"
-    port: 3000
+    port: 3001
 
   # --- mqtt_receiver.py 自动托管的业务层 VSOA Server ---
   # 监听 0.0.0.0 后，局域网电脑可通过 vsoa://本机IP:3000 连接。
@@ -20,10 +20,11 @@ vsoa:
     auto_start: true
     bind_host: "0.0.0.0"
     port: 3000
-    advertised_url: "vsoa://192.168.3.230:3000"
+    advertised_url: "vsoa://127.0.0.1:3000"
 
   # --- Pub/Sub Client（连接业务层 VSOA Server，订阅 /ctrl/cmd）---
-  # 本机客户端继续使用回环地址，不受对外监听地址影响。
+  # 默认连接本机业务服务；局域网客户端使用运行主机的实际 IP 访问。
+  # 仅上行运行可使用 --uplink-only。
   pubsub_client:
     server_url: "vsoa://127.0.0.1:3000"
     subscribe_urls:
@@ -39,13 +40,13 @@ vsoa:
 
 # ---------- MQTT 连接 ----------
 mqtt:
-  #DEFAULT_HOST = "192.168.3.219"
-  broker: "192.168.3.219"
+  # LoRaWAN 网关当前所在局域网的 MQTT Broker
+  broker: "192.168.200.221"
   port: 1883
   username: ""
   password: ""
   keepalive: 60
-  client_id: "bridge-v1"
+  client_id: "mqtt-vsoa-bridge-lora"
   qos: 1
   retained: false
   reconnect:
@@ -55,6 +56,7 @@ mqtt:
 
   # --- 上行订阅 topic ---
   uplink_topics:
+    - "application/+/device/+/event/up"
     - "bridge/uplink/lora/+/data"
     - "bridge/uplink/zigbee/+/data"
     - "bridge/uplink/generic/+/data"
@@ -62,7 +64,6 @@ mqtt:
     - "bridge/uplink/generic/+/error"
     - "lora/+/up"
     - "zigbee/+/report"
-    - "application/+/device/+/event/up"
     - "s3/eora-s3-400tb-001/data"
 
   # --- 下行发布 topic ---
@@ -70,6 +71,20 @@ mqtt:
   downlink_topic_prefixes: {}
     # lora:   "lora/cmd"
     # zigbee: "zigbee/cmd"
+
+  # 不同项目可使用独立 Broker。上行进入同一设备注册表，下行按项目路由。
+  project_brokers:
+    zigbee:
+      broker: "192.168.200.169"
+      port: 1883
+      username: ""
+      password: ""
+      keepalive: 60
+      client_id: "mqtt-vsoa-bridge-zigbee"
+      qos: 1
+      uplink_topics:
+        - "bridge/uplink/zigbee/+/data"
+        - "zigbee/+/report"
 
 # ---------- 上行处理 ----------
 uplink:
@@ -79,6 +94,14 @@ uplink:
   max_topic_len: 192
   max_device_id_len: 64
   adapters: ["lora", "zigbee", "generic"]
+  camera:
+    enabled: true
+    uplink_fport: 2
+    downlink_fport: 3
+    timeout_seconds: 45
+    max_image_bytes: 8192
+    max_retransmit_requests: 3
+    send_ack: true
 
 # ---------- 下行命令处理 ----------
 downlink:
@@ -101,7 +124,7 @@ chirpstack:
   enabled: true # 启用 ChirpStack 下行格式
   confirmed: true # LoRaWAN confirmed downlink
   fPort: 1 # LoRaWAN fPort
-  application_id: "" # 留空 = 从上行 topic 自动获取
+  application_id: "3ed92fba-9e06-4b8e-ad41-54927a0fa89d" # 摄像头 ACK fallback；优先使用上行自带 applicationId
 
 # ---------- 日志 ----------
 logging:
@@ -109,3 +132,12 @@ logging:
   format: "[%(asctime)s] [%(levelname)s] %(message)s"
   date_format: "%Y-%m-%d %H:%M:%S"
   file: "logs/bridge.log"
+
+# ---------- 场景联动引擎 ----------
+scene_engine:
+  enabled: true
+  rules_path: "scenes.yaml"
+  default_cooldown_seconds: 60
+  max_rules: 100
+  max_conditions_per_rule: 10
+  max_actions_per_rule: 10

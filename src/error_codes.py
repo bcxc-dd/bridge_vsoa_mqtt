@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 MQTT ↔ VSOA 桥接组件 — 统一错误码常量定义
 
@@ -74,6 +76,16 @@ ERR_INTERNAL           = ErrorCode(2301, "ERR_INTERNAL",           "未分类的
 ERR_CONFIG_INVALID     = ErrorCode(2302, "ERR_CONFIG_INVALID",     "配置文件校验失败")
 ERR_VSOA_DISCONNECTED  = ErrorCode(2303, "ERR_VSOA_DISCONNECTED",  "VSOA 连接断开")
 ERR_QUEUE_FULL         = ErrorCode(2304, "ERR_QUEUE_FULL",         "待处理命令队列已满")
+
+# ---------------------------------------------------------------------------
+# 3xxx — 场景联动错误
+# ---------------------------------------------------------------------------
+ERR_SCENE_NOT_FOUND       = ErrorCode(3001, "ERR_SCENE_NOT_FOUND",       "场景不存在")
+ERR_SCENE_INVALID_RULE    = ErrorCode(3002, "ERR_SCENE_INVALID_RULE",    "场景规则不合法")
+ERR_SCENE_ALREADY_EXISTS  = ErrorCode(3003, "ERR_SCENE_ALREADY_EXISTS",  "场景 scene_id 已存在")
+ERR_SCENE_PERSIST_FAILED  = ErrorCode(3004, "ERR_SCENE_PERSIST_FAILED",  "场景规则持久化失败")
+ERR_SCENE_DEVICE_NOT_FOUND = ErrorCode(3005, "ERR_SCENE_DEVICE_NOT_FOUND", "场景目标设备不在注册表")
+ERR_SCENE_SENSOR_UNKNOWN  = ErrorCode(3006, "ERR_SCENE_SENSOR_UNKNOWN",  "场景引用了未知传感指标")
 
 
 # ---------------------------------------------------------------------------

@@ -30,8 +30,13 @@ from src.error_codes import (
 # ---------------------------------------------------------------------------
 # 常量
 # ---------------------------------------------------------------------------
-VALID_DEVICE_TYPES = frozenset({"lora", "zigbee"})
+VALID_DEVICE_TYPES = frozenset({"lora", "zigbee", "generic"})
 VALID_ACTIONS = frozenset({"set", "get", "reset", "config"})
+EORA_DEVICE_ID = "eora_s3_400tb_001"
+ZIGBEE_DEVICE_COMMANDS = {
+    "0xb25b": {"device_id": "0xB25B", "actuator": "relay"},
+    "0xc38f": {"device_id": "0xC38F", "actuator": "led"},
+}
 
 # 必填字段列表（timeout_ms 除外，其为选填）
 _REQUIRED_FIELDS = ("command_id", "device_type", "device_id", "action", "params")
@@ -138,6 +143,49 @@ def build_mqtt_message(cmd: dict, topic_prefix: str,
     device_id = cmd["device_id"]
     action = cmd["action"]
 
+    # EoRa S3 board consumes a compact device-specific command instead of
+    # the bridge's standard command envelope.
+    if _is_eora_device(device_type, device_id):
+        params = cmd.get("params") or {}
+        actuator = next((name for name in ("motor", "led") if params.get(name) in {"on", "off"}), None)
+        value = params.get(actuator) if actuator else None
+        if actuator is None and params.get("cmd") in {"motor", "led"}:
+            actuator = params.get("cmd")
+            value = params.get("value")
+        if value is None and isinstance(params.get("state"), bool):
+            actuator = "motor"
+            value = "on" if params["state"] else "off"
+        if actuator not in {"motor", "led"} or value not in {"on", "off"}:
+            raise ValueError("EoRa command must select motor/led with value on/off")
+        topic = f"{topic_prefix}/generic/{EORA_DEVICE_ID}/cmd"
+        return topic, json.dumps({"cmd": actuator, "value": value}, separators=(",", ":"))
+
+    # The two ZigBee boards consume a compact board-specific payload. Keep
+    # this translation at the bridge boundary so every VSOA caller shares
+    # the same wire contract.
+    zigbee_contract = ZIGBEE_DEVICE_COMMANDS.get(str(device_id).strip().lower())
+    if device_type == "zigbee" and zigbee_contract:
+        if action != "set":
+            raise ValueError(f"ZigBee device {zigbee_contract['device_id']} only supports set")
+        params = cmd.get("params") or {}
+        actuator = zigbee_contract["actuator"]
+        value = params.get(actuator)
+        if value is None and params.get("data") in {"00", "01"}:
+            data = params["data"]
+        elif value in {"on", True, 1, "01"}:
+            data = "01"
+        elif value in {"off", False, 0, "00"}:
+            data = "00"
+        else:
+            raise ValueError(
+                f"ZigBee device {zigbee_contract['device_id']} requires "
+                f"{actuator}=on/off"
+            )
+        canonical_id = zigbee_contract["device_id"]
+        topic = f"{topic_prefix}/zigbee/{canonical_id}/set"
+        payload = {"device_id": canonical_id, "params": {"data": data}}
+        return topic, json.dumps(payload, separators=(",", ":"))
+
     # --- 方案 B: ChirpStack 下行模式 ---
     if _use_chirpstack_mode(chirpstack, device_info):
         return _build_chirpstack_message(cmd, device_info, chirpstack, trace_id)
@@ -169,6 +217,11 @@ def build_mqtt_message(cmd: dict, topic_prefix: str,
 
     payload = json.dumps(payload_obj, ensure_ascii=False)
     return (topic, payload)
+
+
+def _is_eora_device(device_type: str, device_id: str) -> bool:
+    normalized = str(device_id).strip().lower().replace("-", "_")
+    return device_type == "generic" and normalized == EORA_DEVICE_ID
 
 
 # ---------------------------------------------------------------------------

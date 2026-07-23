@@ -1,0 +1,252 @@
+[2026-07-23 16:17:40] [INFO] ===== MQTT-VSOA Bridge v1.0.0 starting =====
+[2026-07-23 16:17:40] [INFO] config: config.yaml
+[2026-07-23 16:17:40] [INFO] [OK] DeviceRegistry: max=64 devices
+[2026-07-23 16:17:40] [INFO] [OK] DedupCache: ttl=300s max=10000
+[2026-07-23 16:17:40] [INFO] MQTT on_connect: OK
+[2026-07-23 16:17:40] [INFO] MQTT connected: 192.168.200.221:1883 (client_id=mqtt-vsoa-bridge-lora)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: application/+/device/+/event/up (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/lora/+/data (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/data (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/status (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/generic/+/error (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: lora/+/up (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: s3/eora-s3-400tb-001/data (QoS 1)
+[2026-07-23 16:17:40] [INFO] MQTT on_connect: OK
+[2026-07-23 16:17:40] [INFO] MQTT connected: 192.168.200.169:1883 (client_id=mqtt-vsoa-bridge-zigbee)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: bridge/uplink/zigbee/+/data (QoS 1)
+[2026-07-23 16:17:40] [INFO] [MQTT] subscribed: zigbee/+/report (QoS 1)
+[2026-07-23 16:17:40] [INFO] [OK] MQTT project route: zigbee -> 192.168.200.169:1883 (2 uplink topics)
+[2026-07-23 16:17:40] [INFO] [OK] MQTT connected: 192.168.200.221:1883 (9 uplink topics)
+[2026-07-23 16:17:40] [INFO] [OK] ChirpStack downlink: enabled (fPort=1 confirmed=True)
+[2026-07-23 16:17:40] [INFO] [OK] Uplink VSOA endpoints registered (port 3001)
+[2026-07-23 16:17:40] [INFO] [RPC] /bridge/send_command endpoint registered on shared server
+[2026-07-23 16:17:40] [INFO] [OK] RPC Server on 0.0.0.0:3001 endpoint=/bridge/send_command
+[2026-07-23 16:17:40] [INFO] [SCENE] engine started: 2 rules
+[2026-07-23 16:17:40] [INFO] [SCENE] registered 9 VSOA RPC endpoints
+[2026-07-23 16:17:40] [INFO] [OK] Scene engine: 2 rules from C:\Users\10625\Documents\Codex\2026-07-06\a-w\outputs\bridge_vsoa_mqtt\scenes.yaml
+[2026-07-23 16:17:40] [INFO] [VSOA] Unified server listening on 0.0.0.0:3001
+[2026-07-23 16:17:40] [INFO] [OK] Unified VSOA Server listening on 0.0.0.0:3001
+[2026-07-23 16:17:40] [INFO] [OK] TCP inject: 0.0.0.0:9090
+[2026-07-23 16:17:42] [INFO] [BUSINESS] local VSOA Server listening: 0.0.0.0:3000
+[2026-07-23 16:17:42] [INFO] [PubSub] subscribed: /ctrl/cmd
+[2026-07-23 16:17:42] [INFO] [PubSub] ready: server=vsoa://127.0.0.1:3000 subs=['/ctrl/cmd'] ack_url=/ctrl/ack
+[2026-07-23 16:17:42] [INFO] [OK] PubSub subscribed: ['/ctrl/cmd']
+[2026-07-23 16:17:42] [INFO] [OK] HCv3 camera reassembly: uplink FPort=2, downlink FPort=3, timeout=45s
+========================================================
+[INFO] MQTT-VSOA Bridge v1.0.0 started
+[INFO] VSOA Server         : 0.0.0.0:3001
+[INFO]   RPC: /bridge/health, /adapter/list, /uplink/schema
+[INFO]   RPC: /device/list, /device/all/data, /device/{id}/data
+[INFO]   RPC: /bridge/send_command (downlink)
+[INFO]   RPC: /scene/list, /scene/add, /scene/update, /scene/delete
+[INFO]   Pub: /device/update, /bridge/event, /ctrl/ack
+[INFO] MQTT                 : enabled (192.168.200.221:1883)
+[INFO]   Uplink topics      : 9
+[INFO]   Downlink prefix    : bridge/downlink
+[INFO] PubSub subscribed    : ['/ctrl/cmd'] → /ctrl/ack
+[INFO] TCP inject           : 0.0.0.0:9090
+[INFO] Device registry      : max 64 devices
+========================================================
+[2026-07-23 16:17:42] [INFO] [PubSub] entering event loop (auto-reconnect enabled)...
+[2026-07-23 16:17:43] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-23 16:17:43] [INFO] [REGISTRY] registered device='Ebyte Test Device 470' type=status source=lora
+[2026-07-23 16:17:43] [INFO] [UPLINK] registered source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:17:43] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-23 16:17:43] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:17:49] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:17:49] [INFO] [CAMERA] state=progress device=dc56b7d6a7dd94a1 seq=477 chunk=10/12 received=1
+[2026-07-23 16:17:49] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:17:49] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=10/12 received=1
+[2026-07-23 16:17:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:17:51] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=10/12 received=1
+[2026-07-23 16:17:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:17:51] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=10/12 received=1
+[2026-07-23 16:17:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:17:54] [INFO] [CAMERA] state=progress device=dc56b7d6a7dd94a1 seq=477 chunk=11/12 received=2
+[2026-07-23 16:17:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:17:54] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=11/12 received=2
+[2026-07-23 16:17:56] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:17:56] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=11/12 received=2
+[2026-07-23 16:17:56] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:17:56] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=11/12 received=2
+[2026-07-23 16:17:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:17:59] [INFO] [CAMERA] state=progress device=dc56b7d6a7dd94a1 seq=477 chunk=12/12 received=3
+[2026-07-23 16:17:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:17:59] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=12/12 received=3
+[2026-07-23 16:18:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:02] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=12/12 received=3
+[2026-07-23 16:18:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:02] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=12/12 received=3
+[2026-07-23 16:18:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:05] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:05] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:07] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:07] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:07] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:07] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:09] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:09] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:11] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:12] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:12] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:13] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:13] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:14] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:16] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:16] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:18] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:18] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:18] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:18] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:20] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:20] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:20] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:20] [INFO] [CAMERA] state=hp_status device=dc56b7d6a7dd94a1 seq=477 chunk=0/12 received=3
+[2026-07-23 16:18:22] [WARNING] [CAMERA] timeout device=dc56b7d6a7dd94a1 seq=477 received=3/12 missing=[0, 1, 2, 3, 4, 5, 6, 7, 8]
+[2026-07-23 16:18:22] [INFO] [CAMERA] HA downlink status=1 device=dc56b7d6a7dd94a1 seq=477 missing=[0, 1, 2, 3, 4, 5, 6, 7, 8] topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/command/down fPort=3 ha_b64=SEEBAd0BAAABCQABAgMEBQYHCA== ha_hex=48410101dd0100000109000102030405060708
+[2026-07-23 16:18:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:22] [INFO] [CAMERA] state=progress device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:22] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:25] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:25] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:27] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:27] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:30] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:30] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=1/12 received=4
+[2026-07-23 16:18:32] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:32] [INFO] [CAMERA] state=progress device=dc56b7d6a7dd94a1 seq=477 chunk=2/12 received=5
+[2026-07-23 16:18:32] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:32] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=2/12 received=5
+[2026-07-23 16:18:35] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:18:35] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=2/12 received=5
+[2026-07-23 16:18:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:18:35] [INFO] [CAMERA] state=duplicate device=dc56b7d6a7dd94a1 seq=477 chunk=2/12 received=5
+[2026-07-23 16:18:45] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-23 16:18:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:18:45] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-23 16:18:45] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:18:54] [WARNING] [CAMERA] timeout device=dc56b7d6a7dd94a1 seq=477 received=5/12 missing=[2, 3, 4, 5, 6, 7, 8]
+[2026-07-23 16:18:54] [INFO] [CAMERA] HA downlink status=1 device=dc56b7d6a7dd94a1 seq=477 missing=[2, 3, 4, 5, 6, 7, 8] topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/command/down fPort=3 ha_b64=SEEBAd0BAAABBwIDBAUGBwg= ha_hex=48410101dd010000010702030405060708
+[2026-07-23 16:19:09] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:09] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=1/10 received=0
+[2026-07-23 16:19:09] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:09] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=1/10 received=0
+[2026-07-23 16:19:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:11] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=2/10 received=0
+[2026-07-23 16:19:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:11] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=2/10 received=0
+[2026-07-23 16:19:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:14] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=3/10 received=0
+[2026-07-23 16:19:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:14] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=3/10 received=0
+[2026-07-23 16:19:17] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:17] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=4/10 received=0
+[2026-07-23 16:19:17] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:17] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=4/10 received=0
+[2026-07-23 16:19:19] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:19] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=5/10 received=0
+[2026-07-23 16:19:19] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:19] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=5/10 received=0
+[2026-07-23 16:19:22] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:22] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=6/10 received=0
+[2026-07-23 16:19:22] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:22] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=6/10 received=0
+[2026-07-23 16:19:25] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:25] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=7/10 received=0
+[2026-07-23 16:19:25] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:25] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=7/10 received=0
+[2026-07-23 16:19:26] [WARNING] [CAMERA] timeout device=dc56b7d6a7dd94a1 seq=477 received=5/12 missing=[2, 3, 4, 5, 6, 7, 8]
+[2026-07-23 16:19:26] [INFO] [CAMERA] HA downlink status=1 device=dc56b7d6a7dd94a1 seq=477 missing=[2, 3, 4, 5, 6, 7, 8] topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/command/down fPort=3 ha_b64=SEEBAd0BAAABBwIDBAUGBwg= ha_hex=48410101dd010000010702030405060708
+[2026-07-23 16:19:27] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:27] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=8/10 received=0
+[2026-07-23 16:19:27] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:27] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=8/10 received=0
+[2026-07-23 16:19:30] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:30] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=9/10 received=0
+[2026-07-23 16:19:30] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:30] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=9/10 received=0
+[2026-07-23 16:19:33] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:33] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=10/10 received=0
+[2026-07-23 16:19:33] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:33] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=10/10 received=0
+[2026-07-23 16:19:35] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:35] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:35] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:35] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:37] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:37] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:37] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:37] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:39] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:40] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:40] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:40] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:42] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:42] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:42] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:42] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:44] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:44] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:44] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:44] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=0/10 received=0
+[2026-07-23 16:19:46] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/0000000000000925/event/up
+[2026-07-23 16:19:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:19:46] [INFO] [MQTT] RX topic=bridge/uplink/lora/0000000000000925/data
+[2026-07-23 16:19:46] [INFO] [UPLINK] updated source=lora adapter=lora_adapter device=Ebyte Test Device 470 type=status
+[2026-07-23 16:19:51] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:51] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=1/10 received=0
+[2026-07-23 16:19:51] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:51] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=1/10 received=0
+[2026-07-23 16:19:54] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:54] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=2/10 received=0
+[2026-07-23 16:19:54] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:54] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=2/10 received=0
+[2026-07-23 16:19:57] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:57] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=3/10 received=0
+[2026-07-23 16:19:57] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:57] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=3/10 received=0
+[2026-07-23 16:19:59] [WARNING] [CAMERA] abandoned device=dc56b7d6a7dd94a1 seq=477 received=5/12 missing=[2, 3, 4, 5, 6, 7, 8]
+[2026-07-23 16:19:59] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:19:59] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=4/10 received=0
+[2026-07-23 16:19:59] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:19:59] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=4/10 received=0
+[2026-07-23 16:20:02] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:02] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=5/10 received=0
+[2026-07-23 16:20:02] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:02] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=5/10 received=0
+[2026-07-23 16:20:05] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:05] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=6/10 received=0
+[2026-07-23 16:20:05] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:05] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=6/10 received=0
+[2026-07-23 16:20:08] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:08] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=7/10 received=0
+[2026-07-23 16:20:08] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:08] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=7/10 received=0
+[2026-07-23 16:20:11] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:11] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=8/10 received=0
+[2026-07-23 16:20:11] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:11] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=8/10 received=0
+[2026-07-23 16:20:14] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:14] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=9/10 received=0
+[2026-07-23 16:20:14] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:14] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=9/10 received=0
+[2026-07-23 16:20:16] [INFO] [MQTT] RX topic=application/3ed92fba-9e06-4b8e-ad41-54927a0fa89d/device/dc56b7d6a7dd94a1/event/up
+[2026-07-23 16:20:16] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=10/10 received=0
+[2026-07-23 16:20:16] [INFO] [MQTT] RX topic=bridge/uplink/lora/dc56b7d6a7dd94a1/data
+[2026-07-23 16:20:16] [INFO] [CAMERA] state=stale_sequence device=dc56b7d6a7dd94a1 seq=4 chunk=10/10 received=0

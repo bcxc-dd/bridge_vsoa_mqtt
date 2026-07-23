@@ -67,6 +67,7 @@ class DeviceInfo:
 
     battery: int | None = None
     signal: int | None = None
+    raw: dict[str, Any] = field(default_factory=dict)
 
     # --- 下行预留 ---
     mqtt_topic_template: str | None = None  # 设备级 topic 模板（预留）
@@ -126,6 +127,10 @@ class DeviceInfo:
             d["signal"] = self.signal
         if self.has_snr:
             d["snr"] = round(self.snr, 2)
+        for key, value in self.raw.items():
+            if key not in d and isinstance(value, (str, int, float, bool)):
+                d[key] = value
+        d["raw"] = dict(self.raw)
         return d
 
     def __repr__(self) -> str:
@@ -291,6 +296,8 @@ class DeviceRegistry:
             dev.signal = report.signal
         if report.has_snr:
             dev.snr = report.snr
+        if report.raw:
+            dev.raw.update(report.raw)
 
         # ChirpStack 扩展字段（方案 B）
         if getattr(report, "dev_eui", ""):

@@ -1,5 +1,5 @@
 """
-Adapters: LoRa / Zigbee / Generic.
+Adapters: LoRa / Zigbee / WiFi / Generic.
 
 The :func:`select_adapter` function picks the correct adapter for a
 given MQTT topic + payload.
@@ -12,6 +12,7 @@ from typing import Any
 from .base import Adapter, AdapterParseError, UplinkReport
 from .lora import LoraAdapter
 from .zigbee import ZigbeeAdapter
+from .wifi import WifiAdapter
 from .generic import GenericAdapter
 
 # ---------------------------------------------------------------------------
@@ -20,9 +21,10 @@ from .generic import GenericAdapter
 
 _lora = LoraAdapter()
 _zigbee = ZigbeeAdapter()
+_wifi = WifiAdapter()
 _generic = GenericAdapter()
 
-ADAPTERS: list[Adapter] = [_lora, _zigbee, _generic]
+ADAPTERS: list[Adapter] = [_lora, _zigbee, _wifi, _generic]
 
 # ---------------------------------------------------------------------------
 # Public API
