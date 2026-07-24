@@ -1,27 +1,24 @@
 $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$RepoRoot = Split-Path -Parent $Root
-$Python = Join-Path $RepoRoot ".venv\Scripts\python.exe"
-$Vite = Join-Path $Root "frontend\node_modules\vite\bin\vite.js"
-$BundledNode = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe"
-$Node = if ($env:IOT_PLATFORM_NODE -and (Test-Path $env:IOT_PLATFORM_NODE)) {
-    $env:IOT_PLATFORM_NODE
-} elseif (Test-Path $BundledNode) {
-    $BundledNode
-} else {
-    (Get-Command node -ErrorAction Stop).Source
+$Python = $null
+
+$PythonCommand = Get-Command python -ErrorAction SilentlyContinue
+if ($PythonCommand) {
+    $Python = $PythonCommand.Source
 }
 
-if (-not (Test-Path $Python)) {
-    throw "仓库 Python 环境不存在：$Python"
-}
-if (-not (Test-Path $Vite)) {
-    throw "前端依赖不存在，请先在 frontend 目录执行 npm install。"
-}
-
+$Vite = Join-Path $Root "frontend\node_modules\.bin\vite.cmd"
 $BackendLog = Join-Path $Root "backend.log"
 $FrontendLog = Join-Path $Root "frontend.log"
+
+if (-not $Python) {
+    throw "Python executable not found. Please activate your conda base environment or install Python first."
+}
+
+if (-not (Test-Path $Vite)) {
+    throw "Frontend dependencies are missing. Please run corepack pnpm --dir .\frontend install first."
+}
 
 function Test-PortListening([int]$Port) {
     return [bool](Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue)
@@ -31,7 +28,7 @@ if (-not (Test-PortListening 8000)) {
     Start-Process -FilePath $Python -ArgumentList "-m", "uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000" -WorkingDirectory $Root -WindowStyle Hidden -RedirectStandardOutput $BackendLog -RedirectStandardError (Join-Path $Root "backend-error.log")
 }
 if (-not (Test-PortListening 5173)) {
-    Start-Process -FilePath $Node -ArgumentList $Vite, "--host", "0.0.0.0", "--port", "5173" -WorkingDirectory (Join-Path $Root "frontend") -WindowStyle Hidden -RedirectStandardOutput $FrontendLog -RedirectStandardError (Join-Path $Root "frontend-error.log")
+    Start-Process -FilePath $Vite -ArgumentList "--host", "0.0.0.0", "--port", "5173" -WorkingDirectory (Join-Path $Root "frontend") -WindowStyle Hidden -RedirectStandardOutput $FrontendLog -RedirectStandardError (Join-Path $Root "frontend-error.log")
 }
 
 $Identity = [Security.Principal.WindowsIdentity]::GetCurrent()

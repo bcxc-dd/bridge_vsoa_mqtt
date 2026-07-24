@@ -283,8 +283,8 @@ def main():
         if "error" in lora_data and "device_id" not in lora_data:
             _fail(f"查询 lora-node-01 失败: {lora_data.get('error')}")
         else:
-            _ok(f"lora-node-01 数据: temp={lora_data.get('temperature')} "
-                f"hum={lora_data.get('humidity')} "
+            _ok(f"lora-node-01 数据: temp={lora_data.get('raw', {}).get('temperature')} "
+                f"hum={lora_data.get('raw', {}).get('humidity')} "
                 f"type={lora_data.get('type','?')} "
                 f"source={lora_data.get('source','?')} "
                 f"report_count={lora_data.get('report_count','?')}")
@@ -295,8 +295,8 @@ def main():
         if "error" in zb_data and "device_id" not in zb_data:
             _fail(f"查询 zb-sensor-01 失败: {zb_data.get('error')}")
         else:
-            _ok(f"zb-sensor-01 数据: temp={zb_data.get('temperature')} "
-                f"hum={zb_data.get('humidity')} "
+            _ok(f"zb-sensor-01 数据: temp={zb_data.get('raw', {}).get('temperature')} "
+                f"hum={zb_data.get('raw', {}).get('humidity')} "
                 f"type={zb_data.get('type','?')} "
                 f"source={zb_data.get('source','?')}")
 

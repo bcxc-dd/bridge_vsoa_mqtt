@@ -134,7 +134,7 @@ class TestBridgeHealth:
 
     def test_schema(self, vsoa_client):
         data = _fetch(vsoa_client, "/uplink/schema")
-        assert data.get("schema") == "uplink_report.v2"
+        assert data.get("schema") == "uplink_report.v3"
 
 
 class TestLoraEndToEnd:
@@ -157,11 +157,11 @@ class TestLoraEndToEnd:
         assert data.get("device_id") == "lora_env_01"
         assert data.get("source") == "lora"
         assert data.get("adapter") == "lora_adapter"
-        assert data.get("temperature") == 23.60
-        assert data.get("humidity") == 56.20
-        assert data.get("battery") == 92
-        assert data.get("signal") == -57
-        assert data.get("snr") == 8.20
+        assert data["raw"]["temperature"] == 23.60
+        assert data["raw"]["humidity"] == 56.20
+        assert data["raw"]["battery"] == 92
+        assert data["raw"]["signal"] == -57
+        assert data["raw"]["snr"] == 8.20
         assert data.get("type") == "multi"
 
 
@@ -187,10 +187,10 @@ class TestZigbeeEndToEnd:
         assert data.get("device_id") == "zigbee_env_01"
         assert data.get("source") == "zigbee"
         assert data.get("adapter") == "zigbee_adapter"
-        assert data.get("temperature") == 25.10
-        assert data.get("humidity") == 60.40
-        assert data.get("battery") == 85
-        assert data.get("signal") == 154
+        assert data["raw"]["temperature"] == 25.10
+        assert data["raw"]["humidity"] == 60.40
+        assert data["raw"]["battery"] == 85
+        assert data["raw"]["signal"] == 154
 
 
 class TestErrorCases:

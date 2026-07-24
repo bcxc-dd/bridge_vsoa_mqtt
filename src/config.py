@@ -148,7 +148,7 @@ class LoggingConfig:
     level: str = "INFO"
     format: str = "[%(asctime)s] [%(levelname)s] %(message)s"
     date_format: str = "%Y-%m-%d %H:%M:%S"
-    file: str = "logs/bridge.log"
+    file: str = ""
 
 
 @dataclass

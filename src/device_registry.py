@@ -59,45 +59,14 @@ class DeviceInfo:
     timestamp: int = 0                      # 最后上报时间（Unix epoch ms）
     report_count: int = 0
 
-    # --- 传感器数据（可选，上行填充） ---
-    temperature: float | None = None
-    humidity: float | None = None
-    pressure: float | None = None
-    snr: float | None = None
-
-    battery: int | None = None
-    signal: int | None = None
+    # --- 载荷透传 ---
+    # 所有传感器测量值通过此字段传递，bridge 不建模具体传感器类型
     raw: dict[str, Any] = field(default_factory=dict)
 
     # --- 下行预留 ---
     mqtt_topic_template: str | None = None  # 设备级 topic 模板（预留）
     dev_eui: str | None = None              # LoRaWAN DevEUI（预留）
     app_id: str | None = None               # ChirpStack application ID（从上行 topic 自动获取）
-
-    # --- 便捷属性 ---
-    @property
-    def has_temperature(self) -> bool:
-        return self.temperature is not None
-
-    @property
-    def has_humidity(self) -> bool:
-        return self.humidity is not None
-
-    @property
-    def has_pressure(self) -> bool:
-        return self.pressure is not None
-
-    @property
-    def has_battery(self) -> bool:
-        return self.battery is not None
-
-    @property
-    def has_signal(self) -> bool:
-        return self.signal is not None
-
-    @property
-    def has_snr(self) -> bool:
-        return self.snr is not None
 
     def to_json(self) -> dict[str, Any]:
         """序列化为 VSOA 查询响应格式。"""
@@ -113,24 +82,9 @@ class DeviceInfo:
             "report_count":  self.report_count,
             "last_topic":    self.last_topic,
         }
-        if self.has_temperature:
-            d["temperature"] = round(self.temperature, 2)
-        if self.has_humidity:
-            d["humidity"] = round(self.humidity, 2)
-        if self.has_pressure:
-            d["pressure"] = round(self.pressure, 2)
         if self.unit:
             d["unit"] = self.unit
-        if self.has_battery:
-            d["battery"] = self.battery
-        if self.has_signal:
-            d["signal"] = self.signal
-        if self.has_snr:
-            d["snr"] = round(self.snr, 2)
-        for key, value in self.raw.items():
-            if key not in d and isinstance(value, (str, int, float, bool)):
-                d[key] = value
-        d["raw"] = dict(self.raw)
+        d["raw"] = self.raw
         return d
 
     def __repr__(self) -> str:
@@ -284,18 +238,7 @@ class DeviceRegistry:
         if report.unit:
             dev.unit = report.unit
 
-        if report.has_temperature:
-            dev.temperature = report.temperature
-        if report.has_humidity:
-            dev.humidity = report.humidity
-        if report.has_pressure:
-            dev.pressure = report.pressure
-        if report.has_battery:
-            dev.battery = report.battery
-        if report.has_signal:
-            dev.signal = report.signal
-        if report.has_snr:
-            dev.snr = report.snr
+        # 载荷透传：增量合并，保留历史字段
         if report.raw:
             dev.raw.update(report.raw)
 

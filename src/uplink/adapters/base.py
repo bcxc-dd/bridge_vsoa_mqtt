@@ -80,38 +80,9 @@ class UplinkReport:
     dev_eui: str = ""             # LoRaWAN DevEUI（从上行 topic 或 payload 提取）
     app_id: str = ""              # ChirpStack application ID（从上行 topic 提取）
 
-    temperature: Optional[float] = None
-    humidity: Optional[float] = None
-    pressure: Optional[float] = None
-    snr: Optional[float] = None
-
-    battery: Optional[int] = None
-    signal: Optional[int] = None
+    # 载荷透传 — 所有传感器数据（含未知字段）通过此字段传递
+    # 业务层按需解读，bridge 不建模具体传感器类型
     raw: dict[str, Any] = field(default_factory=dict)
-
-    @property
-    def has_temperature(self) -> bool:
-        return self.temperature is not None
-
-    @property
-    def has_humidity(self) -> bool:
-        return self.humidity is not None
-
-    @property
-    def has_pressure(self) -> bool:
-        return self.pressure is not None
-
-    @property
-    def has_battery(self) -> bool:
-        return self.battery is not None
-
-    @property
-    def has_signal(self) -> bool:
-        return self.signal is not None
-
-    @property
-    def has_snr(self) -> bool:
-        return self.snr is not None
 
 
 # ---------------------------------------------------------------------------
@@ -162,14 +133,26 @@ def _first_str(payload: dict[str, Any], candidates: list[str]) -> Optional[str]:
 
 
 def parse_common_measurements(payload: dict[str, Any], report: UplinkReport) -> None:
-    """Populate *report* fields from *payload* using the alias tables above.
+    """Populate *report* from *payload* using alias tables.
 
-    Called by every adapter after setting source/adapter.
+    String metadata fields (type / status / unit / name) go onto named
+    attributes.  All measurement values go into ``report.raw`` keyed by
+    canonical name.  Any payload key not covered by the alias tables is
+    also placed in ``report.raw`` as-is — the bridge does not model
+    business-specific sensor types.
     """
-    # Preserve the complete business payload. Canonical aliases are added
-    # below so scene rules can use one stable sensor name while the original
-    # device-specific fields remain available to the platform.
-    report.raw.update(payload)
+
+    # -- collect all known alias keys (for passthrough exclusion) --
+    known_keys: set[str] = set()
+    for alias_list in MEASUREMENT_ALIASES.values():
+        known_keys.update(alias_list)
+    for alias_list in STRING_FIELD_ALIASES.values():
+        known_keys.update(alias_list)
+    known_keys.update(DEVICE_ID_ALIASES)
+    known_keys.update([
+        "timestamp", "data", "object", "deviceInfo", "rxInfo",
+        "fPort", "last_seen", "applicationName",
+    ])
 
     # -- string fields --
     for canonical, aliases in STRING_FIELD_ALIASES.items():
@@ -177,13 +160,16 @@ def parse_common_measurements(payload: dict[str, Any], report: UplinkReport) -> 
         if value is not None:
             setattr(report, canonical, value)
 
-    # -- numeric and boolean fields --
+    # -- measurement fields → raw (canonical name) --
     for canonical, aliases in MEASUREMENT_ALIASES.items():
         value = _first_measurement(payload, aliases)
         if value is not None:
             report.raw[canonical] = value
-            if hasattr(report, canonical):
-                setattr(report, canonical, value)
+
+    # -- passthrough: all unrecognised keys → raw as-is --
+    for key, value in payload.items():
+        if key not in known_keys and key not in report.raw:
+            report.raw[key] = value
 
     # -- timestamp (int64) --
     ts = payload.get("timestamp")
@@ -240,31 +226,23 @@ def topic_has_segment(topic: str, segment: str) -> bool:
 
 
 def infer_type(report: UplinkReport) -> None:
-    """Auto-detect device type from available measurements."""
+    """Auto-detect device type from measurement keys in ``report.raw``."""
     if report.type:
         return
-    metric_keys = {
-        "temperature", "humidity", "pressure", "soil_moisture",
-        "precipitation", "illuminance", "smoke", "pir", "voltage",
-    }
-    available = metric_keys.intersection(report.raw)
-    if report.has_temperature:
-        available.add("temperature")
-    if report.has_humidity:
-        available.add("humidity")
-    if report.has_pressure:
-        available.add("pressure")
-    metrics = len(available)
+    has_temp = "temperature" in report.raw
+    has_hum = "humidity" in report.raw
+    has_pres = "pressure" in report.raw
+    metrics = sum([has_temp, has_hum, has_pres])
     if metrics > 1:
         report.type = "multi"
-    elif report.has_temperature:
+    elif has_temp:
         report.type = "temperature"
-    elif report.has_humidity:
+    elif has_hum:
         report.type = "humidity"
-    elif report.has_pressure:
+    elif has_pres:
         report.type = "pressure"
-    elif available:
-        report.type = next(iter(available))
+    elif report.raw:
+        report.type = "multi"
     else:
         report.type = "status"
 

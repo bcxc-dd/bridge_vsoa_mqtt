@@ -1,8 +1,8 @@
-# 智慧环境设备管理平台
+# IoT Test Platform
 
-面向实际设备使用场景的物联网业务平台，统一接入 LoRa/LoRaWAN、ZigBee 与 MQTT-VSOA 协议桥接。平台关注设备状态、环境数据、告警和安全控制，不承担 16 个实验的逐项验收。
+`iot_test_platform` 是一个面向物联网联调与演示的测试平台，用来把设备数据、MQTT Broker、VSOA 服务和桥接结果统一展示在一个页面里。它更偏向"真实链路联调和运维观察"，不是单纯的实验验收页。
 
-## 主要能力
+## 它能做什么
 
 - 多 MQTT Broker 与 VSOA 服务接入，保留真实消息和桥接结果。
 - 按 LoRa、ZigBee、协议桥接三个项目聚合设备。
@@ -16,19 +16,84 @@
 - 深色/浅色主题和浏览器端偏好保存。
 - 测试运维端保留原始消息、字段映射、数据模拟和性能诊断。
 
-详细产品边界见 [docs/product_scope.md](docs/product_scope.md)，设备接入格式见 [docs/device_integration_contract.md](docs/device_integration_contract.md)。
+页面由两部分组成：
+
+- `frontend/`：React + Vite 前端。
+- `backend/`：FastAPI 后端，负责 API、WebSocket、数据存储和桥接状态。
+
+数据默认保存在 `data/platform.db`，桥接项目根目录可通过 `BRIDGE_PROJECT_ROOT` 指定。
+
+## 启动前准备
+
+本项目按 **conda 的 base 环境** 使用，不再使用 `venv`。
+
+首次使用先打开 **Anaconda Prompt** 或已激活 `base` 的 PowerShell，然后进入项目目录安装依赖：
+
+```powershell
+conda activate base
+cd D:\南京翼辉暑期实习\bridge-merged\iot_test_platform
+python -m pip install --upgrade pip
+python -m pip install -r .\backend\requirements.txt
+corepack enable
+corepack pnpm --dir .\frontend install
+```
+
+建议使用：
+
+- Python 3.12+（当前可直接使用 conda `base`）
+- Node.js 20+
+- pnpm（通过 `corepack` 启用）
 
 ## 一键启动
 
-在 PowerShell 中运行：
+在项目根目录打开 PowerShell，执行：
 
 ```powershell
 .\start_platform.ps1
 ```
 
-脚本会让前端和后端监听全部网卡，并输出本机与局域网访问地址。本机访问 `http://127.0.0.1:5173`；同一局域网成员使用脚本显示的 `http://本机局域网IP:5173`。
+这个脚本会同时启动：
 
-首次配置建议以管理员身份运行一次脚本，脚本会放行 Windows 防火墙 TCP `5173` 和 `8000`。前端会根据浏览器当前访问的主机名自动连接对应的后端 API 和 WebSocket，不会让其他电脑错误访问其自身的 `127.0.0.1`。
+- 后端：`0.0.0.0:8000`
+- 前端：`0.0.0.0:5173`
+
+启动后浏览器访问：
+
+- 本机访问：`http://127.0.0.1:5173`
+- 局域网访问：`http://本机局域网IP:5173`
+
+例如，如果你电脑的局域网 IP 是 `192.168.1.23`，其他电脑就访问：
+
+```text
+http://192.168.1.23:5173
+```
+
+## 让局域网电脑访问
+
+要让同一局域网里的其他电脑打开你的平台，重点是这三件事：
+
+1. 用 `start_platform.ps1` 启动，而不是只跑默认的 `npm run dev`。
+2. 确保前端和后端都绑定到 `0.0.0.0`，这样才会监听所有网卡。
+3. 在 Windows 防火墙里放行 TCP `5173` 和 `8000` 端口。
+
+当前仓库里 `start_platform.ps1` 已经把前后端都绑定为 `0.0.0.0`，所以只要防火墙放行，局域网内的电脑就可以直接访问。
+
+如果你想手动启动，也可以分别运行：
+
+```powershell
+conda activate base
+cd D:\南京翼辉暑期实习\bridge-merged\iot_test_platform
+
+# 后端
+python -m uvicorn backend.app:app --host 0.0.0.0 --port 8000
+
+# 前端（新开一个终端）
+corepack pnpm --dir .\frontend dev -- --host 0.0.0.0 --port 5173
+```
+
+注意：`frontend/package.json` 里的默认 `dev` 脚本只绑定 `127.0.0.1`，如果直接用它启动，局域网电脑通常访问不到。
+
+## 默认账号
 
 首次启动会创建演示账号：
 
@@ -38,19 +103,45 @@
 | 测试运维员 | `tester` | `tester123` |
 | 管理员 | `admin` | `admin123` |
 
-正式联调前必须使用管理员页面修改初始密码。登录令牌有效期为 8 小时。
+正式联调前建议先用管理员页面修改初始密码。登录令牌有效期为 8 小时。
 
 ## 真实项目接入
 
-1. 启动需要接入的 MQTT Broker。
-2. 启动 `bridge_vsoa_mqtt` 项目，而不是由平台模拟桥接结果。
-3. 管理员在“连接配置”中添加一个或多个 Broker，并填写实际订阅 Topic。
-4. 管理员连接真实 VSOA 服务。
-5. 在设备中心检查设备归属、遥测值与在线状态。
-6. 测试运维员在消息追踪和链路转换页面排查 MQTT 到 VSOA 的过程。
+1. 先启动需要接入的 MQTT Broker。
+2. 再启动 `bridge_vsoa_mqtt` 项目，让它提供真实桥接能力。
+3. 用管理员账号进入"连接配置"，添加 Broker 和订阅 Topic。
+4. 连接真实 VSOA 服务。
+5. 到"设备中心""消息追踪""链路转换"中查看真实数据流。
+6. 如果需要做性能或运维检查，可以在运维页面跑测试任务。
 
 历史事件、设备档案、账号、告警、命令和审计记录统一保存在当前仓库的 `data/platform.db`。后端在每次启动和正常关闭时，都会使用 SQLite 在线备份机制在 `data/backups/` 中保留最近 12 份完整快照。代码更新、普通 `git pull` 和前端重新构建不会删除这些文件。
 
+## 常见问题
+
+### 页面能打开，但其他电脑访问不了
+
+- 检查是否用的是 `start_platform.ps1` 或手动 `--host 0.0.0.0`。
+- 检查 Windows 防火墙是否允许 `5173` 和 `8000`。
+- 检查局域网电脑访问的是你这台机器的真实 IP，不是 `127.0.0.1`。
+- 如果你在公司或校园网络里，可能还需要放行本机网络配置文件中的"专用网络"入站规则。
+
+### 前端打不开后端接口
+
+- 确认后端已经在 `8000` 端口启动。
+- 确认浏览器地址栏里打开的是平台页面，而不是直接打开某个静态文件。
+- 如果前端和后端分开启动，请保持它们都在同一台机器上运行，并使用脚本推荐的端口。
+
+## 目录说明
+
+```text
+iot_test_platform/
+├── backend/            # FastAPI 后端
+├── frontend/           # React + Vite 前端
+├── data/               # SQLite 数据库
+├── start_platform.ps1  # 一键启动脚本
+└── README.md
+```
+
 `platform.db` 与备份中包含账号密码哈希、设备数据和审计记录，因此被 `.gitignore` 排除，不上传到远程 Git 仓库，也不会产生多人合并冲突。更换电脑或全新克隆仓库时，应单独迁移 `data/platform.db`；不要启动旧目录中的另一份平台副本。平台不会修改桥接组源代码。
 
-`127.0.0.1:5173` 与局域网 IP（如 `192.168.x.x:5173`）属于不同浏览器来源，登录状态不会互通。首次使用局域网地址时需要重新登录；令牌过期后平台会自动返回登录页，不再把未授权响应误显示为“0 条历史数据”。
+`127.0.0.1:5173` 与局域网 IP（如 `192.168.x.x:5173`）属于不同浏览器来源，登录状态不会互通。首次使用局域网地址时需要重新登录；令牌过期后平台会自动返回登录页，不再把未授权响应误显示为"0 条历史数据"。

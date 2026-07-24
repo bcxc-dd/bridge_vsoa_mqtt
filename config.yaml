@@ -9,18 +9,18 @@ bridge:
 
 # ---------- VSOA 连接 ----------
 vsoa:
-  # --- VSOA Server（bridge 内嵌，场景与桥接接口使用 3001）---
+  # --- VSOA Server（bridge 内嵌，RPC + Pub/Sub ACK + uplink 查询 + 场景引擎）---
   server:
     bind_host: "0.0.0.0"
     port: 3001
 
-  # --- mqtt_receiver.py 自动托管的业务层 VSOA Server ---
+  # --- 业务层 VSOA Server（monitor 自动托管，业务逻辑对接此端口）---
   # 监听 0.0.0.0 后，局域网电脑可通过 vsoa://本机IP:3000 连接。
   business_server:
     auto_start: true
     bind_host: "0.0.0.0"
     port: 3000
-    advertised_url: "vsoa://127.0.0.1:3000"
+    advertised_url: "vsoa://192.168.200.204:3000"
 
   # --- Pub/Sub Client（连接业务层 VSOA Server，订阅 /ctrl/cmd）---
   # 默认连接本机业务服务；局域网客户端使用运行主机的实际 IP 访问。
@@ -131,7 +131,7 @@ logging:
   level: "INFO"
   format: "[%(asctime)s] [%(levelname)s] %(message)s"
   date_format: "%Y-%m-%d %H:%M:%S"
-  file: "logs/bridge.log"
+  file: ""
 
 # ---------- 场景联动引擎 ----------
 scene_engine:

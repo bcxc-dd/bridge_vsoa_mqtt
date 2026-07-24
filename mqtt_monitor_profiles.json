@@ -15,7 +15,7 @@
         "bridge/downlink/#",
         "application/+/device/+/command/down"
       ],
-      "vsoa_url": "vsoa://192.168.200.231:3000",
+      "vsoa_url": "vsoa://127.0.0.1:3001",
       "vsoa_topics": [
         "/device/update",
         "/bridge/event",
@@ -26,7 +26,7 @@
   "zigbee": [
     {
       "name": "Zigbee 默认配置",
-      "mqtt_host": "192.168.3.219",
+      "mqtt_host": "192.168.200.169",
       "mqtt_port": 1883,
       "mqtt_topics": [
         "bridge/uplink/zigbee/+/data",
@@ -39,7 +39,7 @@
         "bridge/downlink/#",
         "application/+/device/+/command/down"
       ],
-      "vsoa_url": "vsoa://192.168.200.231:3000",
+      "vsoa_url": "vsoa://127.0.0.1:3001",
       "vsoa_topics": [
         "/device/update",
         "/bridge/event",

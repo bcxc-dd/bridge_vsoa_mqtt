@@ -79,11 +79,11 @@ class TestLoraParse:
         assert r.source == "lora"
         assert r.adapter == "lora_adapter"
         assert r.device_id == "lora_env_01"
-        assert r.temperature == 23.6
-        assert r.humidity == 56.2
-        assert r.battery == 92
-        assert r.signal == -57
-        assert r.snr == 8.2
+        assert r.raw["temperature"] == 23.6
+        assert r.raw["humidity"] == 56.2
+        assert r.raw["battery"] == 92
+        assert r.raw["signal"] == -57
+        assert r.raw["snr"] == 8.2
         assert r.type == "multi"
 
     def test_deviceName_as_id(self, lora_topic):
@@ -106,8 +106,8 @@ class TestLoraParse:
             },
         )
         assert r.device_id == "0000000000000925"
-        assert r.signal == -24
-        assert r.snr == 14.0
+        assert r.raw["signal"] == -24
+        assert r.raw["snr"] == 14.0
 
     def test_topic_fallback_for_device_id(self):
         r = LoraAdapter().parse(
@@ -259,10 +259,10 @@ class TestZigbeeParse:
         assert r.source == "zigbee"
         assert r.adapter == "zigbee_adapter"
         assert r.device_id == "zigbee_env_01"
-        assert r.temperature == 25.1
-        assert r.humidity == 60.4
-        assert r.battery == 85
-        assert r.signal == 154
+        assert r.raw["temperature"] == 25.1
+        assert r.raw["humidity"] == 60.4
+        assert r.raw["battery"] == 85
+        assert r.raw["signal"] == 154
         assert r.type == "multi"
 
     def test_last_seen_as_timestamp(self, zigbee_topic):
@@ -303,7 +303,7 @@ class TestGenericParse:
              "timestamp": 1783329001000},
         )
         assert r.device_id == "dev1"
-        assert r.temperature == 30.0
+        assert r.raw["temperature"] == 30.0
         assert r.source == "bridge"
         assert r.adapter == "generic_adapter"
         assert r.type == "temperature"
@@ -347,12 +347,12 @@ class TestCommonMeasurements:
             "loRaSNR": 7.0,
             "device_type": "multi",
         }, r)
-        assert r.temperature == 25.0
-        assert r.humidity == 60.0
-        assert r.pressure == 101.3
-        assert r.battery == 80
-        assert r.signal == -50
-        assert r.snr == 7.0
+        assert r.raw["temperature"] == 25.0
+        assert r.raw["humidity"] == 60.0
+        assert r.raw["pressure"] == 101.3
+        assert r.raw["battery"] == 80
+        assert r.raw["signal"] == -50
+        assert r.raw["snr"] == 7.0
         assert r.type == "multi"
 
     def test_numeric_string_values(self):
@@ -361,21 +361,21 @@ class TestCommonMeasurements:
             "temperature": "25.5",
             "humidity": "60",
         }, r)
-        assert r.temperature == 25.5
-        assert r.humidity == 60.0
+        assert r.raw["temperature"] == 25.5
+        assert r.raw["humidity"] == 60.0
 
 
 class TestInferType:
     def test_multi_when_multiple_sensors(self):
         r = UplinkReport()
-        r.temperature = 25.0
-        r.humidity = 60.0
+        r.raw["temperature"] = 25.0
+        r.raw["humidity"] = 60.0
         infer_type(r)
         assert r.type == "multi"
 
     def test_temperature_only(self):
         r = UplinkReport()
-        r.temperature = 25.0
+        r.raw["temperature"] = 25.0
         infer_type(r)
         assert r.type == "temperature"
 

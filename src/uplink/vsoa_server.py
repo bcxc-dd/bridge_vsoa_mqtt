@@ -219,11 +219,11 @@ class UplinkVsoaServer:
 
     def _handle_schema(self, cli, req) -> None:
         self._reply(cli, req, {
-            "schema":   "uplink_report.v2",
+            "schema":   "uplink_report.v3",
             "required": ["device_id", "timestamp"],
             "optional": [
-                "type", "status", "temperature", "humidity", "pressure",
-                "unit", "battery", "signal", "source", "adapter",
+                "type", "status", "unit", "source", "adapter",
+                "raw",
             ],
         })
 

@@ -160,6 +160,138 @@ def save_monitor_profiles(path: Path, profiles: dict[str, list[GatewayProfile]])
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+# ---------------------------------------------------------------------------
+# Pub/Sub downlink quick-fill presets
+# ---------------------------------------------------------------------------
+
+PRESETS_FILE = Path(__file__).resolve().parent / "mqtt_monitor_presets.json"
+
+BUILTIN_PRESETS: list[dict[str, Any]] = [
+    # -- LoRa generic --
+    {
+        "label": "💡 LoRa 开启",
+        "data": {"device_type": "lora", "action": "set", "params": {"state": True}},
+    },
+    {
+        "label": "🔌 LoRa 关闭",
+        "data": {"device_type": "lora", "action": "set", "params": {"state": False}},
+    },
+    {
+        "label": "🔄 LoRa 刷新",
+        "data": {"device_type": "lora", "action": "get", "params": {}},
+    },
+    {
+        "label": "🔁 LoRa 重启",
+        "data": {"device_type": "lora", "action": "reset", "params": {}},
+    },
+    {
+        "label": "🌡️ 温度阈值 30°C",
+        "data": {"device_type": "lora", "action": "config", "params": {"threshold_temp": 30}},
+    },
+    {
+        "label": "⏱️ 上报间隔 5s",
+        "data": {"device_type": "lora", "action": "config", "params": {"report_interval_ms": 5000}},
+    },
+    # -- ZigBee generic --
+    {
+        "label": "📡 ZigBee 开启",
+        "data": {"device_type": "zigbee", "action": "set", "params": {"state": True}},
+    },
+    {
+        "label": "📡 ZigBee 关闭",
+        "data": {"device_type": "zigbee", "action": "set", "params": {"state": False}},
+    },
+    {
+        "label": "📡 ZigBee 刷新",
+        "data": {"device_type": "zigbee", "action": "get", "params": {}},
+    },
+    {
+        "label": "📡 ZigBee 重启",
+        "data": {"device_type": "zigbee", "action": "reset", "params": {}},
+    },
+    # -- ZigBee 指定设备: 继电器 --
+    {
+        "label": "🔌 继电器 开 (0xB25B)",
+        "data": {"device_type": "zigbee", "device_id": "0xB25B", "action": "set", "params": {"data": "01"}},
+    },
+    {
+        "label": "🔌 继电器 关 (0xB25B)",
+        "data": {"device_type": "zigbee", "device_id": "0xB25B", "action": "set", "params": {"data": "00"}},
+    },
+    # -- ZigBee 指定设备: LED --
+    {
+        "label": "💡 LED 开 (0xC38F)",
+        "data": {"device_type": "zigbee", "device_id": "0xC38F", "action": "set", "params": {"data": "01"}},
+    },
+    {
+        "label": "💡 LED 关 (0xC38F)",
+        "data": {"device_type": "zigbee", "device_id": "0xC38F", "action": "set", "params": {"data": "00"}},
+    },
+]
+
+
+def load_presets(path: Path) -> list[dict[str, Any]]:
+    """Load custom presets from JSON file.  Returns empty list on any error."""
+    try:
+        if path.exists():
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(data, list):
+                return [item for item in data if isinstance(item, dict) and "label" in item and "data" in item]
+    except Exception:
+        pass
+    return []
+
+
+def save_presets(path: Path, presets: list[dict[str, Any]]) -> None:
+    """Save custom presets to JSON file."""
+    path.write_text(json.dumps(presets, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def show_preset_manager(parent: tk.Toplevel, presets: list[dict[str, Any]]) -> None:
+    """Small dialog to view & delete custom presets."""
+    mgr = tk.Toplevel(parent)
+    mgr.title("管理自定义预设")
+    mgr.geometry("420x360")
+    mgr.transient(parent)
+    mgr.grab_set()
+
+    body = ttk.Frame(mgr, padding=12)
+    body.pack(fill=tk.BOTH, expand=True)
+
+    if not presets:
+        ttk.Label(body, text="暂无自定义预设。").pack(pady=20)
+        ttk.Button(body, text="关闭", command=mgr.destroy).pack()
+        return
+
+    ttk.Label(body, text="选中后点击「删除」移除预设：", font=("", 9)).pack(anchor=tk.W, pady=(0, 6))
+
+    lb = tk.Listbox(body, selectmode=tk.SINGLE, font=("", 10), height=10)
+    lb.pack(fill=tk.BOTH, expand=True)
+    for p in presets:
+        lb.insert(tk.END, p["label"])
+
+    btn_row = ttk.Frame(body)
+    btn_row.pack(fill=tk.X, pady=(10, 0))
+
+    def _delete_selected() -> None:
+        sel = lb.curselection()
+        if not sel:
+            messagebox.showwarning("未选择", "请先选择一个要删除的预设。", parent=mgr)
+            return
+        idx = sel[0]
+        name = presets[idx]["label"]
+        if messagebox.askyesno("确认删除", f"确定要删除预设 \"{name}\" 吗？", parent=mgr):
+            del presets[idx]
+            save_presets(PRESETS_FILE, presets)
+            lb.delete(idx)
+            if not presets:
+                mgr.destroy()
+                messagebox.showinfo("已删除", "所有自定义预设已清空。\n重新打开对话框生效。", parent=parent)
+
+    ttk.Button(btn_row, text="删除选中", command=_delete_selected).pack(side=tk.LEFT)
+    ttk.Button(btn_row, text="关闭", command=mgr.destroy).pack(side=tk.RIGHT)
+
+
 class BridgeProcessManager:
     """Start src/main.py when needed and own only the process we create."""
 
@@ -1350,8 +1482,17 @@ class MqttMonitorApp:
     # ------------------------------------------------------------------
 
     def _open_pubsub_dialog(self) -> None:
-        """Send /ctrl/cmd via VSOA Pub/Sub.  Bridge subscribes & handles MQTT."""
+        """Send /ctrl/cmd via VSOA Pub/Sub.  Bridge subscribes & handles MQTT.
+
+        Features:
+          - Quick-fill preset buttons (built-in + custom from JSON file)
+          - Save current editor content as a named preset
+          - Batch mode: select multiple devices and send the same command to all
+        """
         default_device_id = self.known_device_ids[0] if self.known_device_ids else ""
+
+        custom_presets = load_presets(PRESETS_FILE)
+        all_presets = BUILTIN_PRESETS + custom_presets
 
         command = {
             "command_id": f"gui-{int(time.time() * 1000)}",
@@ -1363,69 +1504,286 @@ class MqttMonitorApp:
 
         dialog = tk.Toplevel(self.root)
         dialog.title("Pub/Sub 下行 → /ctrl/cmd → bridge → MQTT")
-        dialog.geometry("620x620")
-        dialog.minsize(480, 340)
+        dialog.geometry("680x820")
+        dialog.minsize(500, 500)
         dialog.transient(self.root)
         dialog.grab_set()
 
         body = ttk.Frame(dialog, padding=12)
         body.pack(fill=tk.BOTH, expand=True)
-        ttk.Label(body, text=f"目标: {self.pubsub_business_url}  →  bridge 订阅 /ctrl/cmd  →  MQTT").pack(
-            fill=tk.X, pady=(0, 6))
 
-        # device picker
-        if self.known_device_ids:
-            picker = ttk.Frame(body)
-            picker.pack(fill=tk.X, pady=(0, 6))
-            ttk.Label(picker, text="已知设备:").pack(side=tk.LEFT)
-            device_var = tk.StringVar(value=default_device_id)
-            device_cb = ttk.Combobox(picker, textvariable=device_var, values=self.known_device_ids, width=30)
-            device_cb.pack(side=tk.LEFT, padx=(6, 0))
-            ttk.Button(picker, text="填入", command=lambda: update_device_id(device_var.get())).pack(
-                side=tk.LEFT, padx=(6, 0))
-            def update_device_id(dev_id: str) -> None:
-                try:
-                    data = json.loads(editor.get("1.0", tk.END))
-                    data["device_id"] = dev_id
-                    editor.delete("1.0", tk.END)
-                    editor.insert("1.0", json.dumps(data, ensure_ascii=False, indent=2))
-                except Exception:
-                    pass
+        # ---------- header ----------
+        ttk.Label(
+            body,
+            text=f"目标: {self.pubsub_business_url}  →  bridge 订阅 /ctrl/cmd  →  MQTT",
+        ).pack(fill=tk.X, pady=(0, 8))
 
-        ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
-        editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
-        editor.pack(fill=tk.BOTH, expand=True)
-        editor.insert("1.0", json.dumps(command, ensure_ascii=False, indent=2))
+        # ==================================================================
+        # Quick-Fill Presets
+        # ==================================================================
+        preset_frame = ttk.LabelFrame(body, text="快速填入", padding=8)
+        preset_frame.pack(fill=tk.X, pady=(0, 8))
 
-        buttons = ttk.Frame(body)
-        buttons.pack(fill=tk.X, pady=(10, 0))
-        ttk.Button(buttons, text="取消", command=dialog.destroy).pack(side=tk.RIGHT)
+        preset_grid = ttk.Frame(preset_frame)
+        preset_grid.pack(fill=tk.X)
 
-        def publish() -> None:
+        def _fill_from_preset(preset_data: dict) -> None:
+            """Replace editor content with a preset, keeping the current device_id."""
+            data = dict(preset_data)
+            data["command_id"] = f"gui-{int(time.time() * 1000)}"
+            data.setdefault("device_type", "lora")
+            # keep current device_id selection if available
+            if not batch_var.get():
+                data["device_id"] = device_var.get() or default_device_id
+            else:
+                data["device_id"] = default_device_id
+            data.setdefault("action", "set")
+            data.setdefault("params", {})
+            editor.delete("1.0", tk.END)
+            editor.insert("1.0", json.dumps(data, ensure_ascii=False, indent=2))
+
+        cols = 3
+        for i, preset in enumerate(all_presets):
+            btn = ttk.Button(
+                preset_grid,
+                text=preset["label"],
+                command=lambda pd=preset["data"]: _fill_from_preset(pd),
+            )
+            btn.grid(row=i // cols, column=i % cols, padx=2, pady=2, sticky="ew")
+        for c in range(cols):
+            preset_grid.columnconfigure(c, weight=1)
+
+        # save-as-preset row
+        save_row = ttk.Frame(preset_frame)
+        save_row.pack(fill=tk.X, pady=(8, 0))
+        save_entry = ttk.Entry(save_row, width=20, font=("", 9))
+        save_entry.pack(side=tk.LEFT, padx=(0, 5))
+        save_entry.insert(0, "自定义预设名称")
+
+        def _save_current_preset() -> None:
+            name = save_entry.get().strip()
+            if not name or name == "自定义预设名称":
+                messagebox.showwarning("请输入名称", "请为预设输入一个名称。", parent=dialog)
+                return
             try:
                 data = json.loads(editor.get("1.0", tk.END))
             except json.JSONDecodeError as exc:
                 messagebox.showerror("JSON 格式错误", str(exc), parent=dialog)
                 return
-            if not isinstance(data, dict):
+            custom_presets.append({"label": name, "data": data})
+            save_presets(PRESETS_FILE, custom_presets)
+            save_entry.delete(0, tk.END)
+            save_entry.insert(0, "自定义预设名称")
+            messagebox.showinfo("已保存", f"预设 \"{name}\" 已保存。\n重新打开对话框即可看到。", parent=dialog)
+
+        ttk.Button(save_row, text="💾 保存当前为预设", command=_save_current_preset).pack(side=tk.LEFT)
+
+        if custom_presets:
+            def _manage_presets() -> None:
+                show_preset_manager(dialog, custom_presets)
+
+            ttk.Button(
+                save_row, text="🗑 管理自定义预设", command=_manage_presets,
+            ).pack(side=tk.LEFT, padx=(6, 0))
+
+        # ==================================================================
+        # Batch Mode
+        # ==================================================================
+        batch_frame = ttk.LabelFrame(body, text="批量发送", padding=8)
+        batch_frame.pack(fill=tk.X, pady=(0, 8))
+
+        batch_var = tk.BooleanVar(value=False)
+
+        ttk.Checkbutton(
+            batch_frame,
+            text="启用批量模式 — 向多个设备同时下发相同命令",
+            variable=batch_var,
+            command=lambda: _toggle_batch(),
+        ).pack(anchor=tk.W)
+
+        # --- batch device list (hidden when batch disabled) ---
+        batch_list_container = ttk.Frame(batch_frame)
+        batch_inner = ttk.Frame(batch_list_container)
+        batch_inner.pack(fill=tk.BOTH, expand=True)
+
+        device_listbox = tk.Listbox(
+            batch_inner,
+            selectmode=tk.MULTIPLE,
+            height=5,
+            exportselection=False,
+            font=("Consolas", 10),
+        )
+        list_scroll = ttk.Scrollbar(batch_inner, orient=tk.VERTICAL, command=device_listbox.yview)
+        device_listbox.configure(yscrollcommand=list_scroll.set)
+
+        for dev_id in self.known_device_ids:
+            device_listbox.insert(tk.END, dev_id)
+
+        device_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        list_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # batch action buttons
+        list_actions = ttk.Frame(batch_list_container)
+        ttk.Button(
+            list_actions, text="全选",
+            command=lambda: (device_listbox.select_set(0, tk.END), _update_batch_count()),
+        ).pack(side=tk.LEFT, padx=2)
+        ttk.Button(
+            list_actions, text="取消全选",
+            command=lambda: (device_listbox.selection_clear(0, tk.END), _update_batch_count()),
+        ).pack(side=tk.LEFT, padx=2)
+
+        batch_count_var = tk.StringVar(value="已选: 0")
+        ttk.Label(list_actions, textvariable=batch_count_var, font=("", 9)).pack(
+            side=tk.LEFT, padx=(12, 0))
+
+        def _update_batch_count(*_args: Any) -> None:
+            batch_count_var.set(f"已选: {len(device_listbox.curselection())}")
+
+        device_listbox.bind("<<ListboxSelect>>", _update_batch_count)
+
+        def _toggle_batch() -> None:
+            if batch_var.get():
+                batch_list_container.pack(fill=tk.BOTH, expand=True, pady=(8, 0))
+                list_actions.pack(fill=tk.X, pady=(4, 0))
+                single_picker.pack_forget()
+            else:
+                batch_list_container.pack_forget()
+                list_actions.pack_forget()
+                single_picker.pack(fill=tk.X, pady=(0, 8), after=preset_frame)
+
+        # --- single-device picker (hidden when batch enabled) ---
+        single_picker = ttk.Frame(body)
+        single_picker.pack(fill=tk.X, pady=(0, 8))
+        ttk.Label(single_picker, text="目标设备:").pack(side=tk.LEFT)
+        device_var = tk.StringVar(value=default_device_id)
+        device_cb = ttk.Combobox(
+            single_picker, textvariable=device_var,
+            values=self.known_device_ids, width=32,
+        )
+        device_cb.pack(side=tk.LEFT, padx=(6, 0))
+
+        def _update_device_id(dev_id: str) -> None:
+            try:
+                data = json.loads(editor.get("1.0", tk.END))
+                data["device_id"] = dev_id
+                editor.delete("1.0", tk.END)
+                editor.insert("1.0", json.dumps(data, ensure_ascii=False, indent=2))
+            except Exception:
+                pass
+
+        ttk.Button(
+            single_picker, text="填入",
+            command=lambda: _update_device_id(device_var.get()),
+        ).pack(side=tk.LEFT, padx=(6, 0))
+
+        # ==================================================================
+        # JSON Editor
+        # ==================================================================
+        ttk.Label(body, text="命令 JSON").pack(fill=tk.X, pady=(0, 6))
+        editor = tk.Text(body, wrap=tk.NONE, font=("Consolas", 10))
+        editor.pack(fill=tk.BOTH, expand=True)
+        editor.insert("1.0", json.dumps(command, ensure_ascii=False, indent=2))
+
+        # ==================================================================
+        # Result label
+        # ==================================================================
+        result_var = tk.StringVar(value="")
+        ttk.Label(body, textvariable=result_var, font=("", 9, "bold")).pack(
+            fill=tk.X, pady=(6, 0))
+
+        # ==================================================================
+        # Action buttons
+        # ==================================================================
+        buttons = ttk.Frame(body)
+        buttons.pack(fill=tk.X, pady=(10, 0))
+        ttk.Button(buttons, text="取消", command=dialog.destroy).pack(side=tk.RIGHT)
+
+        def _do_send() -> None:
+            """Validate & send — handles both single and batch mode."""
+            try:
+                base_data = json.loads(editor.get("1.0", tk.END))
+            except json.JSONDecodeError as exc:
+                messagebox.showerror("JSON 格式错误", str(exc), parent=dialog)
+                return
+            if not isinstance(base_data, dict):
                 messagebox.showerror("消息格式错误", "必须为 JSON 对象。", parent=dialog)
                 return
 
             from src.downlink.command import validate
-            valid, code = validate(data, self.max_command_timeout_ms, check_timeout=False)
+
+            # --- batch mode ---
+            if batch_var.get():
+                selected = device_listbox.curselection()
+                if not selected:
+                    messagebox.showwarning("未选择设备", "请在批量模式中至少选择一个目标设备。", parent=dialog)
+                    return
+                device_ids = [self.known_device_ids[i] for i in selected]
+
+                if not messagebox.askyesno(
+                    "确认批量发送",
+                    f"即将向 {len(device_ids)} 个设备发送相同命令，确认？\n\n"
+                    f"设备列表: {', '.join(device_ids[:8])}"
+                    + (f' ...等{len(device_ids)}个' if len(device_ids) > 8 else ''),
+                    parent=dialog,
+                ):
+                    return
+
+                ok_count = 0
+                fail_count = 0
+                fail_details: list[str] = []
+
+                for dev_id in device_ids:
+                    data = dict(base_data)
+                    data["device_id"] = dev_id
+                    data["command_id"] = f"gui-{int(time.time() * 1000)}-{dev_id}"
+
+                    valid, code = validate(data, self.max_command_timeout_ms, check_timeout=False)
+                    if not valid:
+                        fail_count += 1
+                        fail_details.append(f"✗ {dev_id}: 校验失败 (错误码 {code})")
+                        continue
+
+                    ok = self.local_vsoa_server.publish_control_command(
+                        data, target_url=self.pubsub_business_url,
+                    )
+                    if ok:
+                        ok_count += 1
+                        self.events.put(("pubsub_result", (True, str(data.get("command_id", "")))))
+                    else:
+                        fail_count += 1
+                        fail_details.append(f"✗ {dev_id}: VSOA 发送失败")
+
+                result_var.set(
+                    f"批量发送完成 — 成功 {ok_count} / 失败 {fail_count}  (共 {len(device_ids)} 个设备)"
+                )
+                if fail_details:
+                    messagebox.showinfo(
+                        "批量发送结果",
+                        f"成功: {ok_count}  失败: {fail_count}\n\n" +
+                        "\n".join(fail_details[:12]) +
+                        ("\n..." if len(fail_details) > 12 else ""),
+                        parent=dialog,
+                    )
+                return  # keep dialog open for batch so user can adjust & retry
+
+            # --- single mode ---
+            valid, code = validate(base_data, self.max_command_timeout_ms, check_timeout=False)
             if not valid:
                 messagebox.showerror("校验失败", f"错误码：{code}", parent=dialog)
                 return
 
             dialog.destroy()
 
-            def send() -> None:
-                ok = self.local_vsoa_server.publish_control_command(data, target_url=self.pubsub_business_url)
-                self.events.put(("pubsub_result", (ok, str(data.get("command_id", "")))))
+            def _send_single() -> None:
+                ok = self.local_vsoa_server.publish_control_command(
+                    base_data, target_url=self.pubsub_business_url,
+                )
+                self.events.put(("pubsub_result", (ok, str(base_data.get("command_id", "")))))
 
-            threading.Thread(target=send, daemon=True).start()
+            threading.Thread(target=_send_single, daemon=True).start()
 
-        ttk.Button(buttons, text="发布", command=publish).pack(side=tk.RIGHT, padx=(0, 8))
+        ttk.Button(buttons, text="发送", command=_do_send).pack(side=tk.RIGHT, padx=(0, 8))
 
     # ------------------------------------------------------------------
     # RPC downlink — client.fetch() to bridge:3001

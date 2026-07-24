@@ -31,23 +31,23 @@ def _make_report(device_id: str, **kwargs) -> UplinkReport:
 
 class TestUpsert:
     def test_create_new_device(self, device_registry):
-        r = _make_report("dev1", temperature=25.0, source="lora", adapter="lora_adapter",
+        r = _make_report("dev1", raw={"temperature": 25.0}, source="lora", adapter="lora_adapter",
                          type="temperature")
         dev, created = device_registry.upsert(r)
         assert created is True
         assert dev.device_id == "dev1"
-        assert dev.temperature == 25.0
+        assert dev.raw["temperature"] == 25.0
         assert dev.report_count == 1
         assert device_registry.count == 1
 
     def test_update_existing_device(self, device_registry):
-        r1 = _make_report("dev1", temperature=25.0)
+        r1 = _make_report("dev1", raw={"temperature": 25.0})
         device_registry.upsert(r1)
 
-        r2 = _make_report("dev1", temperature=26.0)
+        r2 = _make_report("dev1", raw={"temperature": 26.0})
         dev, created = device_registry.upsert(r2)
         assert created is False
-        assert dev.temperature == 26.0
+        assert dev.raw["temperature"] == 26.0
         assert dev.report_count == 2
         assert device_registry.count == 1  # still 1
 
@@ -55,9 +55,9 @@ class TestUpsert:
         # Create a small registry (max 2)
         from src.device_registry import DeviceRegistry
         small = DeviceRegistry(max_devices=2)
-        r1 = _make_report("a", temperature=1.0)
-        r2 = _make_report("b", temperature=2.0)
-        r3 = _make_report("c", temperature=3.0)
+        r1 = _make_report("a", raw={"temperature": 1.0})
+        r2 = _make_report("b", raw={"temperature": 2.0})
+        r3 = _make_report("c", raw={"temperature": 3.0})
         d1, created = small.upsert(r1)
         assert created and d1 is not None
         d2, created = small.upsert(r2)
@@ -88,7 +88,7 @@ class TestListAll:
 
 class TestToJson:
     def test_includes_all_keys(self, device_registry):
-        r = _make_report("dev1", temperature=25.0, humidity=60.0, source="lora",
+        r = _make_report("dev1", raw={"temperature": 25.0, "humidity": 60.0}, source="lora",
                          adapter="lora_adapter", type="multi", status="online",
                          unit="celsius")
         r.topic = "bridge/uplink/lora/dev1/data"
@@ -96,8 +96,8 @@ class TestToJson:
         dev, _ = device_registry.upsert(r)
         j = dev.to_json()
         assert j["device_id"] == "dev1"
-        assert j["temperature"] == 25.0
-        assert j["humidity"] == 60.0
+        assert j["raw"]["temperature"] == 25.0
+        assert j["raw"]["humidity"] == 60.0
         assert j["source"] == "lora"
         assert j["adapter"] == "lora_adapter"
         assert j["report_count"] == 1
@@ -119,7 +119,7 @@ class TestThreadSafety:
 
         def hammer():
             for i in range(50):
-                r = _make_report(f"dev_{i % 20}", temperature=float(i))
+                r = _make_report(f"dev_{i % 20}", raw={"temperature": float(i)})
                 d, created = reg.upsert(r)
                 if d is None:
                     errors.append("upsert failed")

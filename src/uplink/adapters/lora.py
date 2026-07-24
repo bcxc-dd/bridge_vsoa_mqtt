@@ -179,19 +179,19 @@ def parse_lora_binary(payload: bytes) -> dict[str, Any] | None:
 
 
 def _extract_rxinfo(payload: dict[str, Any], report: UplinkReport) -> None:
-    """Extract signal / snr from ``rxInfo`` array if not already set."""
+    """Extract signal / snr from ``rxInfo`` array into ``report.raw`` if not already set."""
     rx_info = payload.get("rxInfo")
     if not isinstance(rx_info, list) or not rx_info:
         return
     first = rx_info[0]
     if not isinstance(first, dict):
         return
-    if not report.has_signal:
-        report.signal = _first_numeric(first, ["rssi"])
-    if not report.has_snr:
+    if "signal" not in report.raw:
+        report.raw["signal"] = _first_numeric(first, ["rssi"])
+    if "snr" not in report.raw:
         snr_val = _first_numeric(first, ["loRaSNR", "snr"])
         if snr_val is not None:
-            report.snr = float(snr_val) if isinstance(snr_val, (int, float)) else snr_val
+            report.raw["snr"] = float(snr_val) if isinstance(snr_val, (int, float)) else snr_val
 
 
 

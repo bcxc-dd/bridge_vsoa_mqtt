@@ -12,3 +12,4 @@ data/uploads/*
 data/camera_captures/
 data/auth_secret.key
 !data/uploads/.gitkeep
+.log
