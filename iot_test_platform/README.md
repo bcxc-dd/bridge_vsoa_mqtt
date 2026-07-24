@@ -25,12 +25,32 @@
 
 ## 启动前准备
 
-本项目按 **conda 的 base 环境** 使用，不再使用 `venv`。
+### Python 环境（二选一）
 
-首次使用先打开 **Anaconda Prompt** 或已激活 `base` 的 PowerShell，然后进入项目目录安装依赖：
+**方案 A：venv（推荐）**
+
+```powershell
+# 在 iot_test_platform 目录下创建虚拟环境
+python -m venv .venv
+
+# 激活（PowerShell）
+.\.venv\Scripts\Activate.ps1
+
+# 激活（CMD）
+.\.venv\Scripts\activate.bat
+```
+
+**方案 B：conda**
 
 ```powershell
 conda activate base
+```
+
+### 安装依赖
+
+**激活环境后**按以下步骤安装：
+
+```powershell
 cd D:\南京翼辉暑期实习\bridge-merged\iot_test_platform
 python -m pip install --upgrade pip
 python -m pip install -r .\backend\requirements.txt
@@ -38,9 +58,9 @@ corepack enable
 corepack pnpm --dir .\frontend install
 ```
 
-建议使用：
+### 环境要求
 
-- Python 3.12+（当前可直接使用 conda `base`）
+- Python 3.12+（推荐）
 - Node.js 20+
 - pnpm（通过 `corepack` 启用）
 
