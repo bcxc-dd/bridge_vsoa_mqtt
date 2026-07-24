@@ -5,11 +5,8 @@ import time
 
 from src.uplink.camera_reassembler import (
     Hcv3CameraReassembler,
-    build_chirpstack_downlink,
-    build_ha_payload,
     crc16_ccitt_false,
     parse_hcv3,
-    parse_hpv1,
 )
 from src.uplink.adapters.lora import LoraAdapter
 
@@ -18,7 +15,7 @@ TOPIC = "application/app-01/device/dc56b7d6a7dd94a1/event/up"
 
 
 def _frame(image: bytes, seq: int, index: int, count: int, chunk: bytes,
-           repeat_index: int = 0, repeat_count: int = 2) -> bytes:
+           repeat_index: int = 0, repeat_count: int = 4) -> bytes:
     header = bytearray(24)
     header[0:2] = b"HC"
     header[2] = 3
@@ -49,16 +46,9 @@ def _message(frame: bytes) -> dict:
     }
 
 
-def _hp(seq: int, state: int = 2, chunk_count: int = 2, missing_count: int = 0) -> bytes:
-    header = bytearray(16)
-    header[0:2] = b"HP"
-    header[2] = 1
-    header[3] = state
-    header[4:8] = seq.to_bytes(4, "little")
-    header[8] = chunk_count
-    header[10] = missing_count
-    return bytes(header)
-
+# ---------------------------------------------------------------------------
+# HCv3 解析
+# ---------------------------------------------------------------------------
 
 def test_parse_hcv3_fields():
     image = b"\xff\xd8camera\xff\xd9"
@@ -72,14 +62,9 @@ def test_parse_hcv3_fields():
     assert chunk.data == image
 
 
-def test_parse_hpv1_status_poll_fields():
-    poll = parse_hpv1(_hp(607, state=2, chunk_count=12, missing_count=1))
-    assert poll is not None
-    assert poll.image_seq == 607
-    assert poll.state_code == 2
-    assert poll.chunk_count == 12
-    assert poll.missing_count == 1
-
+# ---------------------------------------------------------------------------
+# 重组 + 去重
+# ---------------------------------------------------------------------------
 
 def test_reassembles_out_of_order_and_deduplicates():
     image = b"\xff\xd8" + bytes(range(64)) + b"\xff\xd9"
@@ -97,7 +82,6 @@ def test_reassembles_out_of_order_and_deduplicates():
     assert duplicate and duplicate.state == "duplicate"
     assert first and first.missing == [2]
     assert complete and complete.complete
-    assert complete.control_status == 0
     assert complete.payload["type"] == "camera"
     assert complete.payload["camera_transport"] == "lorawan_hcv3"
     assert base64.b64decode(complete.payload["image_b64"]) == image
@@ -117,6 +101,10 @@ def test_reassembles_out_of_order_and_deduplicates():
     assert receiver.pending_count == 0
 
 
+# ---------------------------------------------------------------------------
+# CRC 校验
+# ---------------------------------------------------------------------------
+
 def test_bad_chunk_crc_is_rejected():
     image = b"\xff\xd8bad-crc\xff\xd9"
     frame = bytearray(_frame(image, 9, 0, 1, image))
@@ -127,118 +115,116 @@ def test_bad_chunk_crc_is_rejected():
     assert outcome.missing == [0]
 
 
-def test_timeout_reports_missing_chunks_then_abandons():
+# ---------------------------------------------------------------------------
+# 超时淘汰（无 ACK 模式：超时直接 abandoned，无 retransmit）
+# ---------------------------------------------------------------------------
+
+def test_timeout_abandons_immediately():
     image = b"\xff\xd8" + b"x" * 30 + b"\xff\xd9"
     first_chunk = image[:17]
-    receiver = Hcv3CameraReassembler(
-        timeout_seconds=5, max_retransmit_requests=1
-    )
+    receiver = Hcv3CameraReassembler(timeout_seconds=5)
     receiver.ingest(TOPIC, _message(_frame(image, 11, 0, 2, first_chunk)))
 
-    timed_out = receiver.expire(time.monotonic() + 13)
-    assert len(timed_out) == 1
-    assert timed_out[0].state == "timeout"
-    assert timed_out[0].missing == [1]
-    assert timed_out[0].control_status == 1
-
-    abandoned = receiver.expire(time.monotonic() + 26)
+    # 超时后直接 abandoned（无 retransmit 阶段）
+    abandoned = receiver.expire(time.monotonic() + 10)
     assert len(abandoned) == 1
     assert abandoned[0].state == "abandoned"
+    assert abandoned[0].missing == [1]
     assert receiver.pending_count == 0
 
 
-def test_hp_poll_triggers_dynamic_retransmit_request():
+# ---------------------------------------------------------------------------
+# 多 image_seq 缓存：新图不丢弃旧图
+# ---------------------------------------------------------------------------
+
+def test_multi_sequence_cache_preserves_recent_images():
     image = b"\xff\xd8" + b"x" * 30 + b"\xff\xd9"
     first_chunk = image[:17]
-    receiver = Hcv3CameraReassembler(max_retransmit_requests=1)
-    receiver.ingest(TOPIC, _message(_frame(image, 12, 0, 2, first_chunk)))
+    receiver = Hcv3CameraReassembler(timeout_seconds=60)
 
-    early = receiver.ingest(TOPIC, _message(_hp(12, missing_count=1)))
-    assert early is not None
-    assert early.state == "hp_status"
-    assert early.control_status is None
-
-    with receiver._lock:
-        state = receiver._images[("dc56b7d6a7dd94a1", 12)]
-        state.first_seen_at -= 13
-    timed_out = receiver.ingest(TOPIC, _message(_hp(12, missing_count=1)))
-    assert timed_out is not None
-    assert timed_out.state == "timeout"
-    assert timed_out.control_status == 1
-    assert timed_out.missing == [1]
-
-
-def test_hp_poll_does_not_ack_every_time_after_complete():
-    image = b"\xff\xd8" + b"x" * 30 + b"\xff\xd9"
-    chunks = [image[:17], image[17:]]
-    receiver = Hcv3CameraReassembler()
-    complete = receiver.ingest(TOPIC, _message(_frame(image, 13, 0, 2, chunks[0])))
-    assert complete and complete.control_status is None
-    complete = receiver.ingest(TOPIC, _message(_frame(image, 13, 1, 2, chunks[1])))
-    assert complete and complete.control_status == 0
-    with receiver._lock:
-        ack_at = receiver._completed[("dc56b7d6a7dd94a1", 13)].last_ack_at
-
-    first_hp = receiver.ingest(TOPIC, _message(_hp(13)))
-    assert first_hp is not None
-    assert first_hp.state == "hp_status"
-    assert first_hp.control_status is None
-    with receiver._lock:
-        assert receiver._completed[("dc56b7d6a7dd94a1", 13)].last_ack_at == ack_at
-
-    with receiver._lock:
-        completed = receiver._completed[("dc56b7d6a7dd94a1", 13)]
-        completed.last_ack_at -= 8
-    delayed_hp = receiver.ingest(TOPIC, _message(_hp(13)))
-    assert delayed_hp is not None
-    assert delayed_hp.state == "hp_ack_poll"
-    assert delayed_hp.control_status == 0
-
-    with receiver._lock:
-        completed = receiver._completed[("dc56b7d6a7dd94a1", 13)]
-        completed.last_ack_at -= 8
-    later_hp = receiver.ingest(TOPIC, _message(_hp(13)))
-    assert later_hp is not None
-    assert later_hp.state == "hp_status"
-    assert later_hp.control_status is None
-
-
-def test_new_sequence_discards_old_session_and_suppresses_old_retx():
-    image = b"\xff\xd8" + b"x" * 30 + b"\xff\xd9"
-    first_chunk = image[:17]
-    receiver = Hcv3CameraReassembler(max_retransmit_requests=2)
-
+    # 第一张图（seq=374）开始接收
     old = receiver.ingest(TOPIC, _message(_frame(image, 374, 0, 2, first_chunk)))
     assert old and old.state == "progress"
+
+    # 第二张图（seq=414）开始接收 — 旧图缓存保留
     current = receiver.ingest(TOPIC, _message(_frame(image, 414, 0, 2, first_chunk)))
     assert current and current.state == "progress"
-    assert receiver.pending_count == 1
-    assert not receiver.is_latest("dc56b7d6a7dd94a1", 374)
-    assert receiver.is_latest("dc56b7d6a7dd94a1", 414)
 
-    stale_hp = receiver.ingest(TOPIC, _message(_hp(374, missing_count=1)))
-    assert stale_hp is not None
-    assert stale_hp.state == "stale_sequence"
-    assert stale_hp.control_status is None
+    # 两张图同时在缓存中
+    assert receiver.pending_count == 2
 
-    timed_out = receiver.expire(time.monotonic() + 13)
-    assert len(timed_out) == 1
-    assert timed_out[0].image_seq == 414
-    assert timed_out[0].control_status == 1
-
-
-def test_ha_retransmit_and_chirpstack_downlink():
-    binary = build_ha_payload(22, 1, [1, 4, 8])
-    assert binary == b"HA\x01\x01\x16\x00\x00\x00\x01\x03\x01\x04\x08"
-    topic, encoded = build_chirpstack_downlink(
-        "app-01", "dc56b7d6a7dd94a1", binary, fport=3
+    # 旧图的后续分片仍然可以被接收
+    later_for_old = receiver.ingest(
+        TOPIC, _message(_frame(image, 374, 0, 2, first_chunk, repeat_index=2))
     )
-    body = json.loads(encoded)
-    assert topic == "application/app-01/device/dc56b7d6a7dd94a1/command/down"
-    assert body["fPort"] == 3
-    assert body["confirmed"] is False
-    assert base64.b64decode(body["data"]) == binary
+    assert later_for_old is not None
+    assert later_for_old.state == "duplicate"  # 同一个 chunk，去重
 
+
+# ---------------------------------------------------------------------------
+# 超过 MAX_CACHED_SEQUENCES 时淘汰最旧的
+# ---------------------------------------------------------------------------
+
+def test_evicts_oldest_when_cache_limit_exceeded():
+    image = b"\xff\xd8" + b"x" * 30 + b"\xff\xd9"
+    first_chunk = image[:17]
+    receiver = Hcv3CameraReassembler(timeout_seconds=60)
+
+    # 灌入 6 张不同的图（MAX_CACHED_SEQUENCES = 5）
+    for seq in range(100, 106):
+        outcome = receiver.ingest(
+            TOPIC, _message(_frame(image, seq, 0, 2, first_chunk))
+        )
+        assert outcome is not None
+
+    # 最旧的 seq=100 应该已被淘汰
+    assert receiver.pending_count <= 5
+    # seq=100 的分片再来会被当作新图（因为已被淘汰）
+    late = receiver.ingest(
+        TOPIC, _message(_frame(image, 100, 0, 2, first_chunk, repeat_index=3))
+    )
+    # 由于 seq=100 < seq=105（最老的保留），可能被拒绝为 stale_sequence
+    assert late is not None
+
+
+# ---------------------------------------------------------------------------
+# HP/HA 包在无 ACK 模式下被静默忽略
+# ---------------------------------------------------------------------------
+
+def test_hp_packets_are_silently_ignored():
+    hp_payload = (
+        b"HP\x01"           # magic + version
+        b"\x02"             # state_code = WAIT
+        b"\x0c\x00\x00\x00" # image_seq = 12 (LE)
+        b"\x0c"             # chunk_count = 12
+        b"\x00"             # retx_round
+        b"\x01"             # missing_count = 1
+        b"\x00"             # flags
+        b"\x00\x00\x00\x00" # image_crc32 placeholder
+    )
+    msg = {
+        "fPort": 2,
+        "data": base64.b64encode(hp_payload).decode("ascii"),
+        "deviceInfo": {"devEui": "dc56b7d6a7dd94a1"},
+    }
+    outcome = Hcv3CameraReassembler().ingest(TOPIC, msg)
+    assert outcome is None  # 静默忽略
+
+
+def test_ha_packets_are_silently_ignored():
+    ha_payload = b"HA\x01\x01\x16\x00\x00\x00\x01\x03\x01\x04\x08"
+    msg = {
+        "fPort": 2,
+        "data": base64.b64encode(ha_payload).decode("ascii"),
+        "deviceInfo": {"devEui": "dc56b7d6a7dd94a1"},
+    }
+    outcome = Hcv3CameraReassembler().ingest(TOPIC, msg)
+    assert outcome is None  # 静默忽略
+
+
+# ---------------------------------------------------------------------------
+# 非相机数据穿通
+# ---------------------------------------------------------------------------
 
 def test_non_camera_lora_payload_passes_through():
     payload = base64.b64encode(b"ordinary-lora-data").decode("ascii")

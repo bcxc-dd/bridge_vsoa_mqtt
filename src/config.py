@@ -90,11 +90,8 @@ class MqttConfig:
 class CameraReassemblyConfig:
     enabled: bool = True
     uplink_fport: int = 2
-    downlink_fport: int = 3
-    timeout_seconds: int = 45
+    timeout_seconds: int = 60
     max_image_bytes: int = 8192
-    max_retransmit_requests: int = 3
-    send_ack: bool = True
 
 
 @dataclass

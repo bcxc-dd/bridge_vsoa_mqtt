@@ -1,10 +1,15 @@
-"""HCv3 LoRaWAN camera chunk parsing and JPEG reassembly."""
+"""HCv3 LoRaWAN camera chunk parsing and JPEG reassembly.
+
+No-ACK multi-repeat mode: the HUB sends every image chunk multiple times
+across several repeat rounds.  The reassembler keeps up to
+*MAX_CACHED_SEQUENCES* concurrent ``image_seq`` caches per device and
+expires them purely by timeout — no HA / ACK / RETX downlink is ever sent.
+"""
 
 from __future__ import annotations
 
 import base64
 import binascii
-import json
 import threading
 import time
 from dataclasses import dataclass, field
@@ -15,12 +20,9 @@ HC_MAGIC = b"HC"
 HC_VERSION = 3
 HC_MIN_HEADER_LEN = 24
 HC_CODEC_JPEG = 1
-HP_MAGIC = b"HP"
-HP_VERSION = 1
-HP_HEADER_LEN = 16
-HA_MAGIC = b"HA"
-HA_VERSION = 1
-ACK_RESEND_INTERVAL_SECONDS = 7.0
+
+# Maximum number of concurrent image_seq caches kept per device.
+MAX_CACHED_SEQUENCES = 5
 
 
 class CameraChunkError(ValueError):
@@ -44,19 +46,10 @@ class CameraChunk:
     data: bytes
 
 
-@dataclass(frozen=True)
-class CameraPoll:
-    state_code: int
-    image_seq: int
-    chunk_count: int
-    retx_round: int
-    missing_count: int
-    flags: int
-    image_crc32: int
-
-
 @dataclass
 class CameraOutcome:
+    """Result produced after ingesting one HCv3 chunk (or a timeout expiry)."""
+
     state: str
     device_id: str
     app_id: str
@@ -66,12 +59,10 @@ class CameraOutcome:
     received_count: int = 0
     repeat_index: int = 0
     repeat_count: int = 1
-    hp_state: str = ""
     expected_timeout_ms: int = 0
     missing: list[int] = field(default_factory=list)
     error: str = ""
     payload: Optional[dict[str, Any]] = None
-    control_status: Optional[int] = None
 
     @property
     def complete(self) -> bool:
@@ -95,8 +86,6 @@ class CameraOutcome:
             "missing": list(self.missing),
             "timestamp": int(time.time() * 1000),
         }
-        if self.hp_state:
-            result["hp_state"] = self.hp_state
         if self.error:
             result["error"] = self.error
         return result
@@ -116,19 +105,20 @@ class _ImageState:
     first_seen_at: float
     last_seen_at: float
     chunks: dict[int, bytes] = field(default_factory=dict)
-    retransmit_requests: int = 0
 
 
 @dataclass
 class _CompletedState:
     completed_at: float
-    last_ack_at: float
     app_id: str
     device_name: str
     chunk_count: int
     repeat_count: int
-    ack_resend_sent: bool = False
 
+
+# ---------------------------------------------------------------------------
+# CRC16-CCITT-FALSE (same polynomial used by the HUB)
+# ---------------------------------------------------------------------------
 
 def crc16_ccitt_false(data: bytes) -> int:
     crc = 0xFFFF
@@ -138,6 +128,10 @@ def crc16_ccitt_false(data: bytes) -> int:
             crc = ((crc << 1) ^ 0x1021) & 0xFFFF if crc & 0x8000 else (crc << 1) & 0xFFFF
     return crc
 
+
+# ---------------------------------------------------------------------------
+# HCv3 parser
+# ---------------------------------------------------------------------------
 
 def parse_hcv3(payload: bytes, max_image_bytes: int = 65535) -> Optional[CameraChunk]:
     """Parse one HCv3 frame; return ``None`` for non-camera payloads."""
@@ -187,79 +181,38 @@ def parse_hcv3(payload: bytes, max_image_bytes: int = 65535) -> Optional[CameraC
     )
 
 
-def parse_hpv1(payload: bytes) -> Optional[CameraPoll]:
-    """Parse one HPv1 status/ACK-poll frame; return ``None`` for other payloads."""
-    if len(payload) < 2 or payload[:2] != HP_MAGIC:
-        return None
-    if len(payload) < HP_HEADER_LEN:
-        raise CameraChunkError("HPv1 frame shorter than 16-byte header")
-    if payload[2] != HP_VERSION:
-        raise CameraChunkError(f"unsupported HP version: {payload[2]}")
-    return CameraPoll(
-        state_code=payload[3],
-        image_seq=int.from_bytes(payload[4:8], "little"),
-        chunk_count=payload[8],
-        retx_round=payload[9],
-        missing_count=payload[10],
-        flags=payload[11],
-        image_crc32=int.from_bytes(payload[12:16], "little"),
-    )
-
-
-def build_ha_payload(image_seq: int, status: int, missing: Optional[list[int]] = None) -> bytes:
-    """Build an HA v1 ACK_OK or RETX_REQUEST binary payload."""
-    missing = list(missing or [])
-    if status not in (0, 1, 2):
-        raise ValueError("HA status must be 0, 1 or 2")
-    if len(missing) > 255 or any(index < 0 or index > 255 for index in missing):
-        raise ValueError("HA missing chunk indexes must fit in uint8")
-    command = 0 if status == 0 else 1
-    return (
-        HA_MAGIC
-        + bytes((HA_VERSION, command))
-        + int(image_seq).to_bytes(4, "little")
-        + bytes((status, len(missing)))
-        + bytes(missing)
-    )
-
-
-def build_chirpstack_downlink(
-    app_id: str,
-    dev_eui: str,
-    binary_payload: bytes,
-    fport: int = 3,
-    confirmed: bool = False,
-) -> tuple[str, str]:
-    topic = f"application/{app_id}/device/{dev_eui}/command/down"
-    body = {
-        "devEui": dev_eui,
-        "confirmed": confirmed,
-        "fPort": fport,
-        "data": base64.b64encode(binary_payload).decode("ascii"),
-    }
-    return topic, json.dumps(body, separators=(",", ":"))
-
+# ---------------------------------------------------------------------------
+# Reassembler
+# ---------------------------------------------------------------------------
 
 class Hcv3CameraReassembler:
-    """Thread-safe cache for out-of-order and repeated HCv3 chunks."""
+    """Thread-safe cache for out-of-order and repeated HCv3 chunks.
+
+    No-ACK multi-repeat mode.  Keeps up to *MAX_CACHED_SEQUENCES*
+    concurrent ``image_seq`` caches per device and expires them purely
+    by timeout — no HA / ACK / RETX downlink is ever sent.
+    """
 
     def __init__(
         self,
-        timeout_seconds: float = 45,
+        timeout_seconds: float = 60,
         max_image_bytes: int = 8192,
-        max_retransmit_requests: int = 3,
         uplink_fport: int = 2,
     ) -> None:
         self.timeout_seconds = max(1.0, float(timeout_seconds))
         self.max_image_bytes = max(1024, int(max_image_bytes))
-        self.max_retransmit_requests = max(1, int(max_retransmit_requests))
         self.uplink_fport = int(uplink_fport)
         self._images: dict[tuple[str, int], _ImageState] = {}
         self._completed: dict[tuple[str, int], _CompletedState] = {}
-        self._latest_sequence: dict[str, int] = {}
+        self._active_sequences: dict[str, list[int]] = {}
         self._lock = threading.Lock()
 
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
     def ingest(self, topic: str, message: dict[str, Any]) -> Optional[CameraOutcome]:
+        """Ingest one uplink message.  Return an outcome or ``None``."""
         encoded = message.get("data")
         if not isinstance(encoded, str) or not encoded:
             return None
@@ -275,18 +228,9 @@ class Hcv3CameraReassembler:
         except (ValueError, binascii.Error):
             return None
 
-        try:
-            poll = parse_hpv1(binary)
-        except CameraChunkError as exc:
-            if not binary.startswith(HP_MAGIC):
-                return None
-            device_id, app_id, _ = _message_identity(topic, message)
-            return CameraOutcome(
-                state="invalid", device_id=device_id or "unknown", app_id=app_id,
-                image_seq=0, error=str(exc),
-            )
-        if poll is not None:
-            return self._ingest_poll(topic, message, poll)
+        # HP / HA packets are silently ignored in no-ACK mode.
+        if len(binary) >= 2 and binary[:2] in {b"HP", b"HA"}:
+            return None
 
         try:
             chunk = parse_hcv3(binary, self.max_image_bytes)
@@ -295,7 +239,7 @@ class Hcv3CameraReassembler:
                 return None
             device_id, app_id, _ = _message_identity(topic, message)
             return CameraOutcome(
-                state="invalid", device_id=device_id, app_id=app_id,
+                state="invalid", device_id=device_id or "unknown", app_id=app_id,
                 image_seq=0, error=str(exc),
             )
         if chunk is None:
@@ -309,6 +253,7 @@ class Hcv3CameraReassembler:
                 chunk_count=chunk.chunk_count, error="missing LoRaWAN DevEUI",
             )
 
+        # ---- chunk CRC16 ----
         if crc16_ccitt_false(chunk.data) != chunk.chunk_crc16:
             return CameraOutcome(
                 state="chunk_crc_fail", device_id=device_id, app_id=app_id,
@@ -320,7 +265,9 @@ class Hcv3CameraReassembler:
 
         now = time.monotonic()
         key = (device_id, chunk.image_seq)
+
         with self._lock:
+            # ---- register / evict sequences ----
             if not self._activate_sequence_locked(device_id, chunk.image_seq):
                 return CameraOutcome(
                     state="stale_sequence", device_id=device_id, app_id=app_id,
@@ -328,14 +275,18 @@ class Hcv3CameraReassembler:
                     chunk_count=chunk.chunk_count, repeat_index=chunk.repeat_index,
                     repeat_count=chunk.repeat_count,
                 )
-            completed_at = self._completed.get(key)
-            if completed_at is not None and now - completed_at.completed_at < self.timeout_seconds * 2:
+
+            # ---- already completed? ----
+            completed = self._completed.get(key)
+            if completed is not None:
                 return CameraOutcome(
                     state="duplicate_complete", device_id=device_id, app_id=app_id,
                     image_seq=chunk.image_seq, chunk_index=chunk.chunk_index,
                     chunk_count=chunk.chunk_count, received_count=chunk.chunk_count,
                     repeat_index=chunk.repeat_index, repeat_count=chunk.repeat_count,
                 )
+
+            # ---- fetch or create image state ----
             state = self._images.get(key)
             if state is None:
                 state = _ImageState(
@@ -355,10 +306,13 @@ class Hcv3CameraReassembler:
                 )
 
             state.last_seen_at = now
+
+            # ---- dedup store ----
             duplicate = chunk.chunk_index in state.chunks
             if not duplicate:
                 state.chunks[chunk.chunk_index] = chunk.data
             received_count = len(state.chunks)
+
             if received_count < state.chunk_count:
                 return CameraOutcome(
                     state="duplicate" if duplicate else "progress",
@@ -370,29 +324,34 @@ class Hcv3CameraReassembler:
                     missing=_missing_chunks(state),
                 )
 
+            # ---- all chunks received → assemble ----
             image = b"".join(state.chunks[index] for index in range(state.chunk_count))
             image = image[:state.image_len]
             del self._images[key]
 
+        # ---- image-level CRC32 ----
         actual_crc32 = binascii.crc32(image) & 0xFFFFFFFF
         if actual_crc32 != chunk.image_crc32:
             return CameraOutcome(
                 state="image_crc_fail", device_id=device_id, app_id=app_id,
                 image_seq=chunk.image_seq, chunk_index=chunk.chunk_index,
                 chunk_count=chunk.chunk_count, received_count=chunk.chunk_count,
-                error="image CRC32 mismatch", control_status=2,
+                error="image CRC32 mismatch",
             )
+
+        # ---- JPEG markers ----
         if not image.startswith(b"\xff\xd8") or not image.endswith(b"\xff\xd9"):
             return CameraOutcome(
                 state="jpeg_invalid", device_id=device_id, app_id=app_id,
                 image_seq=chunk.image_seq, chunk_index=chunk.chunk_index,
                 chunk_count=chunk.chunk_count, received_count=chunk.chunk_count,
-                error="JPEG SOI/EOI marker mismatch", control_status=2,
+                error="JPEG SOI/EOI marker mismatch",
             )
 
+        # ---- mark completed ----
         with self._lock:
             self._completed[key] = _CompletedState(
-                completed_at=now, last_ack_at=now, app_id=app_id,
+                completed_at=now, app_id=app_id,
                 device_name=device_name, chunk_count=chunk.chunk_count,
                 repeat_count=chunk.repeat_count,
             )
@@ -420,120 +379,48 @@ class Hcv3CameraReassembler:
             image_payload["rxInfo"] = message["rxInfo"]
         if isinstance(message.get("deviceInfo"), dict):
             image_payload["deviceInfo"] = dict(message["deviceInfo"])
+
         return CameraOutcome(
             state="complete", device_id=device_id, app_id=app_id,
             image_seq=chunk.image_seq, chunk_index=chunk.chunk_index,
             chunk_count=chunk.chunk_count, received_count=chunk.chunk_count,
             repeat_index=chunk.repeat_index, repeat_count=chunk.repeat_count,
             expected_timeout_ms=int((chunk.chunk_count * chunk.repeat_count + 8) * 1000),
-            payload=image_payload, control_status=0,
+            payload=image_payload,
         )
 
-    def _ingest_poll(
-        self,
-        topic: str,
-        message: dict[str, Any],
-        poll: CameraPoll,
-    ) -> CameraOutcome:
-        device_id, app_id, device_name = _message_identity(topic, message)
-        device_id = device_id or "unknown"
-        now = time.monotonic()
-        key = (device_id, poll.image_seq)
-        hp_state = _hp_state_name(poll.state_code)
-        with self._lock:
-            if not self._activate_sequence_locked(device_id, poll.image_seq):
-                return CameraOutcome(
-                    state="stale_sequence", device_id=device_id, app_id=app_id,
-                    image_seq=poll.image_seq, chunk_count=poll.chunk_count,
-                    hp_state=hp_state,
-                )
-            completed = self._completed.get(key)
-            if completed is not None:
-                should_resend_ack = (
-                    not completed.ack_resend_sent
-                    and now - completed.last_ack_at >= ACK_RESEND_INTERVAL_SECONDS
-                )
-                if should_resend_ack:
-                    completed.last_ack_at = now
-                    completed.ack_resend_sent = True
-                return CameraOutcome(
-                    state="hp_ack_poll" if should_resend_ack else "hp_status",
-                    device_id=device_id, app_id=app_id or completed.app_id,
-                    image_seq=poll.image_seq, chunk_count=completed.chunk_count,
-                    received_count=completed.chunk_count, repeat_count=completed.repeat_count,
-                    hp_state=hp_state,
-                    control_status=0 if should_resend_ack else None,
-                )
-
-            state = self._images.get(key)
-            if state is None:
-                return CameraOutcome(
-                    state="hp_status", device_id=device_id, app_id=app_id,
-                    image_seq=poll.image_seq, chunk_count=poll.chunk_count,
-                    hp_state=hp_state,
-                )
-
-            missing = _missing_chunks(state)
-            expected_ms = _expected_timeout_ms(state)
-            timed_out = (now - state.first_seen_at) * 1000 >= expected_ms
-            if timed_out and missing:
-                state.retransmit_requests += 1
-                abandoned = state.retransmit_requests > self.max_retransmit_requests
-                if abandoned:
-                    del self._images[key]
-                return CameraOutcome(
-                    state="abandoned" if abandoned else "timeout",
-                    device_id=device_id, app_id=app_id or state.app_id,
-                    image_seq=poll.image_seq, chunk_count=state.chunk_count,
-                    received_count=len(state.chunks), repeat_count=state.repeat_count,
-                    hp_state=hp_state, expected_timeout_ms=expected_ms,
-                    missing=missing,
-                    error="image reassembly timed out",
-                    control_status=None if abandoned else 1,
-                )
-
-            return CameraOutcome(
-                state="hp_status", device_id=device_id, app_id=app_id or state.app_id,
-                image_seq=poll.image_seq, chunk_count=state.chunk_count,
-                received_count=len(state.chunks), repeat_count=state.repeat_count,
-                hp_state=hp_state, expected_timeout_ms=expected_ms,
-                missing=missing,
-            )
-
     def expire(self, now: Optional[float] = None) -> list[CameraOutcome]:
-        """Return timeout outcomes and retain caches while retries remain."""
+        """Expire caches that have exceeded *timeout_seconds*.
+
+        Returns outcomes for timed-out sequences (for logging only —
+        no downlink is sent in no-ACK mode).
+        """
         current = time.monotonic() if now is None else now
         outcomes: list[CameraOutcome] = []
         with self._lock:
+            # Purge stale completed entries.
             completed_ttl = self.timeout_seconds * 2
             for key, completed in list(self._completed.items()):
                 if current - completed.completed_at >= completed_ttl:
                     del self._completed[key]
+
+            # Purge timed-out in-progress images.
             for key, state in list(self._images.items()):
-                if self._latest_sequence.get(state.device_id) != state.image_seq:
-                    del self._images[key]
-                    continue
-                expected_ms = _expected_timeout_ms(state)
-                if (current - state.first_seen_at) * 1000 < expected_ms:
+                if current - state.first_seen_at < self.timeout_seconds:
                     continue
                 missing = _missing_chunks(state)
-                state.retransmit_requests += 1
-                abandoned = state.retransmit_requests > self.max_retransmit_requests
                 outcomes.append(CameraOutcome(
-                    state="abandoned" if abandoned else "timeout",
+                    state="abandoned",
                     device_id=state.device_id, app_id=state.app_id,
                     image_seq=state.image_seq, chunk_count=state.chunk_count,
                     received_count=len(state.chunks), missing=missing,
                     repeat_count=state.repeat_count,
-                    expected_timeout_ms=expected_ms,
+                    expected_timeout_ms=_expected_timeout_ms(state),
                     error="image reassembly timed out",
-                    control_status=None if abandoned else 1,
                 ))
-                if abandoned:
-                    del self._images[key]
-                else:
-                    state.first_seen_at = current
-                    state.last_seen_at = current
+                del self._images[key]
+                self._remove_sequence_locked(state.device_id, state.image_seq)
+
         return outcomes
 
     @property
@@ -541,27 +428,44 @@ class Hcv3CameraReassembler:
         with self._lock:
             return len(self._images)
 
-    def is_latest(self, device_id: str, image_seq: int) -> bool:
-        with self._lock:
-            return self._latest_sequence.get(device_id) == image_seq
+    # ------------------------------------------------------------------
+    # Internal
+    # ------------------------------------------------------------------
 
     def _activate_sequence_locked(self, device_id: str, image_seq: int) -> bool:
-        latest = self._latest_sequence.get(device_id)
-        if latest is not None:
-            if image_seq == latest:
-                return True
-            if not _sequence_is_newer(image_seq, latest):
-                return False
+        """Register *image_seq* for *device_id*.
 
-        self._latest_sequence[device_id] = image_seq
-        for key in list(self._images):
-            if key[0] == device_id and key[1] != image_seq:
-                del self._images[key]
-        for key in list(self._completed):
-            if key[0] == device_id and key[1] != image_seq:
-                del self._completed[key]
+        Keeps at most ``MAX_CACHED_SEQUENCES`` concurrent sequences per
+        device.  Evicts the oldest when the limit is exceeded.  Returns
+        ``False`` when *image_seq* is stale (wraparound-aware).
+        """
+        active = self._active_sequences.setdefault(device_id, [])
+        if image_seq in active:
+            return True
+        # Reject sequences that are older than the newest known one
+        # (uint32 wraparound-aware comparison).
+        if active and not _sequence_is_newer(image_seq, active[-1]):
+            return False
+        active.append(image_seq)
+        # Evict oldest when over the per-device limit.
+        while len(active) > MAX_CACHED_SEQUENCES:
+            evicted = active.pop(0)
+            evicted_key = (device_id, evicted)
+            self._images.pop(evicted_key, None)
+            self._completed.pop(evicted_key, None)
         return True
 
+    def _remove_sequence_locked(self, device_id: str, image_seq: int) -> None:
+        active = self._active_sequences.get(device_id, [])
+        if image_seq in active:
+            active.remove(image_seq)
+        if not active:
+            self._active_sequences.pop(device_id, None)
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 
 def _message_identity(topic: str, message: dict[str, Any]) -> tuple[str, str, str]:
     device_info = message.get("deviceInfo")
@@ -592,7 +496,7 @@ def _metadata_matches(state: _ImageState, chunk: CameraChunk) -> bool:
 
 
 def _sequence_is_newer(candidate: int, current: int) -> bool:
-    """Compare uint32 image sequences while allowing wraparound."""
+    """Compare uint32 image sequences allowing wraparound."""
     delta = (candidate - current) & 0xFFFFFFFF
     return 0 < delta < 0x80000000
 
@@ -603,12 +507,3 @@ def _missing_chunks(state: _ImageState) -> list[int]:
 
 def _expected_timeout_ms(state: _ImageState) -> int:
     return int(max(1, state.chunk_count) * max(1, state.repeat_count) * 1000 + 8000)
-
-
-def _hp_state_name(state_code: int) -> str:
-    return {
-        0: "IDLE",
-        1: "IMG",
-        2: "WAIT",
-        3: "RETX",
-    }.get(state_code, f"UNKNOWN_{state_code}")

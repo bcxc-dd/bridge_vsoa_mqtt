@@ -97,11 +97,8 @@ uplink:
   camera:
     enabled: true
     uplink_fport: 2
-    downlink_fport: 3
-    timeout_seconds: 45
+    timeout_seconds: 60
     max_image_bytes: 8192
-    max_retransmit_requests: 3
-    send_ack: true
 
 # ---------- 下行命令处理 ----------
 downlink:

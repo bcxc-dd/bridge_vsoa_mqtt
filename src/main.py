@@ -307,71 +307,20 @@ def main() -> None:
 
     # ---- 7. TCP Inject (port 9090) ----
     from uplink.tcp_inject import TcpInjectServer
-    from uplink.camera_reassembler import (
-        Hcv3CameraReassembler,
-        build_chirpstack_downlink,
-        build_ha_payload,
-    )
+    from uplink.camera_reassembler import Hcv3CameraReassembler
     global _tcp_inject
 
     camera_cfg = config.uplink.camera
     camera_reassembler = Hcv3CameraReassembler(
         timeout_seconds=camera_cfg.timeout_seconds,
         max_image_bytes=camera_cfg.max_image_bytes,
-        max_retransmit_requests=camera_cfg.max_retransmit_requests,
         uplink_fport=camera_cfg.uplink_fport,
     )
     camera_stop = threading.Event()
 
-    def _publish_camera_control(outcome) -> None:
-        if (
-            not camera_cfg.send_ack
-            or outcome.control_status is None
-            or not _mqtt_handler
-        ):
-            return
-        if not camera_reassembler.is_latest(outcome.device_id, outcome.image_seq):
-            logger.info(
-                "[CAMERA] suppress stale HA device=%s seq=%d",
-                outcome.device_id, outcome.image_seq,
-            )
-            return
-        app_id = outcome.app_id or config.chirpstack.application_id
-        if not app_id:
-            logger.warning(
-                "[CAMERA] cannot send HA control: application_id missing device=%s seq=%s",
-                outcome.device_id, outcome.image_seq,
-            )
-            return
-        binary = build_ha_payload(
-            outcome.image_seq,
-            outcome.control_status,
-            outcome.missing if outcome.control_status == 1 else None,
-        )
-        downlink_topic, downlink_payload = build_chirpstack_downlink(
-            app_id,
-            outcome.device_id,
-            binary,
-            fport=camera_cfg.downlink_fport,
-            confirmed=False,
-        )
-        if _mqtt_handler.publish(downlink_topic, downlink_payload, qos=config.mqtt.qos):
-            logger.info(
-                "[CAMERA] HA downlink status=%d device=%s seq=%d missing=%s topic=%s fPort=%d ha_b64=%s ha_hex=%s",
-                outcome.control_status, outcome.device_id, outcome.image_seq,
-                outcome.missing, downlink_topic, camera_cfg.downlink_fport,
-                base64.b64encode(binary).decode("ascii"), binary.hex(),
-            )
-        else:
-            logger.warning(
-                "[CAMERA] HA downlink publish failed device=%s seq=%d",
-                outcome.device_id, outcome.image_seq,
-            )
-
     def _publish_camera_event(outcome) -> None:
         if not outcome.state.startswith("duplicate"):
             _vsoa_publish("/bridge/event", outcome.to_event())
-        _publish_camera_control(outcome)
 
     def _camera_watchdog() -> None:
         while not camera_stop.wait(1.0):
@@ -381,7 +330,6 @@ def main() -> None:
                     expired.state, expired.device_id, expired.image_seq,
                     expired.received_count, expired.chunk_count, expired.missing,
                 )
-                _publish_camera_event(expired)
 
     def _process_uplink(topic: str, payload: dict) -> None:
         """上行处理管道: adapter → registry.upsert → VSOA 通知。"""
@@ -507,8 +455,8 @@ def main() -> None:
         )
         camera_thread.start()
         logger.info(
-            "[OK] HCv3 camera reassembly: uplink FPort=%d, downlink FPort=%d, timeout=%ds",
-            camera_cfg.uplink_fport, camera_cfg.downlink_fport,
+            "[OK] HCv3 camera reassembly: uplink FPort=%d, timeout=%ds (no-ACK mode)",
+            camera_cfg.uplink_fport,
             camera_cfg.timeout_seconds,
         )
 
